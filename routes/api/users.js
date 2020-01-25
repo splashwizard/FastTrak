@@ -4,6 +4,7 @@ const { check, validationResult } = require("express-validator")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const auth = require('../../middleware/auth')
 //include the user scheme
 
 const User = require('../../models/User')
@@ -12,14 +13,14 @@ const User = require('../../models/User')
 //@desc   test route
 //@access Public
 
-router.get('/', (req, res) => res.send("User Route"))
+router.get('/', auth, (req, res) => res.send("User Route"))
 
 
 //@route  POST api/users
 //@desc   Register User 
 //@access Public
 
-router.post('/', [
+router.post('/', auth, [
     check('name', 'Name Is Required').not().isEmpty(),
     check('email', 'Please enter a valid email').isEmail(),
     check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 })
@@ -87,5 +88,15 @@ router.post('/', [
 
     })
 
+router.delete('/:user_id', auth, async (req, res) => {
+    try {
+        // remove the vehicle based on the param in the url
+        const user = await User.findOneAndRemove({ _id: req.params.user_id });
+        return res.json({ msg: "User was removed" });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error')
+    }
 
+});
 module.exports = router;
