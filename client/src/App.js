@@ -4,6 +4,8 @@ import './App.css';
 import Homepage from './components/pages/Homepage';
 import Inventory from './components/pages/Inventory';
 import Loginpage from './components/pages/Loginpage'
+import Dashboard from './components/pages/Dashboard'
+import AddUser from './components/pages/AddUser';
 import Alert from "./components/layout/ui/Alert"
 import { loadUser } from './actions/auth'
 import setAuthToken from './utils/setAuthToken'
@@ -29,10 +31,16 @@ const App = () => {
         <Fragment className="App">
           <Route exact path="/" component={Homepage} />
           <Route exact path="/inventory" component={Inventory} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/adduser" component={AddUser} />
           <section>
-            <Switch>
-              <Route exact path="/login" component={Loginpage} />
-            </Switch>
+
+            {/* ALL THE ADMIN ROUTES ARE BELOW  */}
+            <Route exact path="/login" component={Loginpage} />
+
+
+
+
           </section>
 
 
