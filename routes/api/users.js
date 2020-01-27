@@ -20,7 +20,7 @@ router.get('/', auth, (req, res) => res.send("User Route"))
 //@desc   Register User 
 //@access Public
 
-router.post('/', auth, [
+router.post('/', [
     check('name', 'Name Is Required').not().isEmpty(),
     check('email', 'Please enter a valid email').isEmail(),
     check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 })

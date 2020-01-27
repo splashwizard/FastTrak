@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+
+.contentContainer {
+  background: white;
+  color: #000;
+  padding: rem-calc(75 0);
+  text-align: right;
+  height: 100%;
+  width: 50%;
+  margin-left: 20%;
+  margin-top: 20%;
+}
