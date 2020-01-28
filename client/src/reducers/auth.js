@@ -20,7 +20,6 @@ export default function (state = initialState, action) {
 
     //destrucuture from action 
     const { type, payload } = action;
-    console.log(payload)
 
     switch (type) {
         case USER_LOADED:
@@ -46,6 +45,7 @@ export default function (state = initialState, action) {
                 ...payload,
                 isAuthenticated: true,
                 loading: false,
+                user: payload
 
             }
 

@@ -53,7 +53,6 @@ export const adduser = ({ name, email, password }) => async dispatch => {
             type: ADDUSER_SUCCESS,
             payload: res.data
         });
-        dispatch(loadUser);
     } catch (error) {
         const errors = error.response.data.errors;
 

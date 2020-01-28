@@ -13,7 +13,20 @@ const User = require('../../models/User')
 //@desc   test route
 //@access Public
 
-router.get('/', auth, (req, res) => res.send("User Route"))
+///GET ALL USERS
+router.get('/', auth, async (req, res) => {
+    try {
+        const users = await User.find();
+        if (users.length == 0) {
+            return res.status(400).json({ errors: [{ msg: 'No Users exist' }] });
+        }
+        return res.json(users);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error')
+    }
+
+});
 
 
 //@route  POST api/users

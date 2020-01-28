@@ -2,7 +2,7 @@ import React from 'react'
 import 'antd/dist/antd.css';
 import { Layout } from 'antd';
 import styled from "styled-components";
-import Navbar from '../layout/user/Navbar'
+import Navbar from '../../layout/user/Navbar'
 
 const { Header, Content, Footer } = Layout;
 

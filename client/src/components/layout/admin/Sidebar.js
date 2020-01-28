@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../../../actions/auth'
 import { Redirect } from 'react-router-dom'
-import { BrowserRouter as Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 
@@ -32,10 +32,13 @@ const logoStyle = {
 
 
 
-const Sidebar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Sidebar = ({ auth: { isAuthenticated, loading }, logout }, MenuItem) => {
     const [isCollapsed, setCollapse] = useState({
         collapsed: false,
 
+    });
+    const [menuItem, setMenuItem] = useState({
+        item: 1
     });
 
     const onCollapse = collapsed => {
@@ -51,23 +54,33 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
     };
 
+    const setMenu = (key) => {
+        if (key === 1) {
+            setMenuItem({
+                item: key
+            })
+        }
+    }
     //logout
 
     const logoutAdmin = () => {
         logout();
         //Redirect if logged out 
+        return <Redirect to='/login' />
     }
-    if (!isAuthenticated) {
-        return <Redirect to="/login" />
-    }
+
+
     return (
         <Fragment>
             <Sider collapsible collapsed={isCollapsed.collapsed} onCollapse={onCollapse}>
                 <Logo className="logo" >Welcome</Logo>
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                <Menu theme="dark" defaultSelectedKeys={[menuItem.item.toString()]} mode="inline">
+
                     <Menu.Item key="1">
-                        <Icon type="dashboard" />
-                        <span >Dashboard</span>
+                        <Link to="/dashboard">
+                            <Icon type="dashboard" />
+                            <span >Dashboard</span>
+                        </Link>
                     </Menu.Item>
                     <SubMenu
                         key="sub1"
@@ -78,7 +91,8 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout }) => {
                             </span>
                         }
                     >
-                        <Menu.Item key="2">
+                        <Menu.Item key="2"
+                            onClick={setMenu(2)}>
                             <Icon type="database" />
                             <span >View Inventory</span>
                         </Menu.Item>
@@ -97,14 +111,16 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout }) => {
                         }
                     >
                         <Menu.Item key="4">
-                            <Icon type="user" />
-                            <span >View Team</span>
+                            <Link to="/dashboard/viewusers">
+                                <Icon type="user" />
+                                <span >View Team</span>
+                            </Link>
                         </Menu.Item>
 
                         <Menu.Item key="5">
-                            <Icon type="plus" />
-                            <span >Add Members</span>
-                            <Link to="/addusers" />
+                            <Link to="/dashboard/addusers">
+                                <Icon type="plus" /><span>Add Members</span>
+                            </Link>
                         </Menu.Item>
                     </SubMenu>
                     <Menu.Item key="6">
@@ -127,8 +143,9 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout }) => {
                         key="10"
                         onClick={logoutAdmin}
                     >
-                        <Icon type="logout" />
-                        <span>Logout</span>
+                        <Link to="/login">
+                            <Icon type="logout" /><span>Logout</span>
+                        </Link>
                     </Menu.Item>
                 </Menu>
             </Sider>

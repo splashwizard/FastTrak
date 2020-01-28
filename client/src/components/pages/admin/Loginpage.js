@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import { Layout } from 'antd';
 import styled from "styled-components";
 import { Row, Col } from 'antd';
-import Login from "../layout/admin/Login"
+import Login from "../../layout/admin/Login"
 
 const { Header, Content, Footer } = Layout;
 
