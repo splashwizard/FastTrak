@@ -1,16 +1,16 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import 'antd/dist/antd.css';
-import styled from "styled-components";
+
 import { Layout } from 'antd';
 import SideBar from "../../layout/admin/Sidebar"
 import AdminNavbar from '../../layout/admin/AdminNavbar'
-import Adduser from '../../layout/admin/Register'
+
 import ViewTeam from '../../layout/admin/content/ViewTeam'
 
 
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 
 

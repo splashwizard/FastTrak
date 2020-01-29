@@ -7,13 +7,15 @@ import Loginpage from './components/pages/admin/Loginpage'
 import Dashboard from './components/pages/admin/Dashboard'
 import AddUser from './components/pages/admin/AddUser';
 import ViewUsers from './components/pages/admin/ViewUsers'
-import Alert from "./components/layout/ui/Alert"
+import AddVehicle from './components/pages/admin/AddVehicle'
 import { loadUser } from './actions/auth'
 import setAuthToken from './utils/setAuthToken'
 //Redux
 import { Provider } from 'react-redux';
 import store from './store';
 import PrivateRoute from './components/layout/admin/PrivateRoute'
+import 'antd/dist/antd.css';
+
 
 
 if (localStorage.token) {
@@ -42,6 +44,8 @@ const App = () => {
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/dashboard/addusers" component={AddUser} />
               <PrivateRoute exact path="/dashboard/viewusers" component={ViewUsers} />
+              <PrivateRoute exact path="/dashboard/addvehicle" component={AddVehicle} />
+
 
 
             </Switch>

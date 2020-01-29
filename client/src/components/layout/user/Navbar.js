@@ -1,11 +1,12 @@
 import React from 'react'
-import { Button } from 'antd'
 import 'antd/dist/antd.css';
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
-
-
+import { QuickAccess } from '../user/navbar/QuickAccess'
+const NavBarMenu = styled(Menu)`
+background:black;
+`
 
 const NavbarItem = styled(Menu.Item)`
  display: inline-block;
@@ -22,7 +23,7 @@ const NavbarItem = styled(Menu.Item)`
 `
 const Navbar = () => {
     return (
-        <Menu
+        <NavBarMenu
             theme="dark"
             mode="horizontal"
         >
@@ -41,8 +42,20 @@ const Navbar = () => {
                     <a>Contact Us</a>
                 </Link>
             </NavbarItem>
+            <NavbarItem key="4"
+                style={{ paddingLeft: '5%' }}
+            >
 
-        </Menu>
+                <QuickAccess />
+
+            </NavbarItem>
+
+
+
+
+
+
+        </NavBarMenu>
     );
 };
 export default Navbar;

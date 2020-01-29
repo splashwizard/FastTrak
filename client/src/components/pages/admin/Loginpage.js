@@ -18,14 +18,6 @@ height: 70px;
 margin-right: rem-calc(100);
 `
 
-const EmpireHeader = styled(Header)`
-background: black;
-padding: rem-calc(10 0);
-position: relative;
-z-index: 5;
--webkit-box-shadow: 0 0 15px 1px hsla(0, 0%, 49.8%, 0.1);
-box-shadow: 0 0 15px 1px hsla(0, 0%, 49.8%, 0.1);
-height: 105px ;`
 
 const Halfimage = styled.div`
 background-image: url("/images/login_image.png");

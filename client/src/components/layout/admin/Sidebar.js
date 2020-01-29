@@ -24,11 +24,7 @@ font-family: inherit;
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-const logoStyle = {
-    height: "32px",
-    background: "rgba(255, 255, 255, 0.2)",
-    margin: "16px"
-}
+
 
 
 
@@ -97,8 +93,10 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout }, MenuItem) => {
                             <span >View Inventory</span>
                         </Menu.Item>
                         <Menu.Item key="3">
-                            <Icon type="plus" />
-                            <span >Add New</span>
+                            <Link to="/dashboard/addvehicle">
+                                <Icon type="plus" />
+                                <span >Add New</span>
+                            </Link>
                         </Menu.Item>
                     </SubMenu>
                     <SubMenu

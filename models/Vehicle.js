@@ -12,11 +12,11 @@ const VehicleSchema = new mongoose.Schema({
     },
 
     stockNumber: {
-        type: String
+        type: Number
     },
 
     vinNumber: {
-        type: String,
+        type: Number,
         required: true
 
     },
@@ -49,7 +49,7 @@ const VehicleSchema = new mongoose.Schema({
         type: String
     },
 
-    odomoeterAccurate: {
+    odometerAccurate: {
         type: Boolean
     },
 

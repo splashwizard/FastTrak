@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu } from 'antd';
 import styled from 'styled-components'
 
 const { SubMenu } = Menu;

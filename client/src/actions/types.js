@@ -9,6 +9,11 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const GET_USERS = 'GET_USERS';
 export const USERS_ERROR = 'USERS_ERROR';
+export const GET_VEHICLES = 'GET_VEHICLES';
+export const GET_VEHICLES_FAIL = 'GET_VEHICLES_FAIL';
+export const UPDATE_VEHICLE = 'UPDATE_VEHICLE';
+export const ADD_VEHICLE = 'ADD_VEHICLE';
+export const ADD_VEHICLE_FAIL = 'ADD_VEHICLE_FAIL';
 
 
 

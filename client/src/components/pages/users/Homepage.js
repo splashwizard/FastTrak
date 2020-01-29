@@ -4,6 +4,7 @@ import { Layout } from 'antd';
 import styled from "styled-components";
 import Navbar from '../../layout/user/Navbar'
 import Register from "../../layout/admin/Register"
+import { Banner } from '../../layout/user/homepage/Banner'
 
 const { Header, Content, Footer } = Layout;
 
@@ -36,9 +37,9 @@ const Homepage = () => {
                 <Logo href="#" />
                 <Navbar />
             </EmpireHeader>
-            <Content style={{ padding: '0 50px' }}>
+            <Content >
 
-                <div style={{ background: '#fff', padding: 24, minHeight: 280 }}><Register /></div>
+                <Banner />
 
             </Content>
             <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
