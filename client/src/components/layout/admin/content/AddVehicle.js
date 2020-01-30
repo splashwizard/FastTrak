@@ -158,7 +158,7 @@ export const AddVehicle = ({ addVehicle, history }) => {
     //ONSUBMIT
     const onSubmit = async e => {
         e.preventDefault();
-        addVehicle(formData)
+        addVehicle(formData, history)
     }
     return (
         <Fragment>
