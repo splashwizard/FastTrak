@@ -35,19 +35,14 @@ const App = () => {
         <Fragment className="App">
           <Route exact path="/" component={Homepage} />
           <Route exact path="/inventory" component={Inventory} />
-
           <section>
             <Switch>
               {/* ALL THE ADMIN ROUTES ARE BELOW  */}
               <Route exact path="/login" component={Loginpage} />
-
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/dashboard/addusers" component={AddUser} />
               <PrivateRoute exact path="/dashboard/viewusers" component={ViewUsers} />
               <PrivateRoute exact path="/dashboard/addvehicle" component={AddVehicle} />
-
-
-
             </Switch>
           </section>
 

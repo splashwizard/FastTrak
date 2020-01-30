@@ -52,13 +52,13 @@ export const addVehicle = (formData, history, edit = false) => async dispatch =>
         }
 
     } catch (error) {
-        // const errors = error.response.data.errors;
+        const errors = error.response.data.errors;
 
-        // if (errors) {
-        //     errors.forEach(error => {
-        //         dispatch(setAlert(error.msg, 'error'))
-        //     });
-        // }
+        if (errors) {
+            errors.forEach(error => {
+                dispatch(setAlert(error.msg, 'error'))
+            });
+        }
         dispatch({
             type: ADD_VEHICLE_FAIL
         })
