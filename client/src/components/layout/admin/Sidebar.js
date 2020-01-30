@@ -28,13 +28,13 @@ const { SubMenu } = Menu;
 
 
 
-const Sidebar = ({ auth: { isAuthenticated, loading }, logout }, MenuItem) => {
+const Sidebar = ({ auth: { isAuthenticated, loading }, logout, activeLink }) => {
     const [isCollapsed, setCollapse] = useState({
         collapsed: false,
 
     });
     const [menuItem, setMenuItem] = useState({
-        item: 1
+        item: activeLink
     });
 
     const onCollapse = collapsed => {
@@ -70,7 +70,7 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout }, MenuItem) => {
         <Fragment>
             <Sider collapsible collapsed={isCollapsed.collapsed} onCollapse={onCollapse}>
                 <Logo className="logo" >Welcome</Logo>
-                <Menu theme="dark" defaultSelectedKeys={[menuItem.item.toString()]} mode="inline">
+                <Menu theme="dark" defaultSelectedKeys={[activeLink.toString()]} mode="inline">
 
                     <Menu.Item key="1">
                         <Link to="/dashboard">
@@ -154,9 +154,11 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout }, MenuItem) => {
 Sidebar.propTypes = {
     logout: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
+    activeLink: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+
 })
 export default connect(mapStateToProps, { logout })(Sidebar)

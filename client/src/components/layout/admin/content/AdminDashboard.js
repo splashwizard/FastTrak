@@ -11,10 +11,11 @@ import 'antd/dist/antd.css';
 
 
 
-const AdminDashboard = ({ getUsers, auth: { user }, users: { loading, users } }) => {
+const AdminDashboard = ({ getUsers, auth: { user }, users: { loading, users }, currentUser }) => {
     useEffect(() => {
         getUsers();
     }, [])
+
 
     return loading && users === null ? <Icon type="loading" /> :
         <Fragment>
@@ -23,7 +24,7 @@ const AdminDashboard = ({ getUsers, auth: { user }, users: { loading, users } })
                     ghost={false}
                     title="Title"
                     subTitle="This is a subtitle">Dashboard</PageHeader>
-                <p>Welcome {user ? user.name : <Icon type="loading" />}</p>
+                <p>Welcome {user ? currentUser.name : <Icon type="loading" />}</p>
 
             </div>
         </Fragment>
@@ -35,6 +36,7 @@ AdminDashboard.propTypes = {
     getUsers: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
+    currentUser: PropTypes.object.isRequired
 }
 
 

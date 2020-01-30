@@ -22,7 +22,7 @@ const ViewUsers = () => {
     return (
 
         <Layout style={{ minHeight: '100vh' }}>
-            <SideBar />
+            <SideBar activeLink={4} />
             <Layout>
                 <AdminNavbar />
                 <Content style={{ margin: '20px 16px' }}>
