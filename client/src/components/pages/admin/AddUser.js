@@ -14,6 +14,7 @@ const { Header, Content, Footer, Sider } = Layout;
 
 
 
+const activeLink = 3
 
 
 const AddUser = () => {
@@ -22,7 +23,7 @@ const AddUser = () => {
     return (
 
         <Layout style={{ minHeight: '100vh' }}>
-            <SideBar />
+            <SideBar activeLink={activeLink} />
             <Layout>
                 <AdminNavbar />
                 <Content style={{ margin: '20px 16px' }}>

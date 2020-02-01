@@ -52,4 +52,42 @@ h2 {
 }
 `
 
-
+export const Block = styled.div`
+background: #fff;
+width: 375px;
+height: 375px;
+-webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+position: relative;
+background-image: url("/images/block_bg_1.png");
+background-size: cover;
+background-position: 50%;
+background-repeat: no-repeat;
+&:after {
+  display: block;
+  content: "";
+  background-color: #000;
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0.5;
+}
+> div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 375px;
+  height: 375px;
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  font-weight: 700;
+  font-size: rem-calc(22);
+}`
+export const QuickLinkContainer = styled.div`
+ position: relative;
+ margin-bottom: 50px;
+ margin-top: -50px;
+ `

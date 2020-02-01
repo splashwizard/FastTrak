@@ -5,7 +5,6 @@ import styled from "styled-components";
 import Navbar from '../../layout/user/Navbar'
 import Register from "../../layout/admin/Register"
 import { Banner } from '../../layout/user/homepage/Banner'
-
 const { Header, Content, Footer } = Layout;
 
 const Logo = styled.div`
@@ -40,6 +39,7 @@ const Homepage = () => {
             <Content >
 
                 <Banner />
+
 
             </Content>
             <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

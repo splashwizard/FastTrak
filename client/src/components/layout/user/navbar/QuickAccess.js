@@ -23,16 +23,16 @@ ul {
       display: inline-block;
     }
     &:nth-child(1) {
-      a {
+      
         background: #aa1826;
         color: #fff;
-      }
+      
     }
     &:nth-child(2) {
-      a {
+      
         background: #000000;
         color: #fff;
-      }
+      
     }
   }
 }
@@ -54,29 +54,29 @@ a {
 
 
 export const QuickAccess = () => {
-    return (
-        <QuickNav >
-            <ul>
-                <li>
-                    <Link href="/contact">
-                        <a>
-                            <span>
-                                <Icon type="clock-circle" />Get In Touch
+  return (
+    <QuickNav >
+      <ul>
+        <li>
+          <Link href="/contact">
+
+            <span>
+              <Icon type="clock-circle" />Get In Touch
                 </span>
 
-                        </a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/finance">
-                        <a>
-                            <span>
-                                <Icon type="percentage" /> Finance
+
+          </Link>
+        </li>
+        <li>
+          <Link href="/finance">
+
+            <span>
+              <Icon type="percentage" /> Finance
                 </span>
-                        </a>
-                    </Link>
-                </li>
-            </ul>
-        </QuickNav>
-    )
+
+          </Link>
+        </li>
+      </ul>
+    </QuickNav>
+  )
 }

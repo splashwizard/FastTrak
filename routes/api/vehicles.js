@@ -5,6 +5,27 @@ const Vehicle = require('../../models/Vehicle');
 const { check, validationResult } = require("express-validator")
 
 
+
+//@route  GET api/vehicles
+//@desc   this route is to just get vehicles 
+//@access PUBLIC
+
+// THIS ROUTE IS FOR THE USER INVENTORY NOTHING ELSE NO AUTH
+router.get('/users', async (req, res) => {
+    try {
+        const vehicles = await Vehicle.find();
+        if (vehicles.length == 0) {
+            return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
+        }
+        return res.json(vehicles);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error')
+    }
+
+});
+
+
 //@route  GET api/vehicles
 //@desc   this route is to just get vehicles 
 //@access Private

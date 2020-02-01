@@ -76,6 +76,8 @@ const ViewTeam = ({ getUsers, auth: { user }, users: { loading, users } }) => {
         }
     })
 
+
+
     return loading && users === null ? <Icon type="loading" /> :
         <Fragment>
             <div>

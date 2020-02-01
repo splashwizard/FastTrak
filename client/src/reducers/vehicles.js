@@ -5,8 +5,8 @@ const initialState = {
     //Get all vehicles 
     vehicles: [],
     loading: true,
-    error: {}
-
+    error: {},
+    currentVehicle: {}
 }
 
 export default function (state = initialState, action) {
@@ -14,12 +14,18 @@ export default function (state = initialState, action) {
 
     switch (type) {
         case GET_VEHICLES:
+            return {
+                ...state,
+                vehicles: payload,
+                loading: false,
+
+            }
         case ADD_VEHICLE:
         case UPDATE_VEHICLE:
             return {
                 ...state,
-                vehicles: payload,
-                loading: false
+                loading: false,
+                currentVehicle: payload
             }
         case GET_VEHICLES_FAIL:
         case ADD_VEHICLE_FAIL:

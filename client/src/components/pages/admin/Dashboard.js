@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import 'antd/dist/antd.css';
-import styled from "styled-components";
 import { Layout } from 'antd';
 import SideBar from "../../layout/admin/Sidebar"
 import AdminNavbar from '../../layout/admin/AdminNavbar'
 import AdminDashboard from '../../layout/admin/content/AdminDashboard'
 import { loadUser } from '../../../actions/auth'
 import PropTypes from 'prop-types'
-
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer } = Layout;
 
 
 
@@ -21,7 +19,7 @@ const Dashboard = ({ loadUser, auth: { user }, users: { loading, users } }) => {
         loadUser();
     }, [])
 
-    const activeLink = '1'
+    const activeLink = 1;
 
     return (
         <Layout style={{ minHeight: '100vh' }}>

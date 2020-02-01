@@ -50,13 +50,6 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout, activeLink }) => 
 
     };
 
-    const setMenu = (key) => {
-        if (key === 1) {
-            setMenuItem({
-                item: key
-            })
-        }
-    }
     //logout
 
     const logoutAdmin = () => {
@@ -87,10 +80,11 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout, activeLink }) => 
                             </span>
                         }
                     >
-                        <Menu.Item key="2"
-                            onClick={setMenu(2)}>
-                            <Icon type="database" />
-                            <span >View Inventory</span>
+                        <Menu.Item key="2" >
+                            <Link to='/dashboard/getvehicles' >
+                                <Icon type="database" />
+                                <span >View Inventory</span>
+                            </Link>
                         </Menu.Item>
                         <Menu.Item key="3">
                             <Link to="/dashboard/addvehicle">

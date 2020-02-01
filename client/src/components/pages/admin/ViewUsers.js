@@ -18,11 +18,12 @@ const { Content, Footer, Sider } = Layout;
 
 const ViewUsers = () => {
 
+    const activeLink = 4
 
     return (
 
         <Layout style={{ minHeight: '100vh' }}>
-            <SideBar activeLink={4} />
+            <SideBar activeLink={activeLink} />
             <Layout>
                 <AdminNavbar />
                 <Content style={{ margin: '20px 16px' }}>
