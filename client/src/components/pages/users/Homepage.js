@@ -5,6 +5,9 @@ import styled from "styled-components";
 import Navbar from '../../layout/user/Navbar'
 import Register from "../../layout/admin/Register"
 import { Banner } from '../../layout/user/homepage/Banner'
+import { QuickLinks } from '../../layout/user/homepage/QuickLinks'
+import { About } from '../../layout/user/homepage/About'
+
 const { Header, Content, Footer } = Layout;
 
 const Logo = styled.div`
@@ -39,7 +42,8 @@ const Homepage = () => {
             <Content >
 
                 <Banner />
-
+                <QuickLinks />
+                <About />
 
             </Content>
             <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { InventoryContainer, VehicleCardContainer, Sidebar, VehicleCard, ViewDetails } from './components'
 import axios from 'axios'
 import { Card, Icon } from 'antd'
-
+import { Page } from '../../ui/Pagination'
 
 //OKAY so we ran into a slight problem on this component -- i couldnt get the redux store to work so i had to use axios to get the 
 // vehicles from a new route that i put in the vehicle routes folers , this one needs no new auth so maybe after we are done we can made aredux state just for 
@@ -35,14 +35,15 @@ export const Inventory = () => {
 
     console.log(vehicles)
     console.log(currentPost)
-
-
+    //change page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber)
     return (
         <InventoryContainer >
             <h2>This is our inventory in Kelowna, British Colubmia</h2>
             <div className={'inventory'}>
                 <Sidebar />
                 <VehicleCards key={null} vehicles={currentPost} loading={loading} />
+                <Page totalPosts={vehicles.length} postPerPage={postPerPage} paginate={paginate} />
 
             </div>
         </InventoryContainer>
