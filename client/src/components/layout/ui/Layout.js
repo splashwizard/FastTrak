@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Layout } from 'antd';
 import { Link } from 'react-router-dom';
 import { QuickLinks } from '../user/homepage/QuickLinks';
+import { Row, Col } from 'antd';
 
 const { Header, Footer } = Layout;
 
@@ -29,39 +30,34 @@ height: 105px ;`
 export const EmpireFooter = () => {
     return (
         <Footer style={{ background: 'black' }}>
-            <Logo />
 
+            <Row>
+                <Col span={6}><Logo /></Col>
+                <Col span={6}><QuickContact /></Col>
+                <Col span={6}>col-6</Col>
+                <Col span={6}>col-6</Col>
+            </Row>
         </Footer>
     )
 }
 
+
+
+
+const EmpireContact = styled.div`
+color:white;
+`
+
+
+
+
+
+
+
 const QuickContact = () => {
     return (
-        <div>
-            <div>
-                <div>
-                    <div >
-                        <span>Call us</span>
-                        <Link href="tel:+17787534972">
-                            <a>+1 (778) 753-4972</a>
-                        </Link>
-                    </div>
-                    <div >
-                        <span>Email</span>
-                        <Link href="mailto:sales@empiremotors.ca">
-                            <a>sales@empiremotors.ca</a>
-                        </Link>
-                    </div>
-                </div>
-                <div gutter="margin">
-                    <div >
-                        <span>Fax us</span>
-                        <Link href="tel:+17787534972">
-                            <a>+1 (778) 753-0502</a>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <EmpireContact>
+            hiiii
+        </EmpireContact>
     );
 };
