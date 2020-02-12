@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const Banner = () => {
-    return (
-        <BannerContainer>
-            <div>
-                <h2>NEW &amp; PRE-OWNED INVENTORY</h2>
-            </div>
-        </BannerContainer>
-    )
+  return (
+    <BannerContainer>
+      <div>
+        <h2>NEW &amp; PRE-OWNED INVENTORY</h2>
+      </div>
+    </BannerContainer>
+  )
 }
 
 export default Banner;
@@ -51,7 +51,7 @@ position: relative;
   // border-width: 0 50% 100px 50%;
   // border-color: transparent transparent #007bff transparent;
   padding-bottom: 10%;
-  background: #fff;
+  background: #F1F2F5;
   // clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }

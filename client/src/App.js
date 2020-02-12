@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Homepage from './components/pages/users/Homepage';
 import InventoryPage from './components/pages/users/Inventory';
+import About from './components/pages/users/AboutPage'
 import Loginpage from './components/pages/admin/Loginpage'
 import Dashboard from './components/pages/admin/Dashboard'
 import AddUser from './components/pages/admin/AddUser';
@@ -11,6 +12,8 @@ import AddVehicle from './components/pages/admin/AddVehicle'
 import ViewVehicles from './components/pages/admin/ViewVehicles'
 import { loadUser } from './actions/auth'
 import setAuthToken from './utils/setAuthToken'
+
+
 //Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -39,6 +42,8 @@ const App = () => {
             <Switch>
               <Route exact path="/" component={Homepage} />
               <Route exact path="/inventory" component={InventoryPage} />
+              <Route exact path="/about" component={About} />
+
               {/* ALL THE ADMIN ROUTES ARE BELOW  */}
               <Route exact path="/login" component={Loginpage} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />

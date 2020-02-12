@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export const QuickLinks = (props) => {
     return (
-        <div style={{ textAlign: "center", background: "white" }}>
+        <div style={{ textAlign: "center", background: "#F1F2F5" }}>
             <Card block={1}>
                 <a href="https:www.google.ca" >View Inventory</a>
             </Card>

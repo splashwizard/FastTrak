@@ -43,7 +43,7 @@ export const Map = () => {
 
     const token = 'pk.eyJ1IjoiZW1waXJlbW90b3JzIiwiYSI6ImNrNGVudnB5NzBmbGgzZW82NWp1MXFhNTQifQ.j172aTGA8fvZ_pZqeonPcg'
     return (
-        <div style={{ padding: '2rem 0' }}>
+        <div >
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken={token}
