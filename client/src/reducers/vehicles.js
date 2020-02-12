@@ -19,21 +19,21 @@ export default function (state = initialState, action) {
                 vehicles: payload,
                 loading: false,
 
-            }
+            };
         case ADD_VEHICLE:
         case UPDATE_VEHICLE:
             return {
                 ...state,
                 loading: false,
                 currentVehicle: payload
-            }
+            };
         case GET_VEHICLES_FAIL:
         case ADD_VEHICLE_FAIL:
             return {
                 ...state,
                 vehicles: payload,
                 loading: false
-            }
+            };
         default:
             return state;
     }

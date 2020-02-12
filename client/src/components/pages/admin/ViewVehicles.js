@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { getVehicles } from '../../../actions/vehicles'
 import Alert from '../../layout/ui/Alert'
 import { Table, Divider, Tag } from 'antd';
+// const { Content, Footer, Sider } = Layout;
 const { Content, Footer, Sider } = Layout;
 
 

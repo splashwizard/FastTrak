@@ -28,17 +28,17 @@ const Navbar = () => {
         >
             <NavbarItem key="1">
                 <Link to="/inventory">
-                    <a>Inventory</a>
+                    Inventory
                 </Link>
             </NavbarItem>
             <NavbarItem key="2">
                 <Link to="/finance">
-                    <a>Finances</a>
+                    Finances
                 </Link>
             </NavbarItem>
             <NavbarItem key="3">
                 <Link to="/contact">
-                    <a>Contact Us</a>
+                    Contact Us
                 </Link>
             </NavbarItem>
             <NavbarItem key="4"

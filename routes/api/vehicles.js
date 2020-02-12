@@ -13,11 +13,19 @@ const { check, validationResult } = require("express-validator")
 // THIS ROUTE IS FOR THE USER INVENTORY NOTHING ELSE NO AUTH
 router.get('/users', async (req, res) => {
     try {
-        const vehicles = await Vehicle.find();
-        if (vehicles.length == 0) {
-            return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
-        }
-        return res.json(vehicles);
+        const page = parseInt(req.query.page);
+        const page_length = parseInt(req.query.page_length);
+        const totalPosts = await Vehicle.find().countDocuments();
+        let limit = page_length;
+        if(totalPosts < page * page_length)
+            limit = totalPosts - (page - 1) * page_length;
+        Vehicle.find().skip((page - 1) * page_length).limit(limit).exec(function(err, vehicles) {
+            if (vehicles.length === 0) {
+                return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
+            }
+            console.log(vehicles);
+            return res.json({vehicles: vehicles, totalPosts: totalPosts});
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server Error')
