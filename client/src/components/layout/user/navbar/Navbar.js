@@ -11,17 +11,19 @@ display: inline-block;
 
 const NavbarItem = styled(Menu.Item)`
  display: inline-block;
- 
-    a {
+    a{
     font-size: 16px;
     line-height:5;
     text-transform: uppercase;
-      padding: 10px;
-      color: white;
+    padding: 10px;
+    color: white!important;
     }
     a:hover{
-    border-bottom: 1px solid white;      }
-
+    border-bottom: 1px solid white;
+}
+&.ant-menu-item-selected{
+background:black!important;
+}
 `
 const Navbar = () => {
     return (
@@ -32,17 +34,17 @@ const Navbar = () => {
             >
                 <NavbarItem key="1">
                     <Link to="/inventory">
-                        <a>Inventory</a>
+                        Inventory
                     </Link>
                 </NavbarItem>
                 <NavbarItem key="2">
                     <Link to="/finance">
-                        <a>Finances</a>
+                        Finances
                     </Link>
                 </NavbarItem>
                 <NavbarItem key="3">
                     <Link to="/about">
-                        <a>About Us</a>
+                        About Us
                     </Link>
                 </NavbarItem>
 

@@ -28,7 +28,7 @@ width: 50px;
 
 
 export const Map = () => {
-    const [viewport, setviewport] = useState({
+    const [viewport] = useState({
         latitude: 49.8880,
         longitude: -119.477829,
         zoom: 10,
@@ -36,7 +36,7 @@ export const Map = () => {
         height: '75vh'
     })
 
-    const [marker, setmarker] = useState({
+    const [marker] = useState({
         latitude: 49.974700,
         longitude: -119.41
     })

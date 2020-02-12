@@ -47,9 +47,9 @@ const columns = [
         key: 'action',
         render: (text, record) => (
             <span>
-                <a>Edit</a>
+                <a href='/'>Edit</a>
                 <Divider type="vertical" />
-                <a>Delete</a>
+                <a href='/'>Delete</a>
             </span>
         ),
     },
@@ -63,7 +63,7 @@ const columns = [
 const ViewTeam = ({ getUsers, auth: { user }, users: { loading, users } }) => {
     useEffect(() => {
         getUsers();
-    }, [])
+    })
 
     let counter = 0;
 

@@ -14,7 +14,7 @@ import 'antd/dist/antd.css';
 const AdminDashboard = ({ getUsers, auth: { user }, users: { loading, users }, currentUser }) => {
     useEffect(() => {
         getUsers();
-    }, [])
+    })
 
 
     return loading && users === null ? <Icon type="loading" /> :

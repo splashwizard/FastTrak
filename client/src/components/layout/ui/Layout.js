@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { QuickLinks } from '../user/homepage/QuickLinks';
 import { Row, Col, Icon, Layout } from 'antd';
 
 const { Header, Footer } = Layout;
@@ -63,22 +61,22 @@ const SocialMedia = () => {
             <span>Connect with us</span>
             <ul>
                 <li>
-                    <a>
+                    <a href='/'>
                         <Icon type="facebook" />
                     </a>
                 </li>
                 <li>
-                    <a>
+                    <a href='/'>
                         <Icon type="instagram" />
                     </a>
                 </li>
                 <li>
-                    <a>
+                    <a href='/'>
                         <Icon type="linkedin" />
                     </a>
                 </li>
                 <li>
-                    <a>
+                    <a href='/'>
                         <Icon type="youtube" />
                     </a>
                 </li>
@@ -100,16 +98,16 @@ const QuickContact = () => {
             <a href="mailto:sales@empiremotors.ca" >sales@empiremotors.ca</a>
 
             <span>Fax <Icon type="phone" /></span>
-            <Link href="tel:+17787534972">
-                <a>+1 (778) 753-0502</a>
-            </Link>
+
+            <a href="tel:+17787534972">+1 (778) 753-0502</a>
+
         </EmpireContact>
     );
 };
 
 
 const FooterLinkSection = (props) => {
-    const { data, title } = props;
+    const { data } = props;
     return (
 
         <Fragment>
@@ -117,10 +115,10 @@ const FooterLinkSection = (props) => {
                 {data.map((link, i) => {
                     const [href, label] = data[i];
                     return (
-                        <li>
-                            <Link href={href}>
-                                <a>{label}</a>
-                            </Link>
+                        <li key={i}>
+
+                            <a href={href}>{label}</a>
+
                         </li>
                     );
                 })}
@@ -166,10 +164,10 @@ const BottomFooter = () => {
         <BottomFooterContianer>
             <ul>
                 {links.map((item, i) => (
-                    <li>
-                        <Link href={item.href}>
-                            <a>{item.label}</a>
-                        </Link>
+                    <li key={i}>
+
+                        <a href={item.href}>{item.label}</a>
+
                     </li>
                 ))}
             </ul>
@@ -181,9 +179,9 @@ const DevelopmentWatermark = () => {
     return (
         <WaterMark >
             Site by{" "}
-            <Link href="/">
-                <a>Company</a>
-            </Link>
+
+            <a href="/">Company</a>
+
         </WaterMark>
     );
 };

@@ -17,9 +17,9 @@ const Dashboard = ({ loadUser, auth: { user }, users: { loading, users } }) => {
 
     useEffect(() => {
         loadUser();
-    }, [])
+    })
 
-    const activeLink = 1;
+    const activeLink = "1";
 
     return (
         <Layout style={{ minHeight: '100vh' }}>

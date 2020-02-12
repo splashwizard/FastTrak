@@ -6,8 +6,6 @@ import {
     Input,
     Button,
     Switch,
-    Select,
-    Option,
     InputNumber,
     DatePicker
 } from 'antd';
@@ -15,7 +13,7 @@ import 'antd/dist/antd.css';
 import Alert from "../../ui/Alert";
 import moment from 'moment';
 import { addVehicle } from '../../../../actions/vehicles';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 export const AddVehicle = ({ addVehicle, history }) => {
     const [formData, setFormData] = useState({
@@ -65,7 +63,8 @@ export const AddVehicle = ({ addVehicle, history }) => {
         soldBy: '',
         bidClosing: null
     })
-    const { user,
+    //I Took Out user here for now -- it was the first variable , add it back in if you want to update
+    const {
         categoryId,
         stockNumber,
         vinNumber,

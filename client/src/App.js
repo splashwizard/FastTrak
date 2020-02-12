@@ -36,7 +36,7 @@ const App = () => {
     <Provider
       store={store}>
       <Router>
-        <Fragment className="App">
+        <Fragment >
 
           <section>
             <Switch>

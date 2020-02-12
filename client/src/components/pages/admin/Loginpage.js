@@ -5,18 +5,18 @@ import styled from "styled-components";
 import { Row, Col } from 'antd';
 import Login from "../../layout/admin/Login"
 
-const { Header, Content, Footer } = Layout;
+const { Content, Footer } = Layout;
 
-const Logo = styled.div`
-margin: 16px 24px 16px 0;
-float: left;
-background-image: url("/images/empire-motors-logo.png");
-background-repeat: no-repeat;
-background-size: cover;
-width: 241px;
-height: 70px;
-margin-right: rem-calc(100);
-`
+// const Logo = styled.div`
+// margin: 16px 24px 16px 0;
+// float: left;
+// background-image: url("/images/empire-motors-logo.png");
+// background-repeat: no-repeat;
+// background-size: cover;
+// width: 241px;
+// height: 70px;
+// margin-right: rem-calc(100);
+// `
 
 
 const Halfimage = styled.div`

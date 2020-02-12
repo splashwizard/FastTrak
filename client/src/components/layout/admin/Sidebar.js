@@ -33,9 +33,7 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout, activeLink }) => 
         collapsed: false,
 
     });
-    const [menuItem, setMenuItem] = useState({
-        item: activeLink
-    });
+
 
     const onCollapse = collapsed => {
         if (isCollapsed.collapsed === false) {

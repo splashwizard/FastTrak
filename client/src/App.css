@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+
 }
 
 .contentContainer {
@@ -12,4 +12,8 @@
   width: 50%;
   margin-left: 20%;
   margin-top: 20%;
+}
+
+body {
+  font-family: 'Lato', 'Ubuntu', serif, Roboto, Arial, sans-serif !important;
 }

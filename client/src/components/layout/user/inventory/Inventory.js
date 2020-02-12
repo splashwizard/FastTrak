@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react'
-import { InventoryContainer, VehicleCardContainer, Sidebar, VehicleCard, ViewDetails } from './components'
+import { InventoryContainer, Sidebar, VehicleCard, ViewDetails } from './components'
 import axios from 'axios'
-import { Card, Icon } from 'antd'
+import { Icon } from 'antd'
 import { Page } from '../../ui/Pagination'
 
 //OKAY so we ran into a slight problem on this component -- i couldnt get the redux store to work so i had to use axios to get the 
@@ -15,7 +15,9 @@ export const Inventory = () => {
     const [vehicles, setVehicles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [postPerPage, setPostPerPage] = useState(5);
+    const [postPerPage,] = useState(5);
+
+
 
     //make the axios post on mount and then call the fuction within useEffect
     useEffect(() => {
@@ -33,8 +35,6 @@ export const Inventory = () => {
     const indexOfFristPost = indexOfLastPost - postPerPage
     const currentPost = vehicles.slice(indexOfFristPost, indexOfLastPost)
 
-    console.log(vehicles)
-    console.log(currentPost)
     //change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
     return (
@@ -68,7 +68,7 @@ const VehicleCards = ({ vehicles, loading }) => {
                     <div style={{ marginBottom: '30px' }}>
                         <VehicleCard key={counter++} title={vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel} style={{ width: "70%" }}>
                             <div className='inner'>
-                                <img src='https://via.placeholder.com/150' />
+                                <img alt='test' src='https://via.placeholder.com/150' />
                                 <div className='placeholders'>
                                     <span>Make:</span>
                                     <span>Model:</span>
@@ -99,32 +99,3 @@ const VehicleCards = ({ vehicles, loading }) => {
     );
 };
 
-{/* <VehicleCardContainer >
-    <img src="https://via.placeholder.com/150"></img>
-    <a>
-        <h1>2019 Merecedes Benz C43</h1>
-        <div className='placeholders'>
-            <span>Body Style:</span>
-            <span>Mileage:</span>
-            <span>Transmission:</span>
-            <span>Drive Train:</span>
-            <span>Engine:</span>
-        </div>
-        <div className='details'>
-            <span>{vehicle.vinNumber}</span>
-            <span>19,000 km</span>
-            <span>Automatic</span>
-            <span>AWD</span>
-            <span>4.0L Twin Turbo</span>
-        </div>
-        <div className='price'>
-            <span>PRICE:</span>
-            <h1>$19,000</h1>
-            <span>Plus sales tax</span>
-
-            <a>
-                View Full Details
-</a>
-        </div>
-    </a>
-</VehicleCardContainer> */}

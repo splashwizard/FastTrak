@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Row, Col, Icon } from 'antd';
+
 import styled from 'styled-components';
 
 //I always put styled components at the bottom 
@@ -25,7 +25,7 @@ export const ContactForm = (props) => {
     status: ''
   })
 
-  const { formStatus } = status.status
+
 
   const submitForm = (ev) => {
     ev.preventDefault();
@@ -47,7 +47,7 @@ export const ContactForm = (props) => {
   }
   return (
     <div style={{ display: 'flex' }}>
-      <Form style={{ textAlign: 'center' }}
+      <Form style={{ textAlign: 'center', marginRight: '5%' }}
         onSubmit={submitForm}
         action="https://formspree.io/mknjgwww"
         method="POST"
@@ -56,8 +56,8 @@ export const ContactForm = (props) => {
         <label type="Name:" /><input placeholder="Write your name here.." type="name" name="name" />
         <label type="Email/Phone:" /><input placeholder="Let us know how to contact you back.." type="email" name="email" />
         <label type="Message:" /><input placeholder="What would you like to tell us.." type="text" name="message" ></input>
-        {status === "SUCCESS" ? <p>Thanks!</p> : <button >Submit</button>}
-        {status === "ERROR" && <p>Ooops! There was an error.</p>}
+        {status.status === "SUCCESS" ? <p>Thanks!</p> : <button >Submit</button>}
+        {status.status === "ERROR" && <p>Ooops! There was an error.</p>}
       </Form>
       <ContactInfo />
     </div>
@@ -88,34 +88,36 @@ const ContactInfo = () => {
     <div >
       <span style={{ color: "black" }}>Hours Of Operation</span>
       <table>
-        <tr>
-          <td>Monday</td>
-          <td >10:00am - 6:00pm</td>
-        </tr>
-        <tr>
-          <td>Tuesday</td>
-          <td >10:00am - 6:00pm</td>
-        </tr>
-        <tr>
-          <td>Wednesday</td>
-          <td >10:00am - 6:00pm</td>
-        </tr>
-        <tr>
-          <td>Thursday</td>
-          <td >10:00am - 6:00pm</td>
-        </tr>
-        <tr>
-          <td>Friday</td>
-          <td >10:00am - 6:00pm</td>
-        </tr>
-        <tr>
-          <td>Saturday: </td>
-          <td >10:00am - 3:00pm</td>
-        </tr>
-        <tr>
-          <td>Sunday: </td>
-          <td >Appointments Only</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>Monday</td>
+            <td >10:00am - 6:00pm</td>
+          </tr>
+          <tr>
+            <td>Tuesday</td>
+            <td >10:00am - 6:00pm</td>
+          </tr>
+          <tr>
+            <td>Wednesday</td>
+            <td >10:00am - 6:00pm</td>
+          </tr>
+          <tr>
+            <td>Thursday</td>
+            <td >10:00am - 6:00pm</td>
+          </tr>
+          <tr>
+            <td>Friday</td>
+            <td >10:00am - 6:00pm</td>
+          </tr>
+          <tr>
+            <td>Saturday: </td>
+            <td >10:00am - 3:00pm</td>
+          </tr>
+          <tr>
+            <td>Sunday: </td>
+            <td >Appointments Only</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </Info>;
@@ -255,6 +257,13 @@ background: #AA1725;
 color: white;
 border: 2px solid white;
 
+}
+p{
+  color: white;
+  font-size: 2rem;
+  text-transform: uppercase;
+  padding-top: 2rem;
+  text-decoration: underline;
 }
 
 div {

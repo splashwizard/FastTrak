@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react'
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 import styled from 'styled-components'
 
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const { Header, } = Layout;
 
 const AdminHeader = styled(Header)`
 padding: 0,;
@@ -11,11 +10,6 @@ height: 68px !important;
 background:rgba#001529 !important;
 `
 
-
-const MenuItem = styled(Menu.Item)`
-float:right;
-margin-right:10%;
-`
 
 
 const AdminNavbar = () => {

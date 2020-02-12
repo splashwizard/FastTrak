@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 
@@ -16,34 +16,36 @@ export const HoursOfOperation = () => {
                     <span>Operating Hours</span>
 
                     <table>
-                        <tr>
-                            <td>Monday</td>
-                            <td>10:00am - 6:00pm</td>
-                        </tr>
-                        <tr>
-                            <td>Tuesday</td>
-                            <td>10:00am - 6:00pm</td>
-                        </tr>
-                        <tr>
-                            <td>Wednesday</td>
-                            <td>10:00am - 6:00pm</td>
-                        </tr>
-                        <tr>
-                            <td>Thursday</td>
-                            <td>10:00am - 6:00pm</td>
-                        </tr>
-                        <tr>
-                            <td>Friday</td>
-                            <td>10:00am - 6:00pm</td>
-                        </tr>
-                        <tr>
-                            <td>Saturday: </td>
-                            <td>10:00am - 3:00pm</td>
-                        </tr>
-                        <tr>
-                            <td>Sunday: </td>
-                            <td>Appointments Only</td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>10:00am - 6:00pm</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>10:00am - 6:00pm</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>10:00am - 6:00pm</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>10:00am - 6:00pm</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>10:00am - 6:00pm</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday: </td>
+                                <td>10:00am - 3:00pm</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday: </td>
+                                <td>Appointments Only</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 <hr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.15)' }} />

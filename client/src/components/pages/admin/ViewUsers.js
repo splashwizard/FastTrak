@@ -10,7 +10,7 @@ import ViewTeam from '../../layout/admin/content/ViewTeam'
 
 
 
-const { Content, Footer, Sider } = Layout;
+const { Content, Footer, } = Layout;
 
 
 
@@ -18,7 +18,7 @@ const { Content, Footer, Sider } = Layout;
 
 const ViewUsers = () => {
 
-    const activeLink = 4
+    const activeLink = '4'
 
     return (
 

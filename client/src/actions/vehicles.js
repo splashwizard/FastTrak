@@ -3,7 +3,7 @@ import { setAlert } from './alert'
 
 import {
     GET_VEHICLES,
-    UPDATE_VEHICLE,
+    // UPDATE_VEHICLE,
     ADD_VEHICLE,
     ADD_VEHICLE_FAIL,
     GET_VEHICLES_FAIL

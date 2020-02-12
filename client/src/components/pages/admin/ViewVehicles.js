@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { getVehicles } from '../../../actions/vehicles'
 import Alert from '../../layout/ui/Alert'
 import { Table, Divider, Tag } from 'antd';
-const { Content, Footer, Sider } = Layout;
+const { Content, Footer, } = Layout;
 
 
 //Render the columns for the table
@@ -18,7 +18,7 @@ const columns = [
         title: 'Vin Number',
         dataIndex: 'vinNumber',
         key: 'vinNumber',
-        render: text => <a>{text}</a>,
+        render: text => <a href='/'>{text}</a>,
     },
     {
         title: 'Brand ID',
@@ -55,9 +55,9 @@ const columns = [
         key: 'action',
         render: (text, record) => (
             <span>
-                <a>Edit Vehicle {record.name}</a>
+                <a href='/'>Edit Vehicle {record.name}</a>
                 <Divider type="vertical" />
-                <a>Delete</a>
+                <a href='/'>Delete</a>
             </span>
         ),
     },
@@ -70,13 +70,13 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
     // call our redux action 
     useEffect(() => {
         getVehicles();
-    }, [])
+    })
 
     //make a mapped component from the data we got back
     const getvehicleList = vehicles.map((vehicle) => {
 
         return {
-            key: vehicle.brandId,
+            key: vehicle.vinNumber,
             brandId: vehicle.brandId,
             vinNumber: vehicle.vinNumber,
             price: vehicle.price,
@@ -89,7 +89,7 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
 
 
     //pass the prop to sidebar
-    const activeLink = 2;
+    const activeLink = '2';
 
     return (
 

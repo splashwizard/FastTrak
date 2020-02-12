@@ -1,7 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import 'antd/dist/antd.css';
-import styled from "styled-components";
 import { Layout } from 'antd';
 import SideBar from "../../layout/admin/Sidebar"
 import AdminNavbar from '../../layout/admin/AdminNavbar'
@@ -10,11 +8,11 @@ import Adduser from '../../layout/admin/Register'
 
 
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer } = Layout;
 
 
 
-const activeLink = 3
+const activeLink = "5"
 
 
 const AddUser = () => {

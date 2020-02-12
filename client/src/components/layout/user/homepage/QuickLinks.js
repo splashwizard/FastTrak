@@ -6,13 +6,13 @@ export const QuickLinks = (props) => {
     return (
         <div style={{ textAlign: "center", background: "#F1F2F5" }}>
             <Card block={1}>
-                <a href="https:www.google.ca" >View Inventory</a>
+                <a href="/inventory" >View Inventory</a>
             </Card>
             <Card block={2}>
-                <a>Apply For Loan</a>
+                <a href="/finance">Apply For Loan</a>
             </Card>
             <Card>
-                <a>Get In Touch</a>
+                <a href="/about">Get In Touch</a>
             </Card>
         </div>
     )
