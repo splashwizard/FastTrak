@@ -28,7 +28,7 @@ export const Inventory = () => {
             setLoading(false)
         }
         fetchVehicles();
-    }, [])
+    }, [setVehicles])
 
     //create pagination 
     const indexOfLastPost = currentPage * postPerPage

@@ -70,7 +70,7 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
     // call our redux action 
     useEffect(() => {
         getVehicles();
-    })
+    }, [getVehicles])
 
     //make a mapped component from the data we got back
     const getvehicleList = vehicles.map((vehicle) => {

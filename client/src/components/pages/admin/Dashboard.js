@@ -5,6 +5,7 @@ import { Layout } from 'antd';
 import SideBar from "../../layout/admin/Sidebar"
 import AdminNavbar from '../../layout/admin/AdminNavbar'
 import AdminDashboard from '../../layout/admin/content/AdminDashboard'
+import { AdminFooter } from '../../layout/admin/AdminFooter'
 import { loadUser } from '../../../actions/auth'
 import PropTypes from 'prop-types'
 const { Content, Footer } = Layout;
@@ -14,12 +15,14 @@ const { Content, Footer } = Layout;
 
 
 const Dashboard = ({ loadUser, auth: { user }, users: { loading, users } }) => {
+    // call our redux action 
 
     useEffect(() => {
         loadUser();
-    })
+    }, [loadUser])
 
-    const activeLink = 1;
+
+    const activeLink = "1";
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -31,15 +34,9 @@ const Dashboard = ({ loadUser, auth: { user }, users: { loading, users } }) => {
                         <AdminDashboard currentUser={user} />
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                <AdminFooter />
             </Layout>
         </Layout>
-
-
-
-
-
-
     )
 }
 

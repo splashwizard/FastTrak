@@ -6,7 +6,8 @@ import PropTypes from 'prop-types'
 import { logout } from '../../../actions/auth'
 import { Redirect } from 'react-router-dom'
 import { Link } from "react-router-dom";
-
+const { Sider } = Layout;
+const { SubMenu } = Menu;
 
 
 
@@ -20,12 +21,15 @@ color: white;
 text-transform: uppercase;
 font-family: inherit;
 `
-
-const { Sider } = Layout;
-const { SubMenu } = Menu;
-
-
-
+const SideBar = styled(Sider)`
+background:black;
+ul{
+    background:black !important;
+}
+div{
+    background:black !important;
+}
+`
 
 
 const Sidebar = ({ auth: { isAuthenticated, loading }, logout, activeLink }) => {
@@ -59,7 +63,7 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout, activeLink }) => 
 
     return (
         <Fragment>
-            <Sider collapsible collapsed={isCollapsed.collapsed} onCollapse={onCollapse}>
+            <SideBar collapsible collapsed={isCollapsed.collapsed} onCollapse={onCollapse} style={{ background: 'black' }}>
                 <Logo className="logo" >Welcome</Logo>
                 <Menu theme="dark" defaultSelectedKeys={[activeLink.toString()]} mode="inline">
 
@@ -138,7 +142,7 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout, activeLink }) => 
                         </Link>
                     </Menu.Item>
                 </Menu>
-            </Sider>
+            </SideBar>
         </Fragment>
     )
 }

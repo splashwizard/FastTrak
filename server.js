@@ -19,7 +19,7 @@ app.use('/api/vehicles', require('./routes/api/vehicles'));
 app.use('/api/applicants', require('./routes/api/applicants'));
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
