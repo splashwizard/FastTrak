@@ -4,6 +4,7 @@ import './App.css';
 import Homepage from './components/pages/users/Homepage';
 import InventoryPage from './components/pages/users/Inventory';
 import About from './components/pages/users/AboutPage'
+import FinancePage from './components/pages/users/FincancePage'
 import Loginpage from './components/pages/admin/Loginpage'
 import Dashboard from './components/pages/admin/Dashboard'
 import AddUser from './components/pages/admin/AddUser';
@@ -43,6 +44,8 @@ const App = () => {
               <Route exact path="/" component={Homepage} />
               <Route exact path="/inventory" component={InventoryPage} />
               <Route exact path="/about" component={About} />
+              <Route exact path="/finance" component={FinancePage} />
+
 
               {/* ALL THE ADMIN ROUTES ARE BELOW  */}
               <Route exact path="/login" component={Loginpage} />

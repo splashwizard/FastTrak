@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 
 
-export const AboutBanner = () => {
+export const FinanceBanner = () => {
     return (
         <Banner >
             <div >
-                <h2>We know cars so lets talk!</h2>
+                <h2>Lets Talk Money!</h2>
             </div>
         </Banner>
     )
@@ -63,5 +63,4 @@ h2 {
   letter-spacing: 1px;
   font-weight: 100;
   padding-top: 30%;
-}
 `
