@@ -37,6 +37,13 @@ p{
 }
 `
 
+//Add todays date
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = mm + '/' + dd + '/' + yyyy;
 
 const AdminDashboard = ({ getUsers, getVehicles, auth: { user }, users: { loading, users }, currentUser, vehicles: { vehicles } }) => {
 
@@ -59,7 +66,9 @@ const AdminDashboard = ({ getUsers, getVehicles, auth: { user }, users: { loadin
                 subTitle="Welcome to the Empire Motors Dashboard" />
             <DashboardContainer>
 
-                <p>Welcome {user ? currentUser.name : <Icon type="loading" />}</p>
+                <p>Welcome {user ? currentUser.name : <Icon type="loading" />} </p>
+                <p>Today's Date {today} </p>
+
                 <div>
                     <div><span>Total Users {users.length != 0 ? users.length : <Icon type="loading" />}</span></div>
                     <div><span>Total Sales<br /> 10,000$</span></div>
