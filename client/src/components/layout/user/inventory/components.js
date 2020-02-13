@@ -8,7 +8,7 @@ export const VehicleCard = styled(Card)`
 box-shadow: 10px 10px 5px 5px grey;
 background: #2a2a2a;
 color: white;
-margin-left: 30%;
+margin-left: 0;
 height: 300px;
 margin-bottom: 5%;
     div.ant-card-head{
@@ -84,7 +84,7 @@ text-align: center;
 
 .inventory {
     height: 1000px;
-
+    display: flex;
 }
 
 h2 {
@@ -105,7 +105,7 @@ h2 {
     font-size: 24px;
 }
 
-`
+`;
 const InventorySideBar = styled.div`
     background: black;
     float: left;
@@ -121,7 +121,7 @@ const InventorySideBar = styled.div`
     margin-bottom: 20px;
 }
 
-`
+`;
 
 const ClearFiltersButton = styled.button`
 background-color: #aa1826;

@@ -4,7 +4,7 @@ import '../../../App.css';
 import {connect} from "react-redux";
 import {paginate} from "../../../actions/userVehicles";
 
-const Page = ({ paginate, userVehicles: {currentPage, postPerPage, totalPosts}}) => {
+const Page = ({ paginate, userVehicles: {currentPage, totalPosts, postPerPage}}) => {
 
     const pageNumbers = [];
     let renderPageNumbers, lastPage = Math.ceil(totalPosts / postPerPage);
@@ -39,15 +39,15 @@ const Page = ({ paginate, userVehicles: {currentPage, postPerPage, totalPosts}})
             let classes = currentPage === number ? "active" : '';
 
             return (
-                <span key={number} className={classes} onClick={()=>paginate(number, postPerPage)}>{number}</span>
+                <span key={number} className={classes} onClick={()=>paginate(number)}>{number}</span>
             );
         });
     }
     return (
         <div className="pagination">
-            { isFirst ? <span onClick={()=>paginate(1, postPerPage)}>First</span> : null}
+            { isFirst ? <span onClick={()=>paginate(1)}>First</span> : null}
             {renderPageNumbers}
-            { isLast ? <span onClick={()=>paginate(lastPage, postPerPage)}>Last</span> : null}
+            { isLast ? <span onClick={()=>paginate(lastPage)}>Last</span> : null}
         </div>
     )
 };

@@ -1,9 +1,13 @@
 import React, { useEffect, useState, Fragment } from 'react'
-import { InventoryContainer, VehicleCardContainer, Sidebar, VehicleCard, ViewDetails } from './components'
-import { Card, Icon } from 'antd'
+import { InventoryContainer, VehicleCardContainer, VehicleCard, ViewDetails } from './components'
+import { Menu, Icon } from 'antd'
 import Page from '../../ui/Pagination'
 import {connect} from "react-redux";
-import {getUserVehicles} from "../../../../actions/userVehicles";
+import {getUserVehicles, selectBrandId, selectVehicleModel, removeBrandId} from "../../../../actions/userVehicles";
+
+
+const { SubMenu } = Menu;
+
 
 //OKAY so we ran into a slight problem on this component -- i couldnt get the redux store to work so i had to use axios to get the 
 // vehicles from a new route that i put in the vehicle routes folers , this one needs no new auth so maybe after we are done we can made aredux state just for 
@@ -11,22 +15,9 @@ import {getUserVehicles} from "../../../../actions/userVehicles";
 
 
 //declare component
-const Inventory = ({ getUserVehicles, userVehicles: {vehicles, loading, currentPage, postPerPage, totalPosts}}) => {
+const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, removeBrandId, userVehicles: {vehicles, currentPage, postPerPage, totalPosts, brandIdList, brandId, vehicleModelList, vehicleModel}}) => {
     //set some intials hooks for our state
     // const [vehicles, setVehicles] = useState([]);
-    // const [loading, setLoading] = useState(false);
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [postPerPage, setPostPerPage] = useState(4);
-    // const [totalPosts, setTotalPosts] = useState(0);
-    // const fetchVehicles = async () => {
-    //     setLoading(true);
-    //     console.log(currentPage);
-    //     const res = await axios.get(`/api/vehicles/users?page=${currentPage}&page_length=${postPerPage}`);
-    //     setVehicles(res.data.vehicles);
-    //     setTotalPosts(res.data.totalPosts);
-    //     setLoading(false);
-    // };
-    // //make the axios post on mount and then call the fuction within useEffect
     useEffect(() => {
         getUserVehicles(currentPage, postPerPage);
     }, []);
@@ -40,10 +31,18 @@ const Inventory = ({ getUserVehicles, userVehicles: {vehicles, loading, currentP
     return (
         <InventoryContainer >
             <h2>This is our inventory in Kelowna, British Colubmia</h2>
+            <div className="filter-stock-active-wrap">
+                <div className="filter-stock-active">
+                    { brandId ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeBrandId}>{brandId}</a> : null}
+                </div>
+            </div>
             <div className={'inventory'}>
-                <Sidebar />
-                <VehicleCards key={null} vehicles={vehicles} loading={loading} />
-                <Page totalPosts={totalPosts} postPerPage={postPerPage} currentPage={currentPage} paginate={paginate} />
+                <Sidebar brandIdList={brandIdList} selectBrandId={selectBrandId} brandId={brandId}
+                     vehicleModelList={vehicleModelList} vehicleModel={vehicleModel} selectVehicleModel={selectVehicleModel}/>
+                <section style={{width:'100%', marginLeft: '10px'}}>
+                    <VehicleCards key={null} vehicles={vehicles}/>
+                    <Page totalPosts={totalPosts} currentPage={currentPage} paginate={paginate} postPerPage={postPerPage}/>
+                </section>
 
             </div>
         </InventoryContainer>
@@ -56,19 +55,58 @@ const Inventory = ({ getUserVehicles, userVehicles: {vehicles, loading, currentP
 const mapStateToProps = state => ({
     userVehicles: state.userVehicles
 });
-export default connect(mapStateToProps, { getUserVehicles })(Inventory)
+export default connect(mapStateToProps, { getUserVehicles, selectBrandId, selectVehicleModel, removeBrandId })(Inventory)
 
+const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicleModel, selectvehicleModel }) => {
+    const [openKeys, setOpenKeys] = useState([]);
+    const [rootSubmenuKeys] = useState(['sub1', 'sub2', 'sub4']);
 
+    const onOpenChange = openKeys => {
+        const latestOpenKey = openKeys.find(key => openKeys.indexOf(key) === -1);
+        if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+            setOpenKeys(openKeys);
+        } else {
+            setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+        }
+    };
 
-const VehicleCards = ({ vehicles, loading }) => {
-    if (loading) return <h1>FETCHING</h1>;
+    return(
+        <aside style={{flex: '0 0 200px', maxWidth: '200px', minWidth: '200px', width: '200px'}}>
+        <Menu
+            mode="inline"
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            style={{ width: '100%' }}
+        >
+            {
+                brandId === ''?
+                <SubMenu key="brandId" title={<span>Make</span>}>{
+                    brandIdList.map((item, index)=>(
+                        item._id ? <Menu.Item key={index} disabled={true} onClick={() => selectBrandId(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
+                    ))
+                }</SubMenu> : null
+            }
+            {
+                vehicleModel === ''?
+                    <SubMenu key="vehicleModel" title={<span>Model</span>}>{
+                        vehicleModelList.map((item, index)=>(
+                            item._id ? <Menu.Item key={index} disabled={true} onClick={() => selectVehicleModel(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
+                        ))
+                    }</SubMenu> : null
+            }
+        </Menu>
+        </aside>
+    )
+};
+
+const VehicleCards = ({ vehicles }) => {
     return (
         <Fragment>
             {vehicles.map((vehicle, index) => {
                 const { year, description, brandId, mileage, vehicleModel, price } = vehicle;
                 return (
                     <div style={{ marginBottom: '30px' }} key={index}>
-                        <VehicleCard title={vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel} style={{ width: "70%" }}>
+                        <VehicleCard title={vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel}>
                             <div className='inner'>
                                 <img src='https://via.placeholder.com/150' />
                                 <div className='placeholders'>

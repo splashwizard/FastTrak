@@ -11,19 +11,56 @@ const { check, validationResult } = require("express-validator")
 //@access PUBLIC
 
 // THIS ROUTE IS FOR THE USER INVENTORY NOTHING ELSE NO AUTH
+
+router.get('/user_filters', async (req, res) => {
+    try {
+        const brandIdAggregatorOpts = [{
+            $group: {
+                _id: "$brandId",
+                count: { $sum: 1 }
+            }
+        }];
+        const brandIdList = await Vehicle.aggregate(brandIdAggregatorOpts).exec();
+        const modelAggregatorOpts = [{
+            $group: {
+                _id: "$vehicleModel",
+                count: { $sum: 1 }
+            }
+        }];
+        const vehicleModelList = await Vehicle.aggregate(modelAggregatorOpts).exec();
+        return res.json({brandIdList: brandIdList, vehicleModelList: vehicleModelList});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error')
+    }
+
+});
 router.get('/users', async (req, res) => {
     try {
         const page = parseInt(req.query.page);
         const page_length = parseInt(req.query.page_length);
-        const totalPosts = await Vehicle.find().countDocuments();
+        const { brandId, vehicleModel } = req.query;
+        // query for get total count
+        let query_count = Vehicle.find();
+        if(brandId)
+            query_count = query_count.where('brandId').equals(brandId);
+        if(vehicleModel) 
+            query_count = query_count.where('vehicleModel').equals(vehicleModel);
+        const totalPosts = await query_count.countDocuments();
         let limit = page_length;
         if(totalPosts < page * page_length)
             limit = totalPosts - (page - 1) * page_length;
-        Vehicle.find().skip((page - 1) * page_length).limit(limit).exec(function(err, vehicles) {
+        // query for get vehicles
+        let query = Vehicle.find();
+        if(brandId)
+            query = query.where('brandId').equals(brandId);
+        if(vehicleModel)
+            query = query.where('vehicleModel').equals(vehicleModel);
+        query.skip((page - 1) * page_length).limit(limit).exec(function(err, vehicles) {
+            console.log(vehicles);
             if (vehicles.length === 0) {
                 return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
             }
-            console.log(vehicles);
             return res.json({vehicles: vehicles, totalPosts: totalPosts});
         });
     } catch (error) {

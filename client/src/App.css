@@ -31,3 +31,64 @@
   color: white;
   border: 1px solid #0099FF;
 }
+
+.filter-stock-active {
+  display: inline-block
+}
+
+@media (min-width: 768px) {
+  .filter-stock-active {
+    float: left
+  }
+}
+
+.filter-stock-active a {
+  display: inline-block;
+  padding-right: .5em;
+  text-decoration: none;
+  transition: color 240ms cubic-bezier(.19, 1, .22, 1)
+}
+
+.filter-stock-active a[data-separator=slash]:after {
+  content: "/";
+  color: #464a4c;
+  margin-left: .75em
+}
+
+.filter-stock-active a[data-separator=comma]:after {
+  content: ",";
+  color: #464a4c
+}
+
+.filter-stock-active a:before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 0;
+  margin: 0 2px 0 0;
+  opacity: 0;
+  transition: opacity 240ms cubic-bezier(.19, 1, .22, 1), width 180ms cubic-bezier(.19, 1, .22, 1);
+  content: "";
+}
+
+.filter-stock-active a:hover {
+  color: #464a4c
+}
+
+.filter-stock-active a:hover:before {
+  opacity: 1;
+  width: 1em
+}
+
+.filter-stock-active-wrap{
+  margin-bottom: 15px;
+}
+
+.filter-stock-active-wrap::after{
+  display: block;
+  content: "";
+  clear: both;
+}
