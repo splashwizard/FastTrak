@@ -3,8 +3,8 @@ import { InventoryContainer, VehicleCardContainer, VehicleCard, ViewDetails } fr
 import { Menu, Icon } from 'antd'
 import Page from '../../ui/Pagination'
 import {connect} from "react-redux";
-import {getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice,
-    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax} from "../../../../actions/userVehicles";
+import {getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
+    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax} from "../../../../actions/userVehicles";
 
 
 const { SubMenu } = Menu;
@@ -16,22 +16,16 @@ const { SubMenu } = Menu;
 
 
 //declare component
-const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice,
-                        removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax,
-                       userVehicles: {vehicles, currentPage, postPerPage, totalPosts, brandIdList, brandId, vehicleModelList, vehicleModel,
-                            year, yearList, price_min, price_max, priceList}}) => {
+const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
+                        removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax,
+                       userVehicles: {vehicles, totalPosts, brandIdList, brandId, vehicleModelList, vehicleModel, postPerPage,
+                            year, yearList, price_min, price_max, priceList, mileage_min, mileage_max, mileageList}}) => {
     //set some intials hooks for our state
     // const [vehicles, setVehicles] = useState([]);
     useEffect(() => {
-        getUserVehicles(currentPage, postPerPage);
+        getUserVehicles();
     }, []);
 
-    //change page
-    const paginate = (pageNumber) => {
-        // console.log(pageNumber);
-        // setCurrentPage(pageNumber);
-        // fetchVehicles();
-    };
     return (
         <InventoryContainer >
             <h2>This is our inventory in Kelowna, British Colubmia</h2>
@@ -42,15 +36,39 @@ const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectY
                     { year ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeYear}>{year}</a> : null}
                     { price_min !== Number.NEGATIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removePriceMin}>{'From: $' + price_min}</a> : null}
                     { price_max !== Number.POSITIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removePriceMax}>{'To: $' + price_max}</a> : null}
+                    { mileage_min !== Number.NEGATIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeMileageMin}>{'From: ' + mileage_min + ' km'}</a> : null}
+                    { mileage_max !== Number.POSITIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeMileageMax}>{'To: ' + mileage_max + ' km'}</a> : null}
                 </div>
             </div>
             <div className={'inventory'}>
                 <Sidebar brandIdList={brandIdList} selectBrandId={selectBrandId} brandId={brandId}
                      vehicleModelList={vehicleModelList} vehicleModel={vehicleModel} selectVehicleModel={selectVehicleModel}
-                     yearList={yearList} year={year} selectYear={selectYear} priceList={priceList} selectPrice={selectPrice}/>
+                     yearList={yearList} year={year} selectYear={selectYear} priceList={priceList} selectPrice={selectPrice} mileageList={mileageList} selectMileage={selectMileage}/>
                 <section style={{width:'100%', marginLeft: '10px'}}>
+                    <header className="results-meta">
+                        <div className="total-count">
+                            <span className="count">{totalPosts}</span> Vehicles Found
+                        </div>
+                        <ul className="page-length-control">
+                            <li>
+                                <a href="#" onClick={()=>setPostPerPage(5)} className={postPerPage === 5 ? "_bpbackinv active" : "_bpbackinv"}>5</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={()=>setPostPerPage(10)} className={postPerPage === 10 ? "_bpbackinv active" : "_bpbackinv"}>10</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={()=>setPostPerPage(20)} className={postPerPage === 20 ? "_bpbackinv active" : "_bpbackinv"}>20</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={()=>setPostPerPage(50)} className={postPerPage === 50 ? "_bpbackinv active" : "_bpbackinv"}>50</a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={()=>setPostPerPage(100)}  className={postPerPage === 100 ? "_bpbackinv active" : "_bpbackinv"}>100</a>
+                            </li>
+                        </ul>
+                    </header>
                     <VehicleCards key={null} vehicles={vehicles}/>
-                    <Page totalPosts={totalPosts} currentPage={currentPage} paginate={paginate} postPerPage={postPerPage}/>
+                    <Page/>
                 </section>
 
             </div>
@@ -64,11 +82,11 @@ const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectY
 const mapStateToProps = state => ({
     userVehicles: state.userVehicles
 });
-export default connect(mapStateToProps, { getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice,
-    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax })(Inventory)
+export default connect(mapStateToProps, { getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
+    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax })(Inventory)
 
-const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicleModel, selectVehicleModel, yearList, year, selectYear, selectPrice, priceList }) => {
-    const [openKeys, setOpenKeys] = useState([]);
+const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicleModel, selectVehicleModel, yearList, year, selectYear, priceList, selectPrice, mileageList, selectMileage }) => {
+    const [openKeys, setOpenKeys] = useState(['brandId', 'vehicleModel', 'year', 'price', 'mileage']);
     const [rootSubmenuKeys] = useState(['sub1', 'sub2', 'sub4']);
 
     const onOpenChange = openKeys => {
@@ -112,6 +130,13 @@ const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicle
                             item._id ? <Menu.Item key={index} onClick={() => selectYear(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
                         ))
                     }</SubMenu> : null
+            }
+            {
+                mileageList.length !== 0 ? <SubMenu key="mileage" title={<span>Mileage</span>}>{
+                    mileageList.map((item, index)=>(
+                        item._id !== null ? <Menu.Item key={index} onClick={() => selectMileage(item._id, item._id + 25000)}>{'$' + item._id + ' - ' + '$' + (item._id + 25000) + ' (' + item.count + ')'}</Menu.Item> : null
+                    ))
+                } </SubMenu> : null
             }
             {
                 priceList.length !== 0 ? <SubMenu key="price" title={<span>Price</span>}>{
