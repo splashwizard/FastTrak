@@ -15,14 +15,20 @@ const { check, validationResult } = require("express-validator")
 router.get('/user_filters', async (req, res) => {
     try {
         let query = {};
-        const { brandId, vehicleModel, year } = req.query;
+        const { brandId, vehicleModel, year, price_min, price_max } = req.query;
         if(brandId)
             query.brandId = {"$eq": brandId};
         if(vehicleModel)
             query.vehicleModel = {"$eq": vehicleModel};
         if(year)
             query.year = {"$eq": parseInt(year)};
-        console.log(query);
+        let price_subquery = {};
+        if(price_min != '-Infinity')
+            price_subquery = {...price_subquery, $gt: parseInt(price_min)};
+        if(price_max != 'Infinity')
+            price_subquery = {...price_subquery, $lt: parseInt(price_max)};
+        if(Object.keys(price_subquery).length !== 0)
+            query.price = price_subquery;
         const brandIdAggregatorOpts = [
             {$match: query},
             {$group: {
@@ -31,8 +37,6 @@ router.get('/user_filters', async (req, res) => {
             }}
         ];
         const brandIdList = await Vehicle.aggregate(brandIdAggregatorOpts).exec();
-        console.log('brandIdList');
-        console.log(brandIdList);
         const modelAggregatorOpts = [
             {$match: query},
             {$group: {
@@ -58,6 +62,7 @@ router.get('/user_filters', async (req, res) => {
             priceArray.push(i * 10000);
         }
         const priceList = await Vehicle.aggregate([
+            {$match: query},
             {
               $bucket: {
                 groupBy: "$price",
@@ -69,7 +74,6 @@ router.get('/user_filters', async (req, res) => {
               }
             }
           ]).exec();
-        console.log(priceList);
         return res.json({brandIdList: brandIdList, vehicleModelList: vehicleModelList, yearList: yearList, priceList: priceList});
     } catch (error) {
         console.error(error.message);
@@ -81,29 +85,37 @@ router.get('/users', async (req, res) => {
     try {
         const page = parseInt(req.query.page);
         const page_length = parseInt(req.query.page_length);
-        const { brandId, vehicleModel } = req.query;
-        const year =  parseInt(req.query.year);
         // query for get total count
-        let query_count = Vehicle.find();
+        // let query_count = Vehicle.find();
+        // if(brandId)
+        //     query_count = query_count.where('brandId').equals(brandId);
+        // if(vehicleModel) 
+        //     query_count = query_count.where('vehicleModel').equals(vehicleModel);
+        // if(year)
+        //     query_count = query_count.where('year').equals(year);   
+        // const totalPosts = await query_count.countDocuments();
+        const { brandId, vehicleModel, year, price_min, price_max } = req.query;
+        let query = {};
         if(brandId)
-            query_count = query_count.where('brandId').equals(brandId);
-        if(vehicleModel) 
-            query_count = query_count.where('vehicleModel').equals(vehicleModel);
+            query.brandId = {"$eq": brandId};
+        if(vehicleModel)
+            query.vehicleModel = {"$eq": vehicleModel};
         if(year)
-            query_count = query_count.where('year').equals(year);
-        const totalPosts = await query_count.countDocuments();
+            query.year = {"$eq": parseInt(year)};
+        let price_subquery = {};
+        if(price_min != '-Infinity')
+            price_subquery = {...price_subquery, $gt: parseInt(price_min)};
+        if(price_max != 'Infinity')
+            price_subquery = {...price_subquery, $lt: parseInt(price_max)};
+        if(Object.keys(price_subquery).length !== 0)
+            query.price = price_subquery;
+        const totalPosts = await Vehicle.find(query).countDocuments();
+
         let limit = page_length;
         if(totalPosts < page * page_length)
             limit = totalPosts - (page - 1) * page_length;
         // query for get vehicles
-        let query = Vehicle.find();
-        if(brandId)
-            query = query.where('brandId').equals(brandId);
-        if(vehicleModel)
-            query = query.where('vehicleModel').equals(vehicleModel);
-        if(year)
-            query = query.where('year').equals(year);
-        query.skip((page - 1) * page_length).limit(limit).exec(function(err, vehicles) {
+        Vehicle.find(query).skip((page - 1) * page_length).limit(limit).exec(function(err, vehicles) {
             if (vehicles.length === 0) {
                 return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
             }

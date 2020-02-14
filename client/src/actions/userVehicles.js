@@ -15,15 +15,15 @@ export const getUserVehicles = (currentPage, postPerPage) => async dispatch => {
             type: REQUEST_USER_VEHICLES
         });
         const userVehicles = store.getState().userVehicles;
-        const res_filters = await axios.get(`/api/vehicles/user_filters?brandId=${userVehicles.brandId}&vehicleModel=${userVehicles.vehicleModel}&year=${userVehicles.year}
-                            &price_min=${userVehicles.price_min}&price_min=${userVehicles.price_max}`);
+        const res_filters = await axios.get(`/api/vehicles/user_filters?brandId=${userVehicles.brandId}&vehicleModel=${userVehicles.vehicleModel}&year=${userVehicles.year}` +
+                            `&price_min=${userVehicles.price_min}&price_max=${userVehicles.price_max}`);
         dispatch({
             type: RECEIVE_USER_FILTERS,
             payload: res_filters.data
         });
 
-        const res_vehicles = await axios.get(`/api/vehicles/users?brandId=${userVehicles.brandId}&vehicleModel=${userVehicles.vehicleModel}&year=${userVehicles.year}
-                            &price_min=${userVehicles.price_min}&price_min=${userVehicles.price_max}&page=${currentPage}&page_length=${postPerPage}`);
+        const res_vehicles = await axios.get(`/api/vehicles/users?brandId=${userVehicles.brandId}&vehicleModel=${userVehicles.vehicleModel}&year=${userVehicles.year}` +
+                            `&price_min=${userVehicles.price_min}&price_max=${userVehicles.price_max}&page=${currentPage}&page_length=${postPerPage}`);
         dispatch({
             type: RECEIVE_USER_VEHICLES,
             payload: res_vehicles.data
