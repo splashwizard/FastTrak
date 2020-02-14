@@ -13,55 +13,6 @@ const { Content, Footer, } = Layout;
 
 //Render the columns for the table
 
-const columns = [
-    {
-        title: 'Vin Number',
-        dataIndex: 'vinNumber',
-        key: 'vinNumber',
-        render: text => <a href='/'>{text}</a>,
-    },
-    {
-        title: 'Brand ID',
-        dataIndex: 'brandId',
-        key: 'brandId',
-    },
-    {
-        title: 'Price',
-        dataIndex: 'price',
-        key: 'price',
-    },
-    {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: tags => (
-            <span>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </span>
-        ),
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-            <span>
-                <a href='/'>Edit Vehicle {record.name}</a>
-                <Divider type="vertical" />
-                <a href='/'>Delete</a>
-            </span>
-        ),
-    },
-];
 
 
 
@@ -74,15 +25,85 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
 
     //make a mapped component from the data we got back
     const getvehicleList = vehicles.map((vehicle) => {
-
         return {
             key: vehicle.vinNumber,
             brandId: vehicle.brandId,
             vinNumber: vehicle.vinNumber,
             price: vehicle.price,
+            year: vehicle.year,
+            vehicleModel: vehicle.vehicleModel,
             tags: ['Web Visible']
         }
     })
+
+    const columns = [
+        {
+            title: 'Vin Number',
+            dataIndex: 'vinNumber',
+            key: 'vinNumber',
+            render: text => <a href={'/dashboard/getvehicles/' + text}>{text}</a>,
+        },
+        {
+            title: 'Year',
+            dataIndex: 'year',
+            key: 'year',
+            render: text => <span>{text}</span>,
+
+        },
+        {
+            title: 'Make',
+            dataIndex: 'brandId',
+            key: 'brandId',
+            render: text => <span>{text}</span>,
+
+        },
+        {
+            title: 'Model',
+            dataIndex: 'vehicleModel',
+            key: 'vehicleModel',
+            render: text => <span>{text}</span>,
+
+        },
+        {
+            title: 'Price',
+            dataIndex: 'price',
+            key: 'price',
+            render: text => <span>${text}</span>,
+
+        },
+        {
+            title: 'Tags',
+            key: 'tags',
+            dataIndex: 'tags',
+            render: tags => (
+                <span>
+                    {tags.map(tag => {
+                        let color = tag.length > 5 ? 'geekblue' : 'green';
+                        if (tag === 'loser') {
+                            color = 'volcano';
+                        }
+                        return (
+                            <Tag color={color} key={tag}>
+                                {tag.toUpperCase()}
+                            </Tag>
+                        );
+                    })}
+                </span>
+            ),
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (text, record) => (
+                <span>
+                    <a href='/'>Edit Vehicle {record.name}</a>
+                    <Divider type="vertical" />
+                    <a href='/'>Delete</a>
+                </span>
+            ),
+        },
+    ];
+
 
 
 
@@ -106,7 +127,7 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
                                     ghost={false}
                                     onBack={() => window.history.back()}
                                     title="View Inventory"
-                                    subTitle="VView all the cars in your inventory" />
+                                    subTitle="View all the cars in your inventory" />
                                 <p>Welcome {user ? user.name : <Icon type="loading" />}</p>
                                 <Table columns={columns} dataSource={getvehicleList} />
                             </div>

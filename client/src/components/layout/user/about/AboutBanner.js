@@ -4,13 +4,13 @@ import styled from 'styled-components';
 
 
 export const AboutBanner = () => {
-    return (
-        <Banner >
-            <div >
-                <h2>We know cars so lets talk!</h2>
-            </div>
-        </Banner>
-    )
+  return (
+    <Banner >
+      <div >
+        <h2>Contact Empire Motors</h2>
+      </div>
+    </Banner>
+  )
 }
 
 const Banner = styled.div`

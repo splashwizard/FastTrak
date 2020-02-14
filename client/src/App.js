@@ -11,6 +11,7 @@ import AddUser from './components/pages/admin/AddUser';
 import ViewUsers from './components/pages/admin/ViewUsers'
 import AddVehicle from './components/pages/admin/AddVehicle'
 import ViewVehicles from './components/pages/admin/ViewVehicles'
+import EditVehicle from './components/pages/admin/EditVehicle'
 import { loadUser } from './actions/auth'
 import setAuthToken from './utils/setAuthToken'
 
@@ -54,6 +55,8 @@ const App = () => {
               <PrivateRoute exact path="/dashboard/viewusers" component={ViewUsers} />
               <PrivateRoute exact path="/dashboard/addvehicle" component={AddVehicle} />
               <PrivateRoute exact path="/dashboard/getvehicles" component={ViewVehicles} />
+              <PrivateRoute exact path="/dashboard/getvehicles/:id" component={EditVehicle} />
+
 
             </Switch>
           </section>

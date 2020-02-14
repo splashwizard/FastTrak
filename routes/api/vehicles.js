@@ -45,6 +45,18 @@ router.get('/', auth, async (req, res) => {
 
 });
 
+router.get('/:vehicleVin', auth, async (req, res) => {
+    try {
+        const vehicle = await Vehicle.find({ vinNumber: req.params.vehicleVin })
+
+        return res.json(vehicle);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Couldnt Find Vehicle')
+    }
+
+});
+
 //@route  Post api/vehicles/add
 //@desc   this route is to just add a vehicle
 //@access Private
