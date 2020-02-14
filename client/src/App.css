@@ -181,3 +181,6 @@
   color: #fff;
   background-color: #e23156;
 }
+.ant-menu-submenu-title{
+  width: 100% !important;
+}

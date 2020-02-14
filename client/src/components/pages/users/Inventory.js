@@ -16,8 +16,8 @@ const InventoryPage = ({userVehicles: {loading}}) => {
                     <Logo href='/' />
                     <Navbar />
                 </EmpireHeader>
-                <Content style={{ padding: '0 50px' }}>
-                    <div style={{ background: '#fff', minHeight: 280 }}>
+                <Content>
+                    <div style={{ background: '#ffffff', minHeight: 280, paddingBottom:20}}>
                         <Inventory />
                     </div>
                 </Content>

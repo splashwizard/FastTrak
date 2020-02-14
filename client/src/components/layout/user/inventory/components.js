@@ -4,73 +4,30 @@ import { Card } from 'antd'
 
 
 
-export const VehicleCard = styled(Card)`
-box-shadow: 10px 10px 5px 5px grey;
-background: #2a2a2a;
-color: white;
+export const VehicleCard = styled.div`
+border-bottom: 1px solid rgba(0,0,0,.1);
 margin-left: 0;
-height: 300px;
+height: 250px;
 margin-bottom: 5%;
-    div.ant-card-head{
-        max-height: 30%;
-        border:none;
-    div.ant-card-head-title{
-        text-align: left;
-        font-size: 30px;
-        font-weight: bold;
-        color:#aa1826;
-        font-style: oblique;
-        font-family: Roboto;
-        
-     }
+padding-top: 15px;
+.product-thumbnail{
+        width: 30%;
+        float: left;
     }
-    div.ant-card-body{
-        padding-top:0;
-        height:70%
-    }
-    
-
-.inner{
-    width:80%;
-    float:left;
-    img{
-        float:left;
-    }
-    .placeholders{
-        float:left;
-        text-align: right;
-        font-size: 20px;
-        font-family: Roboto;
-        font-weight: 300;
-        line-height: 1.7;
-        padding-left: 10%;
-        span{
-            display:block;
-        }
-    }
-    .details{
-        float: right;
-        color:#aa1826;
-        margin-right: 15%;
-        text-align: left;
-        font-size: 20px;
-        font-family: Roboto;
-        font-weight: 500;
-        line-height: 1.7;   
-        span{
-            display:block;
-        }
-    }
-
+.product-description{
+    width: 45%;
+    float: left;
 }
-
-.outer {
-    span {
-        display : block;
-        color:red;
-    }
+.product-price{
+    width: 25%;
+    float: left;
+    text-align:right;
 }
-
+.product-price .price{
+    padding: 0 .25rem;
+    font-size: 1.75rem;
+    color: #e23156;
+}
 `
 
 
@@ -78,12 +35,12 @@ margin-bottom: 5%;
 
 export const InventoryContainer = styled.div`
 font-family: "Roboto";
-background: #f7f7f7;
-padding: 50px;
-text-align: center;
+background: #ffffff;
+width: 70%;
+margin:auto;
 
 .inventory {
-    height: 1000px;
+    
     display: flex;
 }
 

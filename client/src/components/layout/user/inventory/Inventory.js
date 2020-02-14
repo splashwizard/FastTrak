@@ -28,7 +28,7 @@ const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectY
 
     return (
         <InventoryContainer >
-            <h2>This is our inventory in Kelowna, British Colubmia</h2>
+            <h2 style={{textAlign: 'center'}}>This is our inventory in Kelowna, British Colubmia</h2>
             <div className="filter-stock-active-wrap">
                 <div className="filter-stock-active">
                     { brandId ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeBrandId}>{brandId}</a> : null}
@@ -104,14 +104,14 @@ const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicle
             mode="inline"
             openKeys={openKeys}
             onOpenChange={onOpenChange}
-            style={{ width: '100%' }}
+            style={{ width: '100%', color:'#818e92', fontWeight: 700, backgroundColor:'#f5f5f5'}}
             selectable={false}
         >
             {
                 brandId === ''?
                 <SubMenu key="brandId" title={<span>Make</span>}>{
                     brandIdList.map((item, index)=>(
-                        item._id ? <Menu.Item key={index} onClick={() => selectBrandId(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
+                        item._id ? <Menu.Item key={index} style={{fontWeight: 'normal', backgroundColor:'#f5f5f5', margin:0}} onClick={() => selectBrandId(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
                     ))
                 }</SubMenu> : null
             }
@@ -119,7 +119,7 @@ const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicle
                 vehicleModel === ''?
                     <SubMenu key="vehicleModel" title={<span>Model</span>}>{
                         vehicleModelList.map((item, index)=>(
-                            item._id ? <Menu.Item key={index} onClick={() => selectVehicleModel(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
+                            item._id ? <Menu.Item key={index} style={{fontWeight: 'normal', backgroundColor:'#f5f5f5', margin:0}} onClick={() => selectVehicleModel(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
                         ))
                     }</SubMenu> : null
             }
@@ -127,21 +127,21 @@ const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicle
                 year === ''?
                     <SubMenu key="year" title={<span>Year</span>}>{
                         yearList.map((item, index)=>(
-                            item._id ? <Menu.Item key={index} onClick={() => selectYear(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
+                            item._id ? <Menu.Item key={index} style={{fontWeight: 'normal', backgroundColor:'#f5f5f5', margin:0}} onClick={() => selectYear(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
                         ))
                     }</SubMenu> : null
             }
             {
                 mileageList.length !== 0 ? <SubMenu key="mileage" title={<span>Mileage</span>}>{
                     mileageList.map((item, index)=>(
-                        item._id !== null ? <Menu.Item key={index} onClick={() => selectMileage(item._id, item._id + 25000)}>{'$' + item._id + ' - ' + '$' + (item._id + 25000) + ' (' + item.count + ')'}</Menu.Item> : null
+                        item._id !== null ? <Menu.Item key={index} style={{fontWeight: 'normal', backgroundColor:'#f5f5f5', margin:0}} onClick={() => selectMileage(item._id, item._id + 25000)}>{'$' + item._id + ' - ' + '$' + (item._id + 25000) + ' (' + item.count + ')'}</Menu.Item> : null
                     ))
                 } </SubMenu> : null
             }
             {
                 priceList.length !== 0 ? <SubMenu key="price" title={<span>Price</span>}>{
                     priceList.map((item, index)=>(
-                        item._id !== null ? <Menu.Item key={index} onClick={() => selectPrice(item._id, item._id + 10000)}>{'$' + item._id + ' - ' + '$' + (item._id + 10000) + ' (' + item.count + ')'}</Menu.Item> : null
+                        item._id !== null ? <Menu.Item key={index} style={{fontWeight: 'normal', backgroundColor:'#f5f5f5', margin:0}} onClick={() => selectPrice(item._id, item._id + 10000)}>{'$' + item._id + ' - ' + '$' + (item._id + 10000) + ' (' + item.count + ')'}</Menu.Item> : null
                     ))
                 } </SubMenu> : null
             }
@@ -152,41 +152,32 @@ const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicle
 
 const VehicleCards = ({ vehicles }) => {
     return (
-        <Fragment>
+        <div style={{borderTop: "1px solid rgba(0,0,0,.1)"}}>
             {vehicles.map((vehicle, index) => {
                 const { year, description, brandId, mileage, vehicleModel, price } = vehicle;
                 return (
-                    <div style={{ marginBottom: '30px' }} key={index}>
-                        <VehicleCard title={vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel}>
-                            <div className='inner'>
+                    <div key={index}>
+                        {/*<VehicleCard title={vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel}>*/}
+                        <VehicleCard>
+                            <div className="product-thumbnail">
                                 <img src='https://via.placeholder.com/150' />
-                                <div className='placeholders'>
-                                    <span>Make:</span>
-                                    <span>Model:</span>
-                                    <span>Mileage:</span>
-                                    <span>Year:</span>
-                                    <span>Description:</span>
-                                </div>
-                                <div className='details'>
-                                    <span>{brandId}</span>
-                                    <span>{vehicleModel}</span>
-                                    <span>{mileage} KM</span>
-                                    <span>{year}</span>
-                                    <span>{description}</span>
-                                </div>
                             </div>
-                            <div className='outer'>
-                                <span>Price:</span>
-                                <p>{price}</p>
-                                <span>Plus Sales Tax</span>
+                            <div className='product-description'>
+                                <p style={{fontSize: '20px'}}>{vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel}</p>
+                                <p><span>Make:</span> <b>{brandId}</b></p>
+                                <p><span>Model:</span> <b>{vehicleModel}</b></p>
+                                <p><span>Mileage:</span> <b>{mileage}</b></p>
+                                <p><span>Year:</span> <b>{year}</b></p>
+                                <p><span>Description:</span> <b>{description}</b></p>
+                            </div>
+                            <div className="product-price"><p className="price">{'$' + price}</p></div>
 
-                                <ViewDetails href="#"><Icon type="car" />Learn More</ViewDetails>
-                            </div>
+                            <ViewDetails href="#"><Icon type="car" />Learn More</ViewDetails>
                         </VehicleCard>
                     </div>
                 );
             })}
-        </Fragment>
+        </div>
     );
 };
 
