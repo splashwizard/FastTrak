@@ -14,21 +14,63 @@ const { check, validationResult } = require("express-validator")
 
 router.get('/user_filters', async (req, res) => {
     try {
-        const brandIdAggregatorOpts = [{
-            $group: {
+        let query = {};
+        const { brandId, vehicleModel, year } = req.query;
+        if(brandId)
+            query.brandId = {"$eq": brandId};
+        if(vehicleModel)
+            query.vehicleModel = {"$eq": vehicleModel};
+        if(year)
+            query.year = {"$eq": parseInt(year)};
+        console.log(query);
+        const brandIdAggregatorOpts = [
+            {$match: query},
+            {$group: {
                 _id: "$brandId",
                 count: { $sum: 1 }
-            }
-        }];
+            }}
+        ];
         const brandIdList = await Vehicle.aggregate(brandIdAggregatorOpts).exec();
-        const modelAggregatorOpts = [{
-            $group: {
+        console.log('brandIdList');
+        console.log(brandIdList);
+        const modelAggregatorOpts = [
+            {$match: query},
+            {$group: {
                 _id: "$vehicleModel",
                 count: { $sum: 1 }
-            }
-        }];
+            }}
+        ];
         const vehicleModelList = await Vehicle.aggregate(modelAggregatorOpts).exec();
-        return res.json({brandIdList: brandIdList, vehicleModelList: vehicleModelList});
+
+        const yearAggregatorOpts = [
+            {$match: query},
+            {$group: {
+                _id: "$year",
+                count: { $sum: 1 }
+            }}
+        ];
+        const yearList = await Vehicle.aggregate(yearAggregatorOpts).exec();
+
+        let priceArray = [];
+        const maxVehicle = await Vehicle.find().sort({"price": -1}).limit(1);
+        const maxPrice = maxVehicle[0].price;
+        for(let i = 0; i <= Math.ceil(maxPrice / 10000); i++){
+            priceArray.push(i * 10000);
+        }
+        const priceList = await Vehicle.aggregate([
+            {
+              $bucket: {
+                groupBy: "$price",
+                boundaries: priceArray,
+                default: Number.NEGATIVE_INFINITY,
+                output: {
+                  "count": { $sum: 1 }
+                }
+              }
+            }
+          ]).exec();
+        console.log(priceList);
+        return res.json({brandIdList: brandIdList, vehicleModelList: vehicleModelList, yearList: yearList, priceList: priceList});
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server Error')
@@ -40,12 +82,15 @@ router.get('/users', async (req, res) => {
         const page = parseInt(req.query.page);
         const page_length = parseInt(req.query.page_length);
         const { brandId, vehicleModel } = req.query;
+        const year =  parseInt(req.query.year);
         // query for get total count
         let query_count = Vehicle.find();
         if(brandId)
             query_count = query_count.where('brandId').equals(brandId);
         if(vehicleModel) 
             query_count = query_count.where('vehicleModel').equals(vehicleModel);
+        if(year)
+            query_count = query_count.where('year').equals(year);
         const totalPosts = await query_count.countDocuments();
         let limit = page_length;
         if(totalPosts < page * page_length)
@@ -56,8 +101,9 @@ router.get('/users', async (req, res) => {
             query = query.where('brandId').equals(brandId);
         if(vehicleModel)
             query = query.where('vehicleModel').equals(vehicleModel);
+        if(year)
+            query = query.where('year').equals(year);
         query.skip((page - 1) * page_length).limit(limit).exec(function(err, vehicles) {
-            console.log(vehicles);
             if (vehicles.length === 0) {
                 return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
             }

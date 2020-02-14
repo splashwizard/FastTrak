@@ -3,7 +3,8 @@ import { InventoryContainer, VehicleCardContainer, VehicleCard, ViewDetails } fr
 import { Menu, Icon } from 'antd'
 import Page from '../../ui/Pagination'
 import {connect} from "react-redux";
-import {getUserVehicles, selectBrandId, selectVehicleModel, removeBrandId} from "../../../../actions/userVehicles";
+import {getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice,
+    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax} from "../../../../actions/userVehicles";
 
 
 const { SubMenu } = Menu;
@@ -15,7 +16,10 @@ const { SubMenu } = Menu;
 
 
 //declare component
-const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, removeBrandId, userVehicles: {vehicles, currentPage, postPerPage, totalPosts, brandIdList, brandId, vehicleModelList, vehicleModel}}) => {
+const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice,
+                        removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax,
+                       userVehicles: {vehicles, currentPage, postPerPage, totalPosts, brandIdList, brandId, vehicleModelList, vehicleModel,
+                            year, yearList, price_min, price_max, priceList}}) => {
     //set some intials hooks for our state
     // const [vehicles, setVehicles] = useState([]);
     useEffect(() => {
@@ -34,11 +38,16 @@ const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, removeB
             <div className="filter-stock-active-wrap">
                 <div className="filter-stock-active">
                     { brandId ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeBrandId}>{brandId}</a> : null}
+                    { vehicleModel ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeVehicleModel}>{vehicleModel}</a> : null}
+                    { year ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeYear}>{year}</a> : null}
+                    { price_min !== Number.NEGATIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removePriceMin}>{price_min}</a> : null}
+                    { price_max !== Number.POSITIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removePriceMax}>{price_max}</a> : null}
                 </div>
             </div>
             <div className={'inventory'}>
                 <Sidebar brandIdList={brandIdList} selectBrandId={selectBrandId} brandId={brandId}
-                     vehicleModelList={vehicleModelList} vehicleModel={vehicleModel} selectVehicleModel={selectVehicleModel}/>
+                     vehicleModelList={vehicleModelList} vehicleModel={vehicleModel} selectVehicleModel={selectVehicleModel}
+                     yearList={yearList} year={year} selectYear={selectYear} priceList={priceList} selectPrice={selectPrice}/>
                 <section style={{width:'100%', marginLeft: '10px'}}>
                     <VehicleCards key={null} vehicles={vehicles}/>
                     <Page totalPosts={totalPosts} currentPage={currentPage} paginate={paginate} postPerPage={postPerPage}/>
@@ -55,9 +64,10 @@ const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, removeB
 const mapStateToProps = state => ({
     userVehicles: state.userVehicles
 });
-export default connect(mapStateToProps, { getUserVehicles, selectBrandId, selectVehicleModel, removeBrandId })(Inventory)
+export default connect(mapStateToProps, { getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice,
+    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax })(Inventory)
 
-const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicleModel, selectvehicleModel }) => {
+const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicleModel, selectVehicleModel, yearList, year, selectYear, selectPrice, priceList }) => {
     const [openKeys, setOpenKeys] = useState([]);
     const [rootSubmenuKeys] = useState(['sub1', 'sub2', 'sub4']);
 
@@ -77,12 +87,13 @@ const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicle
             openKeys={openKeys}
             onOpenChange={onOpenChange}
             style={{ width: '100%' }}
+            selectable={false}
         >
             {
                 brandId === ''?
                 <SubMenu key="brandId" title={<span>Make</span>}>{
                     brandIdList.map((item, index)=>(
-                        item._id ? <Menu.Item key={index} disabled={true} onClick={() => selectBrandId(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
+                        item._id ? <Menu.Item key={index} onClick={() => selectBrandId(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
                     ))
                 }</SubMenu> : null
             }
@@ -90,9 +101,24 @@ const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicle
                 vehicleModel === ''?
                     <SubMenu key="vehicleModel" title={<span>Model</span>}>{
                         vehicleModelList.map((item, index)=>(
-                            item._id ? <Menu.Item key={index} disabled={true} onClick={() => selectVehicleModel(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
+                            item._id ? <Menu.Item key={index} onClick={() => selectVehicleModel(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
                         ))
                     }</SubMenu> : null
+            }
+            {
+                year === ''?
+                    <SubMenu key="year" title={<span>Year</span>}>{
+                        yearList.map((item, index)=>(
+                            item._id ? <Menu.Item key={index} onClick={() => selectYear(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
+                        ))
+                    }</SubMenu> : null
+            }
+            {
+                priceList.length !== 0 ? <SubMenu key="price" title={<span>Price</span>}>{
+                    priceList.map((item, index)=>(
+                        item._id !== null ? <Menu.Item key={index} onClick={() => selectPrice(item._id, item._id + 10000)}>{'$' + item._id + ' - ' + '$' + (item._id + 10000) + ' (' + item.count + ')'}</Menu.Item> : null
+                    ))
+                } </SubMenu> : null
             }
         </Menu>
         </aside>
