@@ -6,28 +6,9 @@ const { check, validationResult } = require("express-validator")
 
 
 
-//@route  GET api/vehicles
-//@desc   this route is to just get vehicles 
-//@access PUBLIC
-
-// THIS ROUTE IS FOR THE USER INVENTORY NOTHING ELSE NO AUTH
-router.get('/users', async (req, res) => {
-    try {
-        const vehicles = await Vehicle.find();
-        if (vehicles.length == 0) {
-            return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
-        }
-        return res.json(vehicles);
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Server Error')
-    }
-
-});
-
 
 //@route  GET api/vehicles
-//@desc   this route is to just get vehicles 
+//@desc   This route is to get ALL vehicles from DB
 //@access Private
 
 // first we try and find any vehicles and if the db is empty we are throwing back a error 
@@ -45,17 +26,170 @@ router.get('/', auth, async (req, res) => {
 
 });
 
-router.get('/:vehicleVin', auth, async (req, res) => {
-    try {
-        const vehicle = await Vehicle.find({ vinNumber: req.params.vehicleVin })
 
-        return res.json(vehicle);
+//@route  GET api/vehicles/users
+//@desc   This route is for the users invnetory on the front end! 
+//@access Not Private
+
+
+router.get('/users', async (req, res) => {
+    try {
+        const page = parseInt(req.query.page);
+        const page_length = parseInt(req.query.page_length);
+        const { brandId, vehicleModel, year, price_min, price_max, mileage_min, mileage_max } = req.query;
+        let webVisible = true;
+        let query = {};
+        if (webVisible)
+            query.webVisible = { "$eq": webVisible }
+        if (brandId)
+            query.brandId = { "$eq": brandId };
+        if (vehicleModel)
+            query.vehicleModel = { "$eq": vehicleModel };
+        if (year)
+            query.year = { "$eq": parseInt(year) };
+        let price_subquery = {};
+        if (price_min != '-Infinity')
+            price_subquery = { ...price_subquery, $gt: parseInt(price_min) };
+        if (price_max != 'Infinity')
+            price_subquery = { ...price_subquery, $lt: parseInt(price_max) };
+        if (Object.keys(price_subquery).length !== 0)
+            query.price = price_subquery;
+        let mileage_subquery = {};
+        if (mileage_min != '-Infinity')
+            mileage_subquery = { ...mileage_subquery, $gt: parseInt(mileage_min) };
+        if (mileage_max != 'Infinity')
+            mileage_subquery = { ...mileage_subquery, $lt: parseInt(mileage_max) };
+        if (Object.keys(mileage_subquery).length !== 0)
+            query.mileage = mileage_subquery;
+        const totalPosts = await Vehicle.find(query).countDocuments();
+
+        let limit = page_length;
+        if (totalPosts < page * page_length)
+            limit = totalPosts - (page - 1) * page_length;
+        // query for get vehicles
+        Vehicle.find(query).skip((page - 1) * page_length).limit(limit).exec(function (err, vehicles) {
+            if (vehicles.length === 0) {
+                return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
+            }
+            return res.json({ vehicles: vehicles, totalPosts: totalPosts });
+        });
     } catch (error) {
         console.error(error.message);
-        res.status(500).send('Couldnt Find Vehicle')
+        res.status(500).send('Server Error')
     }
 
 });
+
+//@route  GET api/vehicles/user_filter
+//@desc   This route is for the users invnetory on the front end when the filters are applied! 
+//@access Not Private
+
+router.get('/user_filters', async (req, res) => {
+    try {
+        let query = {};
+        const { brandId, vehicleModel, year, price_min, price_max, mileage_min, mileage_max } = req.query;
+        let webVisible = true;
+        if (webVisible)
+            query.webVisible = { "$eq": webVisible }
+        if (brandId)
+            query.brandId = { "$eq": brandId };
+        if (vehicleModel)
+            query.vehicleModel = { "$eq": vehicleModel };
+        if (year)
+            query.year = { "$eq": parseInt(year) };
+        let price_subquery = {};
+        if (price_min != '-Infinity')
+            price_subquery = { ...price_subquery, $gt: parseInt(price_min) };
+        if (price_max != 'Infinity')
+            price_subquery = { ...price_subquery, $lt: parseInt(price_max) };
+        if (Object.keys(price_subquery).length !== 0)
+            query.price = price_subquery;
+        let mileage_subquery = {};
+        if (mileage_min != '-Infinity')
+            mileage_subquery = { ...mileage_subquery, $gt: parseInt(mileage_min) };
+        if (mileage_max != 'Infinity')
+            mileage_subquery = { ...mileage_subquery, $lt: parseInt(mileage_max) };
+        if (Object.keys(mileage_subquery).length !== 0)
+            query.mileage = mileage_subquery;
+        const brandIdAggregatorOpts = [
+            { $match: query },
+            {
+                $group: {
+                    _id: "$brandId",
+                    count: { $sum: 1 }
+                }
+            }
+        ];
+        const brandIdList = await Vehicle.aggregate(brandIdAggregatorOpts).exec();
+        const modelAggregatorOpts = [
+            { $match: query },
+            {
+                $group: {
+                    _id: "$vehicleModel",
+                    count: { $sum: 1 }
+                }
+            }
+        ];
+        const vehicleModelList = await Vehicle.aggregate(modelAggregatorOpts).exec();
+
+        const yearAggregatorOpts = [
+            { $match: query },
+            {
+                $group: {
+                    _id: "$year",
+                    count: { $sum: 1 }
+                }
+            }
+        ];
+        const yearList = await Vehicle.aggregate(yearAggregatorOpts).exec();
+
+        let priceArray = [];
+        const maxPriceVehicle = await Vehicle.find().sort({ "price": -1 }).limit(1);
+        const maxPrice = maxPriceVehicle[0].price;
+        for (let i = 0; i <= Math.ceil(maxPrice / 10000); i++) {
+            priceArray.push(i * 10000);
+        }
+        const priceList = await Vehicle.aggregate([
+            { $match: query },
+            {
+                $bucket: {
+                    groupBy: "$price",
+                    boundaries: priceArray,
+                    default: Number.NEGATIVE_INFINITY,
+                    output: {
+                        "count": { $sum: 1 }
+                    }
+                }
+            }
+        ]).exec();
+
+        let mileageArray = [];
+        const maxMileageVehicle = await Vehicle.find().sort({ "mileage": -1 }).limit(1);
+        const maxMileage = maxMileageVehicle[0].price;
+        for (let i = 0; i <= Math.ceil(maxMileage / 25000); i++) {
+            mileageArray.push(i * 25000);
+        }
+        const mileageList = await Vehicle.aggregate([
+            { $match: query },
+            {
+                $bucket: {
+                    groupBy: "$mileage",
+                    boundaries: mileageArray,
+                    default: Number.NEGATIVE_INFINITY,
+                    output: {
+                        "count": { $sum: 1 }
+                    }
+                }
+            }
+        ]).exec();
+        return res.json({ brandIdList: brandIdList, vehicleModelList: vehicleModelList, yearList: yearList, priceList: priceList, mileageList: mileageList });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error')
+    }
+
+});
+
 
 //@route  Post api/vehicles/add
 //@desc   this route is to just add a vehicle
@@ -246,23 +380,22 @@ router.post('/add', [auth, check('vinNumber', 'Vin Number Is Required').not().is
 });
 
 
-
-
 //@route  GET api/vehicles/:vehicle_id
-//@desc   this route is to just get a vehicle by its id  
-//@access Public i think for now lol -- what about front end users vs admin .. hmmmm -- i got rid of the auth middleware for now
+//@desc   this route is to just get a vehicle by its vinNumber  
+//@access Use this route to edit vehicles on the backend
 
 // first we try and find any vehicles and if the db is empty we are throwing back a error 
-router.get('/:vehicle_id', async (req, res) => {
+router.get('/:vehicleVin', auth, async (req, res) => {
     try {
-        const vehicle = await Vehicle.findOne({ _id: req.params.vehicle_id });
+        const vehicle = await Vehicle.find({ vinNumber: req.params.vehicleVin })
         if (!vehicle) {
-            return res.status(400).json({ errors: [{ msg: 'Vehicle Not Fond' }] });
+            return res.status(400).json({ errors: [{ msg: 'Vehicle Not Found By Vin Number' }] });
         }
+        return res.json(vehicle);
         return res.json(vehicle);
     } catch (error) {
         console.error(error.message);
-        res.status(500).send('Server Error')
+        res.status(500).send('Couldnt Find Vehicle')
     }
 
 });
@@ -285,22 +418,6 @@ router.delete('/:vehicle_id', auth, async (req, res) => {
 
 });
 
-
-
-
-
-
-
-
-
-
-
-
-router.route('/:id').delete((req, res) => {
-    Vehicle.findByIdAndDelete(req.params.id)
-        .then(() => res.json('Vehicle deleted.'))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
 
 
 module.exports = router;

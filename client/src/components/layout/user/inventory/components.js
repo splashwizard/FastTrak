@@ -4,73 +4,30 @@ import { Card } from 'antd'
 
 
 
-export const VehicleCard = styled(Card)`
-box-shadow: 10px 10px 5px 5px grey;
-background: #2a2a2a;
-color: white;
-margin-left: 30%;
-height: 300px;
+export const VehicleCard = styled.div`
+border-bottom: 1px solid rgba(0,0,0,.1);
+margin-left: 0;
+height: 250px;
 margin-bottom: 5%;
-    div.ant-card-head{
-        max-height: 30%;
-        border:none;
-    div.ant-card-head-title{
-        text-align: left;
-        font-size: 30px;
-        font-weight: bold;
-        color:#aa1826;
-        font-style: oblique;
-        font-family: Roboto;
-        
-     }
+padding-top: 15px;
+.product-thumbnail{
+        width: 30%;
+        float: left;
     }
-    div.ant-card-body{
-        padding-top:0;
-        height:70%
-    }
-    
-
-.inner{
-    width:80%;
-    float:left;
-    img{
-        float:left;
-    }
-    .placeholders{
-        float:left;
-        text-align: right;
-        font-size: 20px;
-        font-family: Roboto;
-        font-weight: 300;
-        line-height: 1.7;
-        padding-left: 10%;
-        span{
-            display:block;
-        }
-    }
-    .details{
-        float: right;
-        color:#aa1826;
-        margin-right: 15%;
-        text-align: left;
-        font-size: 20px;
-        font-family: Roboto;
-        font-weight: 500;
-        line-height: 1.7;   
-        span{
-            display:block;
-        }
-    }
-
+.product-description{
+    width: 45%;
+    float: left;
 }
-
-.outer {
-    span {
-        display : block;
-        color:red;
-    }
+.product-price{
+    width: 25%;
+    float: left;
+    text-align:right;
 }
-
+.product-price .price{
+    padding: 0 .25rem;
+    font-size: 1.75rem;
+    color: #e23156;
+}
 `
 
 
@@ -78,17 +35,14 @@ margin-bottom: 5%;
 
 export const InventoryContainer = styled.div`
 font-family: "Roboto";
-background: #f7f7f7;
-padding: 50px;
-text-align: center;
-
+background: #ffffff;
+width: 70%;
+margin:auto;
 .inventory {
-    height: 1000px;
-
+    
+    display: flex;
 }
-
 h2 {
-
     &:before {
         content: '';
         display: block;
@@ -96,7 +50,6 @@ h2 {
         border-top: .75rem solid #AA1826;
         margin: 0 auto 2.5rem;
     }
-
     color:#AA1826;
     font-size: 45px;
     padding: 10px;
@@ -104,8 +57,7 @@ h2 {
     text-transform: uppercase;
     font-size: 24px;
 }
-
-`
+`;
 const InventorySideBar = styled.div`
     background: black;
     float: left;
@@ -113,15 +65,12 @@ const InventorySideBar = styled.div`
     width: 25%;
     color: white;
     padding: 5%;
-
     h1 {
-
     font-size: 24px;
     text-transform: uppercase;
     margin-bottom: 20px;
 }
-
-`
+`;
 
 const ClearFiltersButton = styled.button`
 background-color: #aa1826;
@@ -145,17 +94,14 @@ export const VehicleCardContainer = styled.div`
     padding: 10px;
     box-shadow: 5px 5px #c1c1c1;
     background: #2a2a2a;
-
     img {
         float: left;
         margin-top: 15px;
         margin-left: 25px;
     }
-
     a {
         text-decoration: none;
         color: black;
-
         h1 {
         color: #aa1826;
             
@@ -166,12 +112,10 @@ export const VehicleCardContainer = styled.div`
             right: 20%;
         
         }
-
         span {
             display: block;
         }
     }
-
     .details {
         color: #aa1826;
         font-weight: bold;
@@ -180,7 +124,6 @@ export const VehicleCardContainer = styled.div`
         margin-left: 25px;
         line-height: 1.5;
     }
-
     .price {
         color: #aa1826;
         font-weight: bold;
@@ -189,7 +132,6 @@ export const VehicleCardContainer = styled.div`
         margin-left: 25px;
         line-height: 1.75;
         margin-right: 5%;
-
         span {
             font-weight: 100;
             font-style: italic;
@@ -198,15 +140,12 @@ export const VehicleCardContainer = styled.div`
         color:white;
             
         }
-
         h1 {
             font-weight: bold;
             font-family: "Roboto";
             margin: 0;
             left: 0%;
-
         }
-
         a {
             padding: 10px;
             background: #aa1826;
@@ -216,16 +155,13 @@ export const VehicleCardContainer = styled.div`
             top: 20px;
         }
     }
-
     .placeholders {
         float: left;
         text-align: left;
         margin-left: 25px;
         line-height: 1.5;
         color: white;
-
     }
-
 `
 
 
@@ -257,6 +193,7 @@ float:right;
      color:black
  }
 `
+
 
 
 
