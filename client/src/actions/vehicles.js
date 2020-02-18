@@ -47,9 +47,9 @@ export const addVehicle = (formData, history, edit = false) => async dispatch =>
 
         dispatch(setAlert(edit ? 'Vehicle Updated' : 'Vehicle Created'));
 
-        if (!edit) {
-            history.push('/dashboard/getvehicles')
-        }
+
+        history.push('/dashboard/getvehicles')
+
 
     } catch (error) {
         const errors = error.response.data.errors;

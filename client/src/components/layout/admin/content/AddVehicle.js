@@ -24,7 +24,7 @@ const { Option } = Select;
 
 const AddVehicleCard = styled(Card)`
     width: 90%;
-    background: black;
+    background: #000000c7;
     color: white;
     padding: 1%;
     border: 1px solid white;

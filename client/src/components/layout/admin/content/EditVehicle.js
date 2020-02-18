@@ -232,7 +232,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
     //ONSUBMIT
     const onSubmit = async e => {
         e.preventDefault();
-        addVehicle(formData, history)
+        addVehicle(formData, history, true)
     }
     return (
         <Fragment>
@@ -553,7 +553,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
 
                 <Form.Item >
                     <Button type="primary" htmlType="submit">
-                        Update Vehicle Vehicle
+                        Update Vehicle
                 </Button>
                 </Form.Item>
 

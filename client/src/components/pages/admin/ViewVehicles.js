@@ -32,7 +32,7 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
             price: vehicle.price,
             year: vehicle.year,
             vehicleModel: vehicle.vehicleModel,
-            tags: ['Web Visible']
+            tags: vehicle.webVisible ? ['Web Visible'] : ['Private']
         }
     })
 
@@ -78,8 +78,8 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
             render: tags => (
                 <span>
                     {tags.map(tag => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'loser') {
+                        let color = 'green';
+                        if (tag === 'Private') {
                             color = 'volcano';
                         }
                         return (
@@ -103,6 +103,8 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
             ),
         },
     ];
+
+
 
 
 
