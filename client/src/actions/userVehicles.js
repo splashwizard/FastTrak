@@ -7,17 +7,22 @@ import {
     RECEIVE_USER_VEHICLES,
     RECEIVE_USER_FILTERS,
     SET_CURRENT_PAGE,
+    SET_POST_PER_PAGE,
     SELECT_BRAND_ID,
     SELECT_VEHICLE_MODEL,
     SELECT_YEAR,
     SELECT_PRICE,
+    SELECT_MILEAGE,
     REMOVE_BRAND_ID,
     REMOVE_VEHICLE_MODEL,
     REMOVE_YEAR,
     REMOVE_PRICE_MIN,
     REMOVE_PRICE_MAX,
-    SELECT_MILEAGE,
-    REMOVE_MILEAGE_MIN, REMOVE_MILEAGE_MAX, SET_POST_PER_PAGE
+    REMOVE_MILEAGE_MIN,
+    REMOVE_MILEAGE_MAX,
+    SELECT_PRICE_ASC,
+    SELECT_PRICE_DESC,
+    SELECT_SORT
 } from './types';
 
 //This action is to fetch all vehicles
@@ -35,7 +40,8 @@ export const getUserVehicles = () => async dispatch => {
         });
 
         const res_vehicles = await axios.get(`/api/vehicles/users?brandId=${userVehicles.brandId}&vehicleModel=${userVehicles.vehicleModel}&year=${userVehicles.year}` +
-                            `&price_min=${userVehicles.price_min}&price_max=${userVehicles.price_max}&mileage_min=${userVehicles.mileage_min}&mileage_max=${userVehicles.mileage_max}&page=${userVehicles.currentPage}&page_length=${userVehicles.postPerPage}`);
+                            `&price_min=${userVehicles.price_min}&price_max=${userVehicles.price_max}&mileage_min=${userVehicles.mileage_min}&mileage_max=${userVehicles.mileage_max}` +
+                            `&page=${userVehicles.currentPage}&page_length=${userVehicles.postPerPage}&sort_by=${userVehicles.sort_by}&sort_order=${userVehicles.sort_order}`);
         dispatch({
             type: RECEIVE_USER_VEHICLES,
             payload: res_vehicles.data
@@ -118,6 +124,70 @@ export const selectMileage = (min, max) => async dispatch => {
             type: SELECT_MILEAGE,
             payload: {min: min, max:max}
         });
+
+        dispatch({
+            type: SET_CURRENT_PAGE,
+            payload: 1
+        });
+
+        dispatch(getUserVehicles());
+    } catch (err) {
+    }
+};
+
+export const selectSort = (value) => async dispatch => {
+    try {
+        console.log('selected');
+        switch (value) {
+            case 'price-asc':
+                dispatch({
+                    type: SELECT_SORT,
+                    payload:{sort_by:'price', sort_order:'ASC'}
+                });
+                break;
+            case 'price-desc':
+                dispatch({
+                    type: SELECT_SORT,
+                    payload:{sort_by:'price', sort_order:'DESC'}
+                });
+                break;
+            case 'make-asc':
+                dispatch({
+                    type: SELECT_SORT,
+                    payload:{sort_by:'brandId', sort_order:'ASC'}
+                });
+                break;
+            case 'make-desc':
+                dispatch({
+                    type: SELECT_SORT,
+                    payload:{sort_by:'brandId', sort_order:'DESC'}
+                });
+                break;
+            case 'model-asc':
+                dispatch({
+                    type: SELECT_SORT,
+                    payload:{sort_by:'vehicleModel', sort_order:'ASC'}
+                });
+                break;
+            case 'model-desc':
+                dispatch({
+                    type: SELECT_SORT,
+                    payload:{sort_by:'vehicleModel', sort_order:'DESC'}
+                });
+                break;
+            case 'year-asc':
+                dispatch({
+                    type: SELECT_SORT,
+                    payload:{sort_by:'year', sort_order:'ASC'}
+                });
+                break;
+            case 'year-desc':
+                dispatch({
+                    type: SELECT_SORT,
+                    payload:{sort_by:'year', sort_order:'DESC'}
+                });
+                break;
+        }
 
         dispatch({
             type: SET_CURRENT_PAGE,

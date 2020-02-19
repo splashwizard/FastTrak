@@ -1,25 +1,12 @@
-import {
-    ADD_VEHICLE,
-    REQUEST_USER_VEHICLES,
-    RECEIVE_USER_VEHICLES,
-    RECEIVE_USER_FILTERS,
-    SET_CURRENT_PAGE, SET_POST_PER_PAGE,
-    SELECT_BRAND_ID,
-    SELECT_VEHICLE_MODEL,
-    SELECT_YEAR,
-    SELECT_PRICE,
-    REMOVE_BRAND_ID,
-    REMOVE_VEHICLE_MODEL,
-    REMOVE_YEAR,
-    REMOVE_PRICE_MIN,
-    REMOVE_PRICE_MAX,
-    SELECT_MILEAGE,
-    REMOVE_MILEAGE_MIN, REMOVE_MILEAGE_MAX
+import { REQUEST_USER_VEHICLES, RECEIVE_USER_VEHICLES, RECEIVE_USER_FILTERS, SET_CURRENT_PAGE, SET_POST_PER_PAGE,
+    SELECT_BRAND_ID, SELECT_VEHICLE_MODEL, SELECT_YEAR, SELECT_PRICE, SELECT_MILEAGE,
+    REMOVE_BRAND_ID, REMOVE_VEHICLE_MODEL, REMOVE_YEAR, REMOVE_PRICE_MIN, REMOVE_PRICE_MAX, REMOVE_MILEAGE_MIN, REMOVE_MILEAGE_MAX,
+    SELECT_SORT
 }
     from "../actions/types";
 
 const initialState = {
-    //Get all vehicles 
+    //Get all vehicles
     vehicles: [],
     totalPosts: 0,
     loading: false,
@@ -37,6 +24,8 @@ const initialState = {
     mileage_min: Number.NEGATIVE_INFINITY,
     mileage_max: Number.POSITIVE_INFINITY,
     mileageList: [],
+    sort_by: '',
+    sort_order: ''
 };
 
 
@@ -135,6 +124,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 mileage_max: Number.POSITIVE_INFINITY
+            };
+        case SELECT_SORT:
+            return {
+                ...state,
+                sort_by: payload.sort_by,
+                sort_order: payload.sort_order
             };
         default:
             return state;

@@ -1,23 +1,26 @@
 import React, { useEffect, useState, Fragment } from 'react'
 import { InventoryContainer, VehicleCardContainer, VehicleCard, ViewDetails } from './components'
-import { Menu, Icon } from 'antd'
+import { Menu, Icon, Select } from 'antd'
 import Page from '../../ui/Pagination'
 import {connect} from "react-redux";
 import {getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
-    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax} from "../../../../actions/userVehicles";
+    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax,
+    selectSort} from "../../../../actions/userVehicles";
 
 
 const { SubMenu } = Menu;
+const { Option } = Select;
 
 
-//OKAY so we ran into a slight problem on this component -- i couldnt get the redux store to work so i had to use axios to get the 
-// vehicles from a new route that i put in the vehicle routes folers , this one needs no new auth so maybe after we are done we can made aredux state just for 
-//front end inventory 
+//OKAY so we ran into a slight problem on this component -- i couldnt get the redux store to work so i had to use axios to get the
+// vehicles from a new route that i put in the vehicle routes folers , this one needs no new auth so maybe after we are done we can made aredux state just for
+//front end inventory
 
 
 //declare component
 const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
                         removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax,
+                       selectSort,
                        userVehicles: {vehicles, totalPosts, brandIdList, brandId, vehicleModelList, vehicleModel, postPerPage,
                             year, yearList, price_min, price_max, priceList, mileage_min, mileage_max, mileageList}}) => {
     //set some intials hooks for our state
@@ -26,6 +29,9 @@ const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectY
         getUserVehicles();
     }, []);
 
+    const onChange = value => {
+        selectSort(value);
+    };
     return (
         <InventoryContainer >
             <h2 style={{textAlign: 'center'}}>This is our inventory in Kelowna, British Colubmia</h2>
@@ -66,6 +72,16 @@ const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectY
                                 <a href="#" onClick={()=>setPostPerPage(100)}  className={postPerPage === 100 ? "_bpbackinv active" : "_bpbackinv"}>100</a>
                             </li>
                         </ul>
+                        <Select style={{ width: 200 }} placeholder="Sort by" onChange={onChange}>
+                            <Option value="price-asc">Price: lowest first</Option>
+                            <Option value="price-desc">Price: highest first</Option>
+                            <Option value="make-asc">Makes: A - Z</Option>
+                            <Option value="make-desc">Makes: Z - A</Option>
+                            <Option value="model-asc">Models: A - Z</Option>
+                            <Option value="model-desc">Models: Z - A</Option>
+                            <Option value="year-asc">Year: oldest first</Option>
+                            <Option value="year-desc">Year: newest first</Option>
+                        </Select>
                     </header>
                     <VehicleCards key={null} vehicles={vehicles}/>
                     <Page/>
@@ -83,7 +99,8 @@ const mapStateToProps = state => ({
     userVehicles: state.userVehicles
 });
 export default connect(mapStateToProps, { getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
-    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax })(Inventory)
+    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax,
+    selectSort})(Inventory)
 
 const Sidebar = ({brandIdList, brandId, selectBrandId, vehicleModelList, vehicleModel, selectVehicleModel, yearList, year, selectYear, priceList, selectPrice, mileageList, selectMileage }) => {
     const [openKeys, setOpenKeys] = useState(['brandId', 'vehicleModel', 'year', 'price', 'mileage']);

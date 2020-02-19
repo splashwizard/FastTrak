@@ -14,7 +14,7 @@ const { check, validationResult } = require("express-validator")
 
 router.get('/user_filters', async (req, res) => {
     try {
-        let query = {};
+        let query = {webVisible: true};
         const { brandId, vehicleModel, year, price_min, price_max, mileage_min, mileage_max } = req.query;
         if(brandId)
             query.brandId = {"$eq": brandId};
@@ -112,8 +112,8 @@ router.get('/users', async (req, res) => {
     try {
         const page = parseInt(req.query.page);
         const page_length = parseInt(req.query.page_length);
-        const { brandId, vehicleModel, year, price_min, price_max, mileage_min, mileage_max } = req.query;
-        let query = {};
+        const { brandId, vehicleModel, year, price_min, price_max, mileage_min, mileage_max, sort_by, sort_order } = req.query;
+        let query = {webVisible: true};
         if(brandId)
             query.brandId = {"$eq": brandId};
         if(vehicleModel)
@@ -140,12 +140,26 @@ router.get('/users', async (req, res) => {
         if(totalPosts < page * page_length)
             limit = totalPosts - (page - 1) * page_length;
         // query for get vehicles
-        Vehicle.find(query).skip((page - 1) * page_length).limit(limit).exec(function(err, vehicles) {
-            if (vehicles.length === 0) {
-                return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
-            }
-            return res.json({vehicles: vehicles, totalPosts: totalPosts});
-        });
+        if(sort_by){
+            let order;
+            if(sort_order == 'ASC')
+                order = 1;
+            else order = -1;
+            Vehicle.find(query).sort([[sort_by, order]]).skip((page - 1) * page_length).limit(limit).exec(function(err, vehicles) {
+                if (vehicles.length === 0) {
+                    return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
+                }
+                return res.json({vehicles: vehicles, totalPosts: totalPosts});
+            });
+        }
+        else{
+            Vehicle.find(query).skip((page - 1) * page_length).limit(limit).exec(function(err, vehicles) {
+                if (vehicles.length === 0) {
+                    return res.status(400).json({ errors: [{ msg: 'No Vehicles exist' }] });
+                }
+                return res.json({vehicles: vehicles, totalPosts: totalPosts});
+            });
+        }
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server Error')
