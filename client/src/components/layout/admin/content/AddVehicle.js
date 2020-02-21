@@ -444,7 +444,7 @@ export const AddVehicle = ({ addVehicle, history }) => {
                 </Form>
             </AddVehicleCard >
             <AddVehicleCard >
-                <Form>
+                <Form onSubmit={onSubmit}>
 
                     <h1>... A Few More Details</h1>
 

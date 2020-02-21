@@ -5,18 +5,31 @@ import { Card } from 'antd'
 
 
 export const VehicleCard = styled.div`
-border-bottom: 1px solid rgba(0,0,0,.1);
 margin-left: 0;
 height: 250px;
 margin-bottom: 5%;
 padding-top: 15px;
+background:#d9d9d966;
+padding: 2% 5%;
+border: 1px solid white;
+border-radius: 15px;
 .product-thumbnail{
         width: 30%;
         float: left;
+        padding-top:5%;
     }
 .product-description{
     width: 45%;
     float: left;
+    h4{
+        font-size: 20px;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+    p{
+        text-transform: uppercase;
+        color: black; 
+    }
 }
 .product-price{
     width: 25%;
@@ -26,38 +39,12 @@ padding-top: 15px;
 .product-price .price{
     padding: 0 .25rem;
     font-size: 1.75rem;
-    color: #e23156;
+    color:#AA1826;
+    letter-spacing:1.5px;
+    font-weight:bolder;
 }
 `
 
-
-
-
-export const InventoryContainer = styled.div`
-font-family: "Roboto";
-background: #ffffff;
-width: 70%;
-margin:auto;
-.inventory {
-    
-    display: flex;
-}
-h2 {
-    &:before {
-        content: '';
-        display: block;
-        width: 10rem;
-        border-top: .75rem solid #AA1826;
-        margin: 0 auto 2.5rem;
-    }
-    color:#AA1826;
-    font-size: 45px;
-    padding: 10px;
-    text-transform: uppercase;
-    text-transform: uppercase;
-    font-size: 24px;
-}
-`;
 const InventorySideBar = styled.div`
     background: black;
     float: left;
@@ -84,116 +71,238 @@ display: inline-block;
 font-size: 16px;
 border-radius: 25px;
 `
-export const VehicleCardContainer = styled.div`
-    display: block;
-    height: 200px;
-    margin-left: 30%;
-    margin-bottom: 30px;
-    width: 65%;
-    border: 1px solid;
-    padding: 10px;
-    box-shadow: 5px 5px #c1c1c1;
-    background: #2a2a2a;
-    img {
-        float: left;
-        margin-top: 15px;
-        margin-left: 25px;
-    }
-    a {
-        text-decoration: none;
-        color: black;
-        h1 {
-        color: #aa1826;
-            
-            font-size: 20px;
-            font-style: oblique;
-            font-weight: 600;
-            position: relative;
-            right: 20%;
-        
-        }
-        span {
-            display: block;
-        }
-    }
-    .details {
-        color: #aa1826;
-        font-weight: bold;
-        float: left;
-        text-align: left;
-        margin-left: 25px;
-        line-height: 1.5;
-    }
-    .price {
-        color: #aa1826;
-        font-weight: bold;
-        float: right;
-        text-align: left;
-        margin-left: 25px;
-        line-height: 1.75;
-        margin-right: 5%;
-        span {
-            font-weight: 100;
-            font-style: italic;
-            font-weight: 100;
-            font-size: 14px;
-        color:white;
-            
-        }
-        h1 {
-            font-weight: bold;
-            font-family: "Roboto";
-            margin: 0;
-            left: 0%;
-        }
-        a {
-            padding: 10px;
-            background: #aa1826;
-            color: white;
-            border: 1px solid white;
-            position: relative;
-            top: 20px;
-        }
-    }
-    .placeholders {
-        float: left;
-        text-align: left;
-        margin-left: 25px;
-        line-height: 1.5;
-        color: white;
-    }
-`
 
-
-export const Sidebar = () => {
-    return (
-        <InventorySideBar >
-            <h1>Search Our Inventory</h1>
-        </InventorySideBar>
-    );
-};
-
-export const ClearFilters = () => {
-    return (
-        <div>
-            <ClearFiltersButton >Clear Filters</ClearFiltersButton>
-        </div>
-    );
-};
 
 export const ViewDetails = styled.a`
 background: #AA1826;
 font-size: 20px;
-padding: 10px;
+padding: .75rem;
 border: 1px solid white;
-border-radius: 10px;
-color:white;
-float:right;
+border-radius: 5px;
+color: white;
+float: right;
  &:hover{
-     color:black
+    color: white;
+    background: #c11d2c;
+ }
+ i {
+     padding-right:10px;
  }
 `
 
+export const UserSideBar = styled.aside`
+flex: 0 0 200px;
+max-width: 300px;
+min-width: 300px;
+min-height: 200px;
+background: #881823;
+padding: 0%;
+max-height: 100%;
+margin-right:5%;
+ul{
+    width: 80%;
+    font-weight: 700;
+    background-color: rgb(245, 245, 245);
+    margin: auto !important;
+    margin-top: 10% !important;;
+    color: #AA1826;
+    background: black;
+    min-height: 400px;
+}
+`
 
+export const InventoryContainer = styled.div`
+font-family: "Roboto";
+background: #ffffff;
+width: 80%;
+margin:auto;
+.inventory {
+    
+    display: flex;
+}
+h2 {
+    &:before {
+            content: '';
+            display: block;
+            width: 10rem;
+            border-top: .75rem solid #AA1826;
+            margin: 0 auto 2.5rem;
+         }
+        color:#AA1826;
+        padding: 10px;
+        text-transform: uppercase;
+        font-size: 24px;
+        text-align:center;
+
+    }
+    .filter-stock-active {
+        display: inline-block
+      }
+      
+      
+      @media (min-width: 768px) {
+        .filter-stock-active {
+          float: left
+        }
+      }
+      
+      .filter-stock-active a {
+        display: inline-block;
+        padding-right: .5em;
+        text-decoration: none;
+        transition: color 240ms cubic-bezier(.19, 1, .22, 1)
+      }
+      
+      .filter-stock-active a:not(:last-child)[data-separator=slash]:after {
+        content: "/";
+        color: #464a4c;
+        margin-left: .75em
+      }
+      
+      .filter-stock-active a[data-separator=comma]:after {
+        content: ",";
+        color: #464a4c
+      }
+      
+      .filter-stock-active a:before {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        width: 0;
+        margin: 0 2px 0 0;
+        opacity: 0;
+        transition: opacity 240ms cubic-bezier(.19, 1, .22, 1), width 180ms cubic-bezier(.19, 1, .22, 1);
+        content: "";
+      }
+      
+      .filter-stock-active a:hover {
+        color: #464a4c
+      }
+      
+      .filter-stock-active a:hover:before {
+        opacity: 1;
+        width: 1em
+      }
+      
+      .filter-stock-active-wrap {
+        margin-bottom: 15px;
+      }
+      
+      .filter-stock-active-wrap::after {
+        display: block;
+        content: "";
+        clear: both;
+      }
+      
+      .results-meta {
+        line-height: 2.12rem;
+        padding-top: .9375rem;
+        text-align: center;
+        background-color: #f5f5f5;
+        margin-left: -.9375rem;
+        margin-right: -.9375rem;
+        margin-bottom: 15px;
+      }
+      
+      .results-meta::after {
+        display: block;
+        content: "";
+        clear: both
+      }
+      
+      @media (min-width: 768px) {
+        .results-meta {
+          background-color: transparent;
+          margin-left: 0;
+          margin-right: 0;
+          margin-bottom: 30px;
+          border-bottom: 5px solid #AA1826;
+          padding-bottom: 20px;
+        }
+      }
+      
+      .results-meta .total-count {
+        font-size: .75rem
+      }
+      
+      @media (min-width: 768px) {
+        .results-meta .total-count {
+          float: left;
+          width: 220px;
+          max-width: 30%;
+          margin-right: 2%;
+          letter-spacing: 2px;
+          font-size: 1rem;
+          color: #AA1826;
+          text-transform: uppercase;
+        }
+      }
+      
+      .results-meta .page-length-control {
+        list-style-type: none;
+        padding: 0;
+        margin: 0 0 .625rem
+      }
+      
+      @media (min-width: 768px) {
+        .results-meta .page-length-control {
+          float: right;
+          width: 220px;
+          max-width: 30%;
+          margin-bottom: 0
+        }
+      }
+      
+      .results-meta .page-length-control li {
+        display: inline-block
+      }
+      
+      @media (min-width: 768px) {
+        .results-meta .page-length-control li {
+          float: left;
+          padding: 0 1px
+        }
+      }
+      
+      .results-meta .page-length-control a {
+        display: inline-block;
+        float: left;
+        font-size: 2rem;
+        padding: 0 5px;
+        background: #AA1826;
+        margin: 3px;
+      }
+      
+      .results-meta .page-length-control a:hover {
+        text-decoration: none
+      }
+      
+      @media (min-width: 768px) {
+        .results-meta .page-length-control a {
+          float: left;
+          font-size: 1rem
+        }
+      }
+      
+      ._bpbackinv{
+          color:white;
+      }
+      ._bpbackinv.active,
+      ._bpbackinv:focus,
+      ._bpbackinv:hover {
+        
+        color: #e23156;
+        border: 1px solid #e23156;
+        background:white !important ;
+      }
+      
+      .ant-menu-submenu-title {
+        width: 100% !important;
+      }
+
+`;
 
 

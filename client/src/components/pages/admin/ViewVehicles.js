@@ -93,10 +93,11 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
         },
         {
             title: 'Action',
+            dataIndex: 'vinNumber',
             key: 'action',
             render: (text, record) => (
                 <span>
-                    <a href='/'>Edit Vehicle {record.name}</a>
+                    <a href={'/dashboard/getvehicles/' + text}>Edit Vehicle </a>
                     <Divider type="vertical" />
                     <a href='/'>Delete</a>
                 </span>

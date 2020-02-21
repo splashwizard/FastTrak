@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from 'react'
-import { InventoryContainer, VehicleCardContainer, VehicleCard, ViewDetails } from './components'
+import { InventoryContainer, VehicleCardContainer, VehicleCard, ViewDetails, UserSideBar } from './components'
 import { Menu, Icon } from 'antd'
 import Page from '../../ui/Pagination'
 import { connect } from "react-redux";
@@ -7,6 +7,7 @@ import {
     getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
     removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax
 } from "../../../../actions/userVehicles";
+
 
 
 const { SubMenu } = Menu;
@@ -30,7 +31,7 @@ const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectY
 
     return (
         <InventoryContainer >
-            <h2 style={{ textAlign: 'center' }}>This is our inventory in Kelowna, British Colubmia</h2>
+            <h2 >This is our inventory in Kelowna, British Colubmia</h2>
             <div className="filter-stock-active-wrap">
                 <div className="filter-stock-active">
                     {brandId ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeBrandId}>{brandId}</a> : null}
@@ -103,12 +104,11 @@ const Sidebar = ({ brandIdList, brandId, selectBrandId, vehicleModelList, vehicl
     };
 
     return (
-        <aside style={{ flex: '0 0 200px', maxWidth: '200px', minWidth: '200px', width: '200px' }}>
+        <UserSideBar >
             <Menu
                 mode="inline"
                 openKeys={openKeys}
                 onOpenChange={onOpenChange}
-                style={{ width: '100%', color: '#818e92', fontWeight: 700, backgroundColor: '#f5f5f5' }}
                 selectable={false}
             >
                 {
@@ -150,16 +150,16 @@ const Sidebar = ({ brandIdList, brandId, selectBrandId, vehicleModelList, vehicl
                     } </SubMenu> : null
                 }
             </Menu>
-        </aside>
+        </UserSideBar>
     )
 };
 
 const VehicleCards = ({ vehicles }) => {
     return (
-        <div style={{ borderTop: "1px solid rgba(0,0,0,.1)" }}>
+        <div>
             {vehicles.map((vehicle, index) => {
-                console.log(vehicle)
-                const { year, description, brandId, mileage, vehicleModel, price } = vehicle;
+                console.log(vehicle, 'dfsfsfdsdfsd')
+                const { year, brandId, mileage, vehicleModel, price, unitType, exteriorColor, driveTrain, stockNumber, engine, engineSize } = vehicle;
                 return (
                     <div key={index}>
                         {/*<VehicleCard title={vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel}>*/}
@@ -168,12 +168,12 @@ const VehicleCards = ({ vehicles }) => {
                                 <img src='https://via.placeholder.com/150' />
                             </div>
                             <div className='product-description'>
-                                <p style={{ fontSize: '20px' }}>{vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel}</p>
-                                <p><span>Make:</span> <b>{brandId}</b></p>
-                                <p><span>Model:</span> <b>{vehicleModel}</b></p>
-                                <p><span>Mileage:</span> <b>{mileage}</b></p>
-                                <p><span>Year:</span> <b>{year}</b></p>
-                                <p><span>Description:</span> <b>{description}</b></p>
+                                <h4>{vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel}</h4>
+                                <p><span>Odometer:</span> <b>{mileage + ' ' + unitType}</b></p>
+                                <p><span>Color:</span> <b>{exteriorColor}</b></p>
+                                <p><span>Engine:</span> <b>{engineSize + ' ' + engine}</b></p>
+                                <p><span>Drivetrain:</span> <b>{driveTrain}</b></p>
+                                <p><span>Stock #:</span> <b>{stockNumber}</b></p>
                             </div>
                             <div className="product-price"><p className="price">{'$' + price}</p></div>
 
