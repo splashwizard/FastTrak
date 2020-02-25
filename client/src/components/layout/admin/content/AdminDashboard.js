@@ -70,12 +70,12 @@ const AdminDashboard = ({ getUsers, getVehicles, auth: { user }, users: { loadin
                 <p>Today's Date {today} </p>
 
                 <div>
-                    <div><span>Total Users {users.length != 0 ? users.length : <Icon type="loading" />}</span></div>
+                    <div><span>Total Users {users.length !== 0 ? users.length : <Icon type="loading" />}</span></div>
                     <div><span>Total Sales<br /> 10,000$</span></div>
                 </div>
 
                 <div>
-                    <div><span>Total Vehicles<br /> {vehicles.length != 0 ? vehicles.length : <Icon type="loading" />}</span></div>
+                    <div><span>Total Vehicles<br /> {vehicles.length !== 0 ? vehicles.length : <Icon type="loading" />}</span></div>
                     <div><span>Applicants<br /> 5</span></div>
                 </div>
 

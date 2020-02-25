@@ -1,7 +1,4 @@
-import React from 'react'
 import styled from 'styled-components';
-import { Card } from 'antd'
-
 
 
 export const VehicleCard = styled.div`
@@ -45,32 +42,6 @@ border-radius: 15px;
 }
 `
 
-const InventorySideBar = styled.div`
-    background: black;
-    float: left;
-    height: 100%;
-    width: 25%;
-    color: white;
-    padding: 5%;
-    h1 {
-    font-size: 24px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-}
-`;
-
-const ClearFiltersButton = styled.button`
-background-color: #aa1826;
-/* Green */
-border: none;
-color: white;
-padding: 15px 32px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 16px;
-border-radius: 25px;
-`
 
 
 export const ViewDetails = styled.a`

@@ -6,7 +6,6 @@ import {
     Icon,
     PageHeader,
     Table,
-    Divider,
     Tag
 } from 'antd';
 import 'antd/dist/antd.css';

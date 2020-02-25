@@ -1,13 +1,12 @@
 import React, { useEffect, Fragment } from 'react'
 import 'antd/dist/antd.css';
-import { Layout, Icon, PageHeader } from 'antd';
+import { Layout } from 'antd';
 import SideBar from "../../layout/admin/Sidebar"
 import AdminNavbar from '../../layout/admin/AdminNavbar'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { getVehicles } from '../../../actions/vehicles'
 import Alert from '../../layout/ui/Alert'
-import { Table, Divider, Tag } from 'antd';
 import EditVehicleForm from '../../layout/admin/content/EditVehicle';
 
 const { Content, Footer, } = Layout;

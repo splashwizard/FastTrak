@@ -6,3 +6,4 @@
 -- fix filter tags on inventory front side
 -- fix pagination on front end inventory
 -- add the new header with the call and email to all the pages
+-- facebook messenger chat integrated

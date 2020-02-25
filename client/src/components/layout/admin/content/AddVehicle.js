@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import style from 'styled-components';
+
 import {
     Form,
     Input,
@@ -275,7 +275,7 @@ export const AddVehicle = ({ addVehicle, history }) => {
 
                     <Form.Item label="Make">
                         <Select
-                            // defaultValue={brandId}
+                            defaultValue={brandId}
                             onChange={onBrand}
                             showSearch
                             placeholder="Select a brand"

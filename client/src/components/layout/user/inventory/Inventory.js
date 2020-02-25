@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react'
+import React, { useEffect, useState } from 'react'
 import { InventoryContainer, VehicleCardContainer, VehicleCard, ViewDetails, UserSideBar } from './components'
 import { Menu, Icon } from 'antd'
 import Page from '../../ui/Pagination'

@@ -6,7 +6,7 @@ import { EmpireHeader, Logo, EmpireFooter } from '../../layout/ui/Layout'
 import Inventory from '../../layout/user/inventory/Inventory'
 import { connect } from "react-redux";
 //declare any constants 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const InventoryPage = ({ userVehicles: { loading } }) => {
     return (

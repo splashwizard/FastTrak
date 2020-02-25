@@ -21,10 +21,10 @@ export const AdminFooter = () => {
 
     return (
         <Footer style={{ background: 'black' }}>
-            <div>
+            <Fragment>
                 <Logo />
 
-            </div>
+            </Fragment>
 
         </Footer>
     )
