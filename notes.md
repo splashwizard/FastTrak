@@ -1,4 +1,4 @@
-** Notes for dev **
+** Notes for dev ** AFTER WE GET PAID
 -- change brandId to make in database and in store and pretty much every where !
 -- fixed the Odometer Accurate not wokring on edit and add page
 -- fix that when we login we have to reload the page to get the info
@@ -7,3 +7,5 @@
 -- fix pagination on front end inventory
 -- add the new header with the call and email to all the pages
 -- facebook messenger chat integrated
+-- integrate Roles
+-- change the ViewVehicle and EditVehicle(Delete and Fetch) to redux actions and reducers

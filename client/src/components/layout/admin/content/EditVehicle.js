@@ -12,7 +12,6 @@ import {
     Select,
     Card
 } from 'antd';
-import 'antd/dist/antd.css';
 import Alert from "../../ui/Alert";
 import moment from 'moment';
 import { addVehicle } from '../../../../actions/vehicles';
@@ -534,9 +533,6 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
-
-
-
 
                     <Form.Item label="Body Style">
                         <Input
