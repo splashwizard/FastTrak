@@ -2,7 +2,7 @@ import React from 'react'
 import 'antd/dist/antd.css';
 import { Spin, Layout } from 'antd';
 import Navbar from '../../layout/user/navbar/Navbar'
-import { EmpireHeader, Logo, EmpireFooter } from '../../layout/ui/Layout'
+import { EmpireHeader, Logo, EmpireFooter, NavBarContact } from '../../layout/ui/Layout'
 import { Vehicle } from '../../layout/user/vehicle/Vehicle'
 import { connect } from "react-redux";
 
@@ -16,6 +16,8 @@ const ViewVehicle = ({ userVehicles: { loading } }) => {
                 <EmpireHeader>
                     <Logo href='/' />
                     <Navbar />
+                    <NavBarContact />
+
                 </EmpireHeader>
                 <Content>
                     <div style={{ background: '#ffffff', minHeight: 280, paddingBottom: 20 }}>

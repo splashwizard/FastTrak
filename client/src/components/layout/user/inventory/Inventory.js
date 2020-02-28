@@ -159,7 +159,7 @@ const VehicleCards = ({ vehicles }) => {
         <div>
             {vehicles.map((vehicle, index) => {
                 console.log(vehicle, 'dfsfsfdsdfsd')
-                const { year, brandId, mileage, vehicleModel, price, unitType, exteriorColor, driveTrain, stockNumber, engine, engineSize } = vehicle;
+                const { year, brandId, mileage, vehicleModel, price, unitType, exteriorColor, driveTrain, stockNumber, engine, engineSize, vinNumber } = vehicle;
                 return (
                     <div key={index}>
                         {/*<VehicleCard title={vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel}>*/}
@@ -177,7 +177,7 @@ const VehicleCards = ({ vehicles }) => {
                             </div>
                             <div className="product-price"><p className="price">{'$' + price}</p></div>
 
-                            <ViewDetails href="#"><Icon type="car" />Learn More</ViewDetails>
+                            <ViewDetails href={'/inventory/' + vinNumber}><Icon type="car" />Learn More</ViewDetails>
                         </VehicleCard>
                     </div>
                 );

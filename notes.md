@@ -9,3 +9,6 @@
 -- facebook messenger chat integrated
 -- integrate Roles
 -- change the ViewVehicle and EditVehicle(Delete and Fetch) to redux actions and reducers
+-- add loading to pages where API calls are made
+-- change the API for get vehicle by vinNumber to only return what we want users to see lol \*\* this is important
+-- ADD IMAGE OF DIRECTIONS

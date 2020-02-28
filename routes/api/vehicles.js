@@ -401,6 +401,27 @@ router.get('/:vehicleVin', auth, async (req, res) => {
 });
 
 
+//@route  GET api/vehicles/:vehicle_id
+//@desc   this route is to just get a vehicle by its vinNumber ONLY FOR THE USERS!!!!  _ THIS NEEDS TO BE CHANGED TO RETURN AN OBJECT 
+//@access Use this route to edit vehicles on the backend
+
+// first we try and find any vehicles and if the db is empty we are throwing back a error 
+router.get('/users/:vehicleVin', async (req, res) => {
+    try {
+        const vehicle = await Vehicle.find({ vinNumber: req.params.vehicleVin })
+        if (!vehicle) {
+            return res.status(400).json({ errors: [{ msg: 'Vehicle Not Found By Vin Number' }] });
+        }
+        return res.json(vehicle);
+        return res.json(vehicle);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Couldnt Find Vehicle')
+    }
+
+});
+
+
 //@route  DELETE api/vehicles/:vehicle_id
 //@desc   this route is to delete a vehicle based on id given 
 //@access Defs private 
