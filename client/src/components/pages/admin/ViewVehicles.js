@@ -97,9 +97,9 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
             key: 'action',
             render: (text, record) => (
                 <span>
-                    <a href={'/dashboard/getvehicles/edit/' + text}>Edit Vehicle </a>
+                    <a href={'/dashboard/getvehicles/edit/' + text}>Edit</a>
                     <Divider type="vertical" />
-                    <a href={"/dashboard/getvehicles/view/" + text}>Delete</a>
+                    <a href={"/dashboard/getvehicles/view/" + text}>View/Delete</a>
                 </span>
             ),
         },

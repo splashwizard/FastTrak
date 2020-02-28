@@ -26,24 +26,25 @@ const AddVehicleCard = styled(Card)`
     width: 90%;
     background: #000000c7;
     color: white;
-    padding: 1%;
     border: 1px solid white;
-    border-radius: 25px;
     margin: auto;
     box-shadow: 5px 10px 5px 10px rgba(0, 0, 0, 0.15);
     margin-bottom:10%;
+    .ant-card-body{
+        padding:10px;
+    }
     form{
         background: #848484;
         padding: 5%;
-        h1{
+        h2{
             text-transform: uppercase;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
             letter-spacing: 2px;
             color: white;
-            border: 5px solid white;
+            border-bottom: 5px solid white;
             padding: 10px;
-            text-align: center;
+            text-align: center;     
         }
         label{
             text-transform: uppercase;
@@ -220,6 +221,12 @@ export const AddVehicle = ({ addVehicle, history }) => {
             unitType: e
         })
     }
+    const onCategory = e => {
+        setFormData({
+            ...formData,
+            categoryId: e
+        })
+    }
 
     //METHOD FOR NUMBERS INPUT
     const OnYear = e => setFormData({ ...formData, year: e })
@@ -239,9 +246,7 @@ export const AddVehicle = ({ addVehicle, history }) => {
         <Fragment>
             <AddVehicleCard >
                 <Form onSubmit={onSubmit} >
-
-                    <h1>Quick Add</h1>
-
+                    <h2>Lets Start With The Basics</h2>
                     <Form.Item label="VIN Number">
                         <InputNumber
                             value={vinNumber}
@@ -251,28 +256,44 @@ export const AddVehicle = ({ addVehicle, history }) => {
 
                         />
                     </Form.Item>
-
                     <Form.Item label="Stock Number">
                         <InputNumber
                             value={stockNumber}
                             name='stockNumber'
                             onChange={e => OnStockNumber(e)}
                             placeholder='Please enter a unique stock number'
-
                         />
                     </Form.Item>
-
-
-                    <Form.Item label="Category ID">
-                        <Input
-                            value={categoryId}
-                            name='categoryId'
-                            placeholder='Please enter a valid category'
-
-                            onChange={e => onChange(e)}
-                        />
+                    <Form.Item label="Category">
+                        <Select
+                            defaultValue={categoryId}
+                            onChange={onCategory}
+                            showSearch
+                            placeholder="Select A Category"
+                            optionFilterProp="category"
+                            filterOption={(input, option) =>
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            <Option value="AWD/4WD">AWD/4WD</Option>
+                            <Option value="Boat/Power-Sport">Boat/Power-Sport</Option>
+                            <Option value="Convertible">Convertible</Option>
+                            <Option value="Coupe">Coupe</Option>
+                            <Option value="Hatchback">Hatchback</Option>
+                            <Option value="Heavy Equipment">Heavy Equipment</Option>
+                            <Option value="Hybrid/Electric">Hybrid/Electric</Option>
+                            <Option value="Luxury">Luxury</Option>
+                            <Option value="Motorcycle">Motorcycle</Option>
+                            <Option value="RVs/Camper">RVs/Camper</Option>
+                            <Option value="Sedans">Sedans</Option>
+                            <Option value="SUV/Crossover">SUV/Crossover</Option>
+                            <Option value="Trailer">Trailer</Option>
+                            <Option value="Chevrolet">Truck</Option>
+                            <Option value="Van/Minivan">Vans/Minivan</Option>
+                            <Option value="Wagon">Wagon</Option>
+                            <Option value="Work Truck">Work Truck</Option>
+                        </Select>
                     </Form.Item>
-
                     <Form.Item label="Make">
                         <Select
                             defaultValue={brandId}
@@ -337,18 +358,40 @@ export const AddVehicle = ({ addVehicle, history }) => {
                             <Option value="Volvo">Volvo</Option>
                         </Select>
                     </Form.Item>
-
-
                     <Form.Item label="Other Make">
                         <Input
                             value={otherBrandId}
                             name='otherBrandId'
                             onChange={e => onChange(e)}
                             placeholder='If none of the above makes mathced , please enter a custom one here'
-
                         />
                     </Form.Item>
+                    <Button type="primary" htmlType="submit">
+                        Add With Basics
+                        </Button>
+                </Form>
+            </AddVehicleCard >
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <AddVehicleCard >
+                <Form onSubmit={onSubmit} >
+                    <h2>Lets Add A Few Details</h2>
 
                     <Form.Item label="Model">
                         <Input
