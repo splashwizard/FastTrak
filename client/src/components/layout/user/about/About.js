@@ -56,8 +56,9 @@ export const ContactForm = (props) => {
         <label type="Name:" /><input placeholder="Write your name here.." type="name" name="name" />
         <label type="Email/Phone:" /><input placeholder="Let us know how to contact you back.." type="email" name="email" />
         <label type="Message:" /><input placeholder="What would you like to tell us.." type="text" name="message" ></input>
-        {status.status === "SUCCESS" ? <p>Thanks!</p> : <button >Submit</button>}
-        {status.status === "ERROR" && <p>Ooops! There was an error.</p>}
+        {status.status === "SUCCESS" && <p>Thank You We Will Be In Touch Shortly!</p>}
+        {status.status !== "ERROR" && status.status !== "SUCCESS" && <button >Apply</button>}
+        {status.status === "ERROR" && <p>Ooops! There was an error.<br></br>Please Refresh The Page</p>}
       </Form>
       <ContactInfo />
     </div>
@@ -260,10 +261,7 @@ border: 2px solid white;
 }
 p{
   color: white;
-  font-size: 2rem;
-  text-transform: uppercase;
   padding-top: 2rem;
-  text-decoration: underline;
 }
 
 div {

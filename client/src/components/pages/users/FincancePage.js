@@ -25,11 +25,7 @@ const FinancePage = () => {
             <Content >
                 <FinanceBanner />
                 <Finance />
-
-
                 <ContactText />
-
-
                 <HoursOfOperation />
                 <Map />
             </Content>
