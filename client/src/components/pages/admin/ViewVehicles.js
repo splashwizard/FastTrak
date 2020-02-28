@@ -41,7 +41,7 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
             title: 'Vin Number',
             dataIndex: 'vinNumber',
             key: 'vinNumber',
-            render: text => <a href={'/dashboard/getvehicles/' + text}>{text}</a>,
+            render: text => <a href={'/dashboard/getvehicles/edit/' + text}>{text}</a>,
         },
         {
             title: 'Year',
@@ -97,9 +97,9 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
             key: 'action',
             render: (text, record) => (
                 <span>
-                    <a href={'/dashboard/getvehicles/' + text}>Edit Vehicle </a>
+                    <a href={'/dashboard/getvehicles/edit/' + text}>Edit Vehicle </a>
                     <Divider type="vertical" />
-                    <a href='/'>Delete</a>
+                    <a href={"/dashboard/getvehicles/view/" + text}>Delete</a>
                 </span>
             ),
         },
@@ -130,7 +130,7 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
                                     ghost={false}
                                     onBack={() => window.history.back()}
                                     title="View Inventory"
-                                    subTitle="View all the cars in your inventory" />
+                                />
                                 <p>Welcome {user ? user.name : <Icon type="loading" />}</p>
                                 <Table columns={columns} dataSource={getvehicleList} />
                             </div>

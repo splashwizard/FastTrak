@@ -413,7 +413,6 @@ router.get('/users/:vehicleVin', async (req, res) => {
             return res.status(400).json({ errors: [{ msg: 'Vehicle Not Found By Vin Number' }] });
         }
         return res.json(vehicle);
-        return res.json(vehicle);
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Couldnt Find Vehicle')
@@ -423,18 +422,18 @@ router.get('/users/:vehicleVin', async (req, res) => {
 
 
 //@route  DELETE api/vehicles/:vehicle_id
-//@desc   this route is to delete a vehicle based on id given 
+//@desc   this route is to delete a vehicle based on vinNUmber given since that is the primary key to us 
 //@access Defs private 
 
 // first we try and find any vehicles and if the db is empty we are throwing back a error 
-router.delete('/:vehicle_id', auth, async (req, res) => {
+router.delete('/delete/:vinNumber', auth, async (req, res) => {
     try {
         // remove the vehicle based on the param in the url
-        const vehicle = await Vehicle.findOneAndRemove({ _id: req.params.vehicle_id });
+        const vehicle = await Vehicle.findOneAndRemove({ vinNumber: req.params.vinNumber });
         return res.json({ msg: "Vehicle was removed" });
     } catch (error) {
         console.error(error.message);
-        res.status(500).send('Server Error')
+        res.status(500).send('Vehicle Could Not Be Removed, Server Error')
     }
 
 });

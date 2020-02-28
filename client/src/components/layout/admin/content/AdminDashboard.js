@@ -55,7 +55,7 @@ const AdminDashboard = ({ getUsers, getVehicles, auth: { user }, users: { loadin
     useEffect(() => {
         getVehicles();
     }, [getVehicles])
-    console.log("SUPPPP", vehicles)
+
 
 
     return loading && users === null ? <Icon type="loading" /> :

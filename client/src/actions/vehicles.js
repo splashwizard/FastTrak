@@ -6,7 +6,9 @@ import {
     // UPDATE_VEHICLE,
     ADD_VEHICLE,
     ADD_VEHICLE_FAIL,
-    GET_VEHICLES_FAIL
+    GET_VEHICLES_FAIL,
+    DELETE_VEHICLE,
+    DELETE_VEHICLE_FAIL
 } from './types';
 
 //This action is to fetch all vehicles
@@ -62,5 +64,33 @@ export const addVehicle = (formData, history, edit = false) => async dispatch =>
         dispatch({
             type: ADD_VEHICLE_FAIL
         })
+    }
+}
+
+export const deleteVehicle = (vinNumber, history) => async dispatch => {
+
+
+    try {
+
+
+        const res = await axios.delete('/api/vehicles/delete/' + vinNumber);
+
+        dispatch({
+            type: DELETE_VEHICLE,
+        });
+
+        history.push('/dashboard/getvehicles');
+        dispatch(setAlert('Vehicle Deleted'));
+
+
+
+    } catch (err) {
+        dispatch({
+            type: DELETE_VEHICLE_FAIL,
+        },
+            setAlert('Vehicle Not Deleted , Try Again'))
+
+
+
     }
 }
