@@ -86,22 +86,20 @@ const EditVehicleForm = ({ addVehicle, history }) => {
     //set some intials hooks for our state
     const [formData, setFormData] = useState({
         user: '',
-        categoryId: '',
+        category: '',
         stockNumber: '',
         vinNumber: '',
         year: null,
-        brandId: '',
-        otherBrandId: '',
+        make: '',
+        otherMake: '',
         vehicleModel: '',
         trimDetail: '',
         mileage: null,
         unitType: '',
-        odomoeterAccurate: false,
+        odometerAccurate: false,
         price: null,
-        bodyStyle: '',
         doors: null,
         engine: '',
-        engineSize: '',
         transmission: '',
         driveTrain: '',
         exteriorColor: '',
@@ -110,26 +108,35 @@ const EditVehicleForm = ({ addVehicle, history }) => {
         fuelType: '',
         origin: '',
         purchasedFrom: '',
-        importedFrom: '',
-        importedYear: null,
-        importedForResale: false,
-        exteriorOptions: {},
-        transportation: false,
         description: '',
         reconditioniongNeeded: false,
         damage: false,
         damageAmount: [],
+        damage1: null,
+        damage2: null,
+        damage3: null,
+        damage4: null,
+        damage5: null,
         damageType: [],
+        damageT1: null,
+        damageT2: null,
+        damageT3: null,
+        damageT4: null,
+        damageT5: null,
         damageNote: '',
         status: '',
         location: '',
         saleType: '',
         webVisible: false,
-        dateListed: null,
-        datePurchased: null,
+        dateListed: moment().format('MMM DD YYYY'),
+        datePurchased: moment().format('MMM DD YYYY'),
         purchasedBy: '',
         soldBy: '',
-        bidClosing: null
+        soldPrice: null,
+        boughtPrice: null,
+        profit: null,
+        billOfSaleId: null
+
     })
     const [loading, setLoading] = useState(false);
 
@@ -143,25 +150,23 @@ const EditVehicleForm = ({ addVehicle, history }) => {
         const fetchVehicle = async () => {
             setLoading(true)
             const res = await axios.get('/api/vehicles/' + id);
-            setFormData({
+            await setFormData({
                 ...formData,
                 user: '',
-                categoryId: res.data[0].categoryId,
+                category: res.data[0].category,
                 stockNumber: res.data[0].stockNumber,
                 vinNumber: res.data[0].vinNumber,
                 year: res.data[0].year,
-                brandId: res.data[0].brandId,
-                otherBrandId: res.data[0].otherBrandId,
+                make: res.data[0].make,
+                otherMake: res.data[0].otherMake,
                 vehicleModel: res.data[0].vehicleModel,
                 trimDetail: res.data[0].trimDetail,
                 mileage: res.data[0].mileage,
                 unitType: res.data[0].unitType,
                 odomoeterAccurate: res.data[0].odomoeterAccurate,
                 price: res.data[0].price,
-                bodyStyle: res.data[0].bodyStyle,
                 doors: res.data[0].doors,
                 engine: res.data[0].engine,
-                engineSize: res.data[0].engineSize,
                 transmission: res.data[0].transmission,
                 driveTrain: res.data[0].driveTrain,
                 exteriorColor: res.data[0].exteriorColor,
@@ -170,11 +175,6 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                 fuelType: res.data[0].fuelType,
                 origin: res.data[0].origin,
                 purchasedFrom: res.data[0].purchasedFrom,
-                importedFrom: res.data[0].importedFrom,
-                importedYear: res.data[0].importedYear,
-                importedForResale: res.data[0].importedForResale,
-                exteriorOptions: res.data[0].exteriorColor,
-                transportation: res.data[0].transportation,
                 description: res.data[0].description,
                 reconditioniongNeeded: res.data[0].reconditioniongNeeded,
                 damage: res.data[0].damage,
@@ -189,30 +189,37 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                 datePurchased: res.data[0].datePurchased,
                 purchasedBy: res.data[0].purchasedBy,
                 soldBy: res.data[0].soldBy,
-                bidClosing: res.data[0].bidClosing
+                soldPrice: res.data[0].soldPrice,
+                boughtPrice: res.data[0].boughtPrice,
+                profit: res.data[0].profit,
+                billOfSaleId: res.data[0].billOfSaleId
+
+
+
             })
+
             setLoading(false)
+
         }
         fetchVehicle();
-    }, [setFormData])
 
+    }, [setFormData])
+    console.log("IM LOOOKING FOR DAMAGES", formData)
     const {
-        categoryId,
+        category,
         stockNumber,
         vinNumber,
         year,
-        brandId,
-        otherBrandId,
+        make,
+        otherMake,
         vehicleModel,
         trimDetail,
         mileage,
         unitType,
-        odomoeterAccurate,
+        odometerAccurate,
         price,
-        bodyStyle,
         doors,
         engine,
-        engineSize,
         transmission,
         driveTrain,
         exteriorColor,
@@ -221,15 +228,20 @@ const EditVehicleForm = ({ addVehicle, history }) => {
         fuelType,
         origin,
         purchasedFrom,
-        importedFrom,
-        importedYear,
-        importedForResale,
-        exteriorOptions,
-        transportation,
         description,
         reconditioniongNeeded,
         damage,
         damageAmount,
+        damage1,
+        damage2,
+        damage3,
+        damage4,
+        damage5,
+        damageT1,
+        damageT2,
+        damageT3,
+        damageT4,
+        damageT5,
         damageType,
         damageNote,
         status,
@@ -240,48 +252,49 @@ const EditVehicleForm = ({ addVehicle, history }) => {
         datePurchased,
         purchasedBy,
         soldBy,
-        bidClosing
+        soldPrice,
+        boughtPrice,
+        profit,
+        billOfSaleId,
+
+
     } = formData
-    //BELOW ARE ALL THE METHODS FOR THE SELECTS
+    //BELOW ARE ALL THE METHODS FOR THE SWITCHES
     const onWebVisible = e => setFormData({ ...formData, webVisible: !webVisible })
-    const onOdomoeterAccurate = e => setFormData({ ...formData, odomoeterAccurate: !odomoeterAccurate })
-    const onImportedForResale = e => setFormData({ ...formData, importedForResale: !importedForResale })
-    const onTransportation = e => setFormData({ ...formData, transportation: !transportation })
+    const onodometerAccurate = e => setFormData({ ...formData, odometerAccurate: !odometerAccurate })
     const onReconditioningNeeded = e => setFormData({ ...formData, reconditioniongNeeded: !reconditioniongNeeded })
     const onDamage = e => setFormData({ ...formData, damage: !damage })
     //BELOW ARE ALL METHODS FOR DATE PICKERS
     const today = moment().format("MMM Do YY");
-    const onDatePurchased = e => {
-        let selectedDate = moment(e._d).format('MMM DD YYYY')
 
-        setFormData({
-            ...formData,
-            datePurchased: selectedDate
-        })
+    const onDatePurchased = e => {
+        if (e !== null) {
+            let selectedDate = moment(e._d).format('MMM DD YYYY')
+            setFormData({
+                ...formData,
+                datePurchased: selectedDate
+            })
+        }
     }
     const onDateListed = e => {
-        let selectedDate = moment(e._d).format('MMM DD YYYY')
-        setFormData({
-            ...formData,
-            dateListed: selectedDate
-        })
+        if (e !== null) {
+            let selectedDate = moment(e._d).format('MMM DD YYYY')
+            setFormData({
+                ...formData,
+                dateListed: selectedDate
+            })
+        }
     }
-    const onBidCLosing = e => {
-        let selectedDate = moment(e._d).format('MMM DD YYYY')
-        setFormData({
-            ...formData,
-            bidClosing: selectedDate
-        })
-    }
+
     const onChange = e => setFormData({
         ...formData,
         [e.target.name]: e.target.value
     })
-    //METHOD FOR SELECT INPUT
-    const onBrand = e => {
+    //METHOD FOR SELECT SELECTS
+    const onMake = e => {
         setFormData({
             ...formData,
-            brandId: e
+            make: e
         })
     }
     const onUnitType = e => {
@@ -290,66 +303,135 @@ const EditVehicleForm = ({ addVehicle, history }) => {
             unitType: e
         })
     }
+    const onCategory = e => {
+        setFormData({
+            ...formData,
+            category: e
+        })
+    }
+    const onStatus = e => {
+        setFormData({
+            ...formData,
+            status: e
+        })
+    }
+    const onSaleType = e => {
+        setFormData({
+            ...formData,
+            saleType: e
+        })
+    }
 
     //METHOD FOR NUMBERS INPUT
     const OnYear = e => setFormData({ ...formData, year: e })
     const OnStockNumber = e => setFormData({ ...formData, stockNumber: e })
-    const OnVinNumber = e => setFormData({ ...formData, vinNumber: e })
     const OnMileage = e => setFormData({ ...formData, mileage: e })
     const OnPrice = e => setFormData({ ...formData, price: e })
+    const onSalePrice = e => {
+        setFormData({ ...formData, soldPrice: e, profit: e - boughtPrice })
+
+
+    }
+    const onBoughtPrice = e => {
+        setFormData({ ...formData, boughtPrice: e })
+    }
     const OnDoors = e => setFormData({ ...formData, doors: e })
     const OnImportedYear = e => setFormData({ ...formData, importedYear: e })
-    const OnDamageAmount = e => setFormData({ ...formData, damageAmount: e })
-    //ONSUBMIT
+    // CODE FOR THE DAMAGE ARRAY
+    // okayso things got messy here but prerty much created a varivle for every array and then had an onchange method for ever input which was very messy
+    //i know there is an easier way to do this and i wanna know what
+    //also created a button to add the damage to form data and a state to flip the button
+    const onDamage1 = e => setFormData({ ...formData, damage1: e })
+    const onDamage2 = e => setFormData({ ...formData, damage2: e })
+    const onDamage3 = e => setFormData({ ...formData, damage3: e })
+    const onDamage4 = e => setFormData({ ...formData, damage4: e })
+    const onDamage5 = e => setFormData({ ...formData, damage5: e })
+    const onDamageT1 = e => setFormData({ ...formData, damageT1: e })
+    const onDamageT2 = e => setFormData({ ...formData, damageT2: e })
+    const onDamageT3 = e => setFormData({ ...formData, damageT3: e })
+    const onDamageT4 = e => setFormData({ ...formData, damageT4: e })
+    const onDamageT5 = e => setFormData({ ...formData, damageT5: e })
+
+    const onDamageAdded = e => {
+
+        if (damage1 !== null) { damageAmount.push(damage1) }
+        if (damage2 !== null) { damageAmount.push(damage2) }
+        if (damage3 !== null) { damageAmount.push(damage3) }
+        if (damage4 !== null) { damageAmount.push(damage4) }
+        if (damage5 !== null) { damageAmount.push(damage5) }
+        if (damageT1 !== null) { damageType.push(damageT1) }
+        if (damageT2 !== null) { damageType.push(damageT2) }
+        if (damageT3 !== null) { damageType.push(damageT3) }
+        if (damageT4 !== null) { damageType.push(damageT4) }
+        if (damageT5 !== null) { damageType.push(damageT5) }
+        setFormData({ ...formData, damageAmount: damageAmount });
+        setFormData({ ...formData, damageType: damageType });
+    }
+
     const onSubmit = async e => {
         e.preventDefault();
-        addVehicle(formData, history, true)
+        await onDamageAdded()
+        addVehicle(formData, history)
     }
     return (
         <Fragment>
             <AddVehicleCard >
                 <Form onSubmit={onSubmit} >
-
-                    <h1>Quick Edit</h1>
-
+                    <h2>Lets Start With The Basics</h2>
                     <Form.Item label="VIN Number">
-                        <InputNumber
+                        <Input
                             value={vinNumber}
                             name='vinNumber'
-                            onChange={e => OnVinNumber(e)}
+                            onChange={e => onChange(e)}
                             placeholder='Please enter a unique vin number'
 
                         />
                     </Form.Item>
-
                     <Form.Item label="Stock Number">
                         <InputNumber
                             value={stockNumber}
                             name='stockNumber'
                             onChange={e => OnStockNumber(e)}
-                            placeholder='Please enter a unique stock number'
-
+                            placeholder='Please enter a unique stock number in format XXXXXX'
                         />
                     </Form.Item>
-
-
-                    <Form.Item label="Category ID">
-                        <Input
-                            value={categoryId}
-                            name='categoryId'
-                            placeholder='Please enter a valid category'
-
-                            onChange={e => onChange(e)}
-                        />
+                    <Form.Item label="Category">
+                        <Select
+                            defaultValue={category}
+                            onChange={onCategory}
+                            showSearch
+                            placeholder="Select A Category"
+                            optionFilterProp="category"
+                            filterOption={(input, option) =>
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            <Option value="AWD/4WD">AWD/4WD</Option>
+                            <Option value="Boat/Power-Sport">Boat/Power-Sport</Option>
+                            <Option value="Convertible">Convertible</Option>
+                            <Option value="Coupe">Coupe</Option>
+                            <Option value="Hatchback">Hatchback</Option>
+                            <Option value="Heavy Equipment">Heavy Equipment</Option>
+                            <Option value="Hybrid/Electric">Hybrid/Electric</Option>
+                            <Option value="Luxury">Luxury</Option>
+                            <Option value="Motorcycle">Motorcycle</Option>
+                            <Option value="RVs/Camper">RVs/Camper</Option>
+                            <Option value="Sedan">Sedan</Option>
+                            <Option value="SUV/Crossover">SUV/Crossover</Option>
+                            <Option value="Trailer">Trailer</Option>
+                            <Option value="Chevrolet">Truck</Option>
+                            <Option value="Van/Minivan">Vans/Minivan</Option>
+                            <Option value="Wagon">Wagon</Option>
+                            <Option value="Work Truck">Work Truck</Option>
+                        </Select>
                     </Form.Item>
-
                     <Form.Item label="Make">
                         <Select
-                            onChange={onBrand}
+                            defaultValue={make}
+                            onChange={onMake}
                             showSearch
-                            placeholder="Select a brand"
+                            placeholder="Select A Make"
                             optionFilterProp="brand"
-                            defaultValue={formData.brandId.toString()}
                             filterOption={(input, option) =>
                                 option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
@@ -386,6 +468,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             <Option value="Lexus">Lexus</Option>
                             <Option value="Lincoln">Lincoln</Option>
                             <Option value="Lotus">Lotus</Option>
+                            <Option value="Maserati">Maserati</Option>
                             <Option value="Mazda">Mazda</Option>
                             <Option value="Mercedes Benz">Mercedes Benz</Option>
                             <Option value="Mercury">Mercury</Option>
@@ -407,19 +490,31 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             <Option value="Volvo">Volvo</Option>
                         </Select>
                     </Form.Item>
-
-
                     <Form.Item label="Other Make">
                         <Input
-                            value={otherBrandId}
-                            name='otherBrandId'
+                            value={otherMake}
+                            name='otherMake'
                             onChange={e => onChange(e)}
                             placeholder='If none of the above makes mathced , please enter a custom one here'
-
                         />
                     </Form.Item>
-
-
+                    <Button type="primary" htmlType="submit">
+                        Add With Basics
+                    </Button>
+                </Form>
+            </AddVehicleCard >
+            <AddVehicleCard >
+                <Form onSubmit={onSubmit} >
+                    <h2>Lets Add A Few Details</h2>
+                    <h3>Car Details</h3>
+                    <Form.Item label="Year">
+                        <InputNumber
+                            value={year}
+                            name='year'
+                            onChange={e => OnYear(e)}
+                            placeholder='Please enter vehicle year'
+                        />
+                    </Form.Item>
                     <Form.Item label="Model">
                         <Input
                             value={vehicleModel}
@@ -429,19 +524,6 @@ const EditVehicleForm = ({ addVehicle, history }) => {
 
                         />
                     </Form.Item>
-
-
-                    <Form.Item label="Year">
-                        <InputNumber
-                            value={year}
-                            name='year'
-                            onChange={e => OnYear(e)}
-                            placeholder='Please enter vehicle year'
-
-                        />
-                    </Form.Item>
-
-
                     <Form.Item label="Exterior Color">
                         <Input
                             value={exteriorColor}
@@ -462,28 +544,28 @@ const EditVehicleForm = ({ addVehicle, history }) => {
 
                         />
                     </Form.Item>
-
-
-                    <Form.Item label="Odometer Accurate">
-                        <Switch
-                            onChange={onOdomoeterAccurate}
-                            checked={odomoeterAccurate == true ? true : false}
+                    <Form.Item label="Interior Materials">
+                        <Input
+                            value={interiorMaterials}
+                            name='interiorMaterials'
+                            onChange={e => onChange(e)}
+                        />
+                    </Form.Item>
+                    <Form.Item label="Trim">
+                        <Input
+                            value={trimDetail}
+                            name='trimDetail'
+                            onChange={e => onChange(e)}
                         />
                     </Form.Item>
 
-
-                    <Form.Item label="Unit Type">
-                        <Select
-                            defaultValue={unitType}
-                            onChange={onUnitType}
-                            placeholder="Select a unit"
-                        >
-                            <Option value="kms">KMS</Option>
-                            <Option value="miles">MILES</Option>
-                        </Select>
+                    <Form.Item label="Doors">
+                        <InputNumber
+                            value={doors}
+                            name='doors'
+                            onChange={e => OnDoors(e)}
+                        />
                     </Form.Item>
-
-
                     <Form.Item label="Mileage">
                         <InputNumber
                             value={mileage}
@@ -493,62 +575,35 @@ const EditVehicleForm = ({ addVehicle, history }) => {
 
                         />
                     </Form.Item>
+                    <Form.Item label="Unit Type">
+                        <Select
+                            onChange={onUnitType}
+                            placeholder="Select a unit"
+                        >
+                            <Option value="kms">KMS</Option>
+                            <Option value="miles">MILES</Option>
+                        </Select>
+                    </Form.Item>
+                    <Form.Item label="Odometer Accurate">
+                        <Switch onChange={onodometerAccurate} />
+                    </Form.Item>
 
-
+                    <Form.Item label="Description">
+                        <Input
+                            value={description}
+                            name='description'
+                            onChange={e => onChange(e)}
+                        />
+                    </Form.Item>
                     <Form.Item label="Price">
                         <InputNumber
                             value={price}
                             name='price'
                             onChange={e => OnPrice(e)}
                             placeholder='Please enter vehicle price'
-
                         />
                     </Form.Item>
-
-
-                    <Form.Item label="Web Visible">
-                        <Switch
-                            onChange={onWebVisible}
-                            checked={webVisible == true ? true : false}
-
-                        />
-                    </Form.Item>
-
-
-                    <Button type="primary" htmlType="submit">
-                        Update Vehicle
-                    </Button>
-
-                </Form>
-            </AddVehicleCard >
-            <AddVehicleCard >
-                <Form onSubmit={onSubmit}>
-
-                    <h1>Lets Edit A Few Details</h1>
-
-                    <Form.Item label="Trim">
-                        <Input
-                            value={trimDetail}
-                            name='trimDetail'
-                            onChange={e => onChange(e)}
-                        />
-                    </Form.Item>
-
-                    <Form.Item label="Body Style">
-                        <Input
-                            value={bodyStyle}
-                            name='bodyStyle'
-                            onChange={e => onChange(e)}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Doors">
-                        <InputNumber
-                            value={doors}
-                            name='doors'
-                            onChange={e => OnDoors(e)}
-                        />
-                    </Form.Item>
-
+                    <h3>Engine Details</h3>
                     <Form.Item label="Engine">
                         <Input
                             value={engine}
@@ -571,13 +626,6 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                         />
                     </Form.Item>
 
-                    <Form.Item label="Interior Materials">
-                        <Input
-                            value={interiorMaterials}
-                            name='interiorMaterials'
-                            onChange={e => onChange(e)}
-                        />
-                    </Form.Item>
                     <Form.Item label="Fuel Type">
                         <Input
                             value={fuelType}
@@ -585,6 +633,8 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
+
+
                     <Form.Item label="Origin">
                         <Input
                             value={origin}
@@ -592,6 +642,22 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
+
+
+                    <Form.Item label="Web Visible">
+                        <Switch onChange={onWebVisible} />
+                    </Form.Item>
+
+
+                    <Button type="primary" htmlType="submit">
+                        Add Full Vehicle
+                    </Button>
+
+                </Form>
+            </AddVehicleCard >
+            <AddVehicleCard >
+                <Form onSubmit={onSubmit}>
+                    <h2>Inventory Details</h2>
                     <Form.Item label="Purchased From">
                         <Input
                             value={purchasedFrom}
@@ -599,93 +665,14 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
-                    <Form.Item label="Imported From">
+
+                    <Form.Item label="Purchased By">
                         <Input
-                            value={importedFrom}
-                            name='importedFrom'
+                            value={purchasedBy}
+                            name='purchasedBy'
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
-
-
-                    <Form.Item label="Imported Year">
-                        <InputNumber
-                            value={importedYear}
-                            name='importedYear'
-                            onChange={e => onImportedForResale(e)}
-                        />
-                    </Form.Item>
-
-
-                    <Form.Item label="Description">
-                        <Input
-                            value={description}
-                            name='description'
-                            onChange={e => onChange(e)}
-                        />
-                    </Form.Item>
-
-                    <Form.Item label="Status">
-                        <Input
-                            value={status}
-                            name='status'
-                            onChange={e => onChange(e)}
-                        />
-                    </Form.Item>
-
-
-                    <Form.Item label="Location">
-                        <Input
-                            value={location}
-                            name='location'
-                            onChange={e => onChange(e)}
-                        />
-                    </Form.Item>
-
-                    <Form.Item label="Sale Type">
-                        <Input
-                            value={saleType}
-                            name='saleType'
-                            onChange={e => onChange(e)}
-                        />
-                    </Form.Item>
-
-
-                    <Form.Item label="Damage">
-                        <Switch onChange={onDamage} />
-                    </Form.Item>
-
-                    {!damage ? null : (
-                        <Fragment>
-                            <Form.Item label="Damage Amount">
-                                <InputNumber
-
-                                    name='name'
-                                    onChange={e => OnDamageAmount(e)}
-                                />
-                            </Form.Item>
-
-                            <Form.Item label="DamageType">
-                                <Input
-                                    value={damageType}
-                                    name='damageType'
-                                    onChange={e => onChange(e)}
-                                />
-                            </Form.Item>
-
-
-                            <Form.Item label="Damage Note">
-                                <Input
-                                    value={damageNote}
-                                    name='damageNote'
-                                    onChange={e => onChange(e)}
-                                />
-                            </Form.Item>
-                        </Fragment>
-                    )}
-
-
-
                     <Form.Item label="Date Purchased">
                         <DatePicker
                             format={'DD/MM/YYYY'}
@@ -702,60 +689,269 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={onDateListed}
                         />
                     </Form.Item>
+                    <Form.Item label="Status">
+                        <Select
 
-                    <Form.Item label="Bid Closing Date">
-                        <DatePicker
-                            format={'DD/MM/YYYY'}
-                            defaultValue={moment()}
-                            onChange={onBidCLosing} />
+                            defaultValue={status}
+                            onChange={onStatus}
+                            showSearch
+                            placeholder="Select A Status"
+                            optionFilterProp="status"
+                            filterOption={(input, option) =>
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            <Option value="Available">Available</Option>
+                            <Option value="Incoming">Incoming</Option>
+                            <Option value="Sold">Sold</Option>
+                        </Select>
                     </Form.Item>
 
-                    <Form.Item label="Purchased By">
+                    {status === 'Sold' ? (
+                        <Fragment>
+                            <Form.Item label="Sold By">
+                                <Input
+                                    value={soldBy}
+                                    name='soldBy'
+                                    onChange={e => onChange(e)}
+                                />
+                            </Form.Item>
+                        </Fragment>) :
+                        null
+                    }
+
+
+
+                    <Form.Item label="Location">
                         <Input
-                            value={purchasedBy}
-                            name='purchasedBy'
+                            value={location}
+                            name='location'
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
 
-                    <Form.Item label="Sold By">
-                        <Input
-                            value={soldBy}
-                            name='soldBy'
-                            onChange={e => onChange(e)}
-                        />
+                    <Form.Item label="Sale Type">
+                        <Select
+
+                            defaultValue={saleType}
+                            onChange={onSaleType}
+                            showSearch
+                            placeholder="Select A Sale Type"
+                            optionFilterProp="saleType"
+                            filterOption={(input, option) =>
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            <Option value="Retail">Retail</Option>
+                            <Option value="Wholesale">Wholesale</Option>
+                        </Select>
                     </Form.Item>
 
 
+                    <h3>Lets Talk Numbers</h3>
+
+                    <Form.Item label="Purchase Price">
+                        <InputNumber
+                            value={boughtPrice}
+                            name='boughtPrice'
+                            onChange={e => onBoughtPrice(e)}
+                            placeholder='Please enter how much we bought the vehicle for...'
+
+                        />
+                    </Form.Item>
+
+                    <Form.Item label="Sale Price">
+                        <InputNumber
+                            value={soldPrice}
+                            name='soldPrice'
+                            onChange={e => onSalePrice(e)}
+                            placeholder='Please enter how much we sold the vehicle for..'
+
+                        />
+                    </Form.Item>
                     <Form.Item label="Reconditioning Needed">
                         <Switch onChange={onReconditioningNeeded} />
                     </Form.Item>
-
-                    <Form.Item label="Imported For Resale">
-                        <Switch onChange={onImportedForResale} />
+                    <Form.Item label="Damage">
+                        <Switch onChange={onDamage} />
                     </Form.Item>
 
-                    <Form.Item label="Odometer Accurate">
-                        <Switch onChange={onOdomoeterAccurate} />
-                    </Form.Item>
+                    {!damage ? null : (
+                        <Fragment>
+                            <Form.Item label="Damage Type 1">
+                                <Select
 
-                    <Form.Item label="Transportation">
-                        <Switch onChange={onTransportation} />
-                    </Form.Item>
+                                    onChange={onDamageT1}
+                                    showSearch
+                                    placeholder="Select A Damage Type"
+                                    optionFilterProp="damageType"
+                                    filterOption={(input, option) =>
+                                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    <Option value="Animal Impact">Animal Impact</Option>
+                                    <Option value="Collision">Collision</Option>
+                                    <Option value="Comprehensive">Comprehensive</Option>
+                                    <Option value="Estimate">Estimate</Option>
+                                    <Option value="Glass">Glass</Option>
+                                    <Option value="No Details">No Details</Option>
+                                    <Option value="Rebuilt">Rebuilt</Option>
+                                    <Option value="Theft">Theft</Option>
+                                    <Option value="Vandalism">Vandalism</Option>
 
+                                </Select>
+                            </Form.Item>
+                            <Form.Item label="Damage Amount 1">
+                                <InputNumber
+                                    value={damage1}
+                                    name='damageAmount1'
+                                    onChange={e => onDamage1(e)}
+                                />
+                            </Form.Item>
+
+
+                            <Form.Item label="Damage Type 2">
+                                <Select
+
+                                    onChange={onDamageT2}
+                                    showSearch
+                                    placeholder="Select A Damage Type"
+                                    optionFilterProp="damageType"
+                                    filterOption={(input, option) =>
+                                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    <Option value="Animal Impact">Animal Impact</Option>
+                                    <Option value="Collision">Collision</Option>
+                                    <Option value="Comprehensive">Comprehensive</Option>
+                                    <Option value="Estimate">Estimate</Option>
+                                    <Option value="Glass">Glass</Option>
+                                    <Option value="No Details">No Details</Option>
+                                    <Option value="Rebuilt">Rebuilt</Option>
+                                    <Option value="Theft">Theft</Option>
+                                    <Option value="Vandalism">Vandalism</Option>
+
+                                </Select>
+                            </Form.Item>
+                            <Form.Item label="Damage Amount 2">
+                                <InputNumber
+                                    value={damage2}
+                                    name='damageAmount2'
+                                    onChange={e => onDamage2(e)}
+                                />
+                            </Form.Item>
+                            <Form.Item label="Damage Type 3">
+                                <Select
+
+                                    onChange={onDamageT3}
+                                    showSearch
+                                    placeholder="Select A Damage Type"
+                                    optionFilterProp="damageType"
+                                    filterOption={(input, option) =>
+                                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    <Option value="Animal Impact">Animal Impact</Option>
+                                    <Option value="Collision">Collision</Option>
+                                    <Option value="Comprehensive">Comprehensive</Option>
+                                    <Option value="Estimate">Estimate</Option>
+                                    <Option value="Glass">Glass</Option>
+                                    <Option value="No Details">No Details</Option>
+                                    <Option value="Rebuilt">Rebuilt</Option>
+                                    <Option value="Theft">Theft</Option>
+                                    <Option value="Vandalism">Vandalism</Option>
+
+                                </Select>
+                            </Form.Item>
+                            <Form.Item label="Damage Amount 3">
+                                <InputNumber
+                                    value={damage3}
+                                    name='damageAmount'
+                                    onChange={e => onDamage3(e)}
+                                />
+                            </Form.Item>
+                            <Form.Item label="Damage Type 4">
+                                <Select
+
+                                    onChange={onDamageT4}
+                                    showSearch
+                                    placeholder="Select A Damage Type"
+                                    optionFilterProp="damageType"
+                                    filterOption={(input, option) =>
+                                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    <Option value="Animal Impact">Animal Impact</Option>
+                                    <Option value="Collision">Collision</Option>
+                                    <Option value="Comprehensive">Comprehensive</Option>
+                                    <Option value="Estimate">Estimate</Option>
+                                    <Option value="Glass">Glass</Option>
+                                    <Option value="No Details">No Details</Option>
+                                    <Option value="Rebuilt">Rebuilt</Option>
+                                    <Option value="Theft">Theft</Option>
+                                    <Option value="Vandalism">Vandalism</Option>
+
+                                </Select>
+                            </Form.Item>
+                            <Form.Item label="Damage Amount 4">
+                                <InputNumber
+                                    value={damage4}
+                                    name='damageAmount'
+                                    onChange={e => onDamage4(e)}
+                                />
+                            </Form.Item>
+                            <Form.Item label="Damage Type 5">
+                                <Select
+
+                                    onChange={onDamageT5}
+                                    showSearch
+                                    placeholder="Select A Damage Type"
+                                    optionFilterProp="damageType"
+                                    filterOption={(input, option) =>
+                                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    <Option value="Animal Impact">Animal Impact</Option>
+                                    <Option value="Collision">Collision</Option>
+                                    <Option value="Comprehensive">Comprehensive</Option>
+                                    <Option value="Estimate">Estimate</Option>
+                                    <Option value="Glass">Glass</Option>
+                                    <Option value="No Details">No Details</Option>
+                                    <Option value="Rebuilt">Rebuilt</Option>
+                                    <Option value="Theft">Theft</Option>
+                                    <Option value="Vandalism">Vandalism</Option>
+
+                                </Select>
+                            </Form.Item>
+                            <Form.Item label="Damage Amount 5">
+                                <InputNumber
+                                    value={damage5}
+                                    name='damageAmount'
+                                    onChange={e => onDamage5(e)}
+                                />
+                            </Form.Item>
+
+                            <Form.Item label="Damage Note" style={{ marginTop: '10%' }}>
+                                <Input
+                                    value={damageNote}
+                                    name='damageNote'
+                                    onChange={e => onChange(e)}
+
+                                />
+                            </Form.Item>
+
+                        </Fragment>
+                    )}
 
 
 
                     <Form.Item >
                         <Button type="primary" htmlType="submit">
-                            Edit Full Vehicle
+                            Add Inventory Details
                     </Button>
                     </Form.Item>
-
                 </Form>
             </AddVehicleCard>
-
-            <Alert />
         </Fragment>
     )
 }

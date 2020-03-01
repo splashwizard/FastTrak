@@ -4,6 +4,7 @@ import { Layout } from 'antd';
 import SideBar from "../../layout/admin/Sidebar"
 import AdminNavbar from '../../layout/admin/AdminNavbar'
 import AddVehicleForm from '../../layout/admin/content/AddVehicle'
+import { AdminFooter } from '../../layout/admin/AdminFooter'
 
 
 
@@ -28,7 +29,7 @@ const AddVehicle = () => {
                         <AddVehicleForm />
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                <AdminFooter />
             </Layout>
         </Layout>
 
