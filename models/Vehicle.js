@@ -7,7 +7,7 @@ const VehicleSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    categoryId: {
+    category: {
         type: String
     },
 
@@ -16,7 +16,7 @@ const VehicleSchema = new mongoose.Schema({
     },
 
     vinNumber: {
-        type: Number,
+        type: String,
         required: true
 
     },
@@ -25,11 +25,11 @@ const VehicleSchema = new mongoose.Schema({
         type: Number
     },
 
-    brandId: {
+    make: {
         type: String
     },
 
-    otherBrandId: {
+    otherMake: {
         type: String
     },
 
@@ -57,10 +57,6 @@ const VehicleSchema = new mongoose.Schema({
         type: Number
     },
 
-    bodyStyle: {
-        type: String
-    },
-
     doors: {
         type: Number
     },
@@ -69,9 +65,6 @@ const VehicleSchema = new mongoose.Schema({
         type: String
     },
 
-    engineSize: {
-        type: String
-    },
 
     transmission: {
         type: String
@@ -103,61 +96,6 @@ const VehicleSchema = new mongoose.Schema({
 
     purchasedFrom: {
         type: String
-    },
-
-    importedFrom: {
-        type: String
-    },
-
-    importedYear: {
-        type: Number
-    },
-
-    importedForResale: {
-        type: Boolean
-    },
-
-    exteriorOptions: {
-
-        exterior: {
-            type: [Boolean]
-        },
-
-        interior: {
-            type: [Boolean]
-        },
-
-        mechanical: {
-            type: [Boolean]
-        },
-
-        safety: {
-            type: [Boolean]
-        },
-
-        rvInterior: {
-            type: [Boolean]
-        },
-
-        rvExterior: {
-            type: [Boolean]
-        },
-
-        motorcycle: {
-            type: [Boolean]
-        },
-
-        boat: {
-            type: [Boolean]
-        },
-
-        recreationalSport: {
-            type: [Boolean]
-        },
-    },
-
-    transportation: {
-        type: Boolean
     },
 
     description: {
@@ -211,17 +149,65 @@ const VehicleSchema = new mongoose.Schema({
     purchasedBy: {
         type: String
     },
-
     soldBy: {
         type: String
     },
+    boughtPrice: {
+        type: Number
+    },
+    soldPrice: {
+        type: Number
+    },
+    profit: {
+        type: Number
+    },
+    billOfSaleId: {
+        type: Number
+    },
 
-    bidClosing: {
-        type: Date
-    }
 });
 
 
 const Vehicle = mongoose.model('Vehicle', VehicleSchema);
 
 module.exports = Vehicle;
+
+
+    // exteriorOptions: {
+
+    //     exterior: {
+    //         type: [Boolean]
+    //     },
+
+    //     interior: {
+    //         type: [Boolean]
+    //     },
+
+    //     mechanical: {
+    //         type: [Boolean]
+    //     },
+
+    //     safety: {
+    //         type: [Boolean]
+    //     },
+
+    //     rvInterior: {
+    //         type: [Boolean]
+    //     },
+
+    //     rvExterior: {
+    //         type: [Boolean]
+    //     },
+
+    //     motorcycle: {
+    //         type: [Boolean]
+    //     },
+
+    //     boat: {
+    //         type: [Boolean]
+    //     },
+
+    //     recreationalSport: {
+    //         type: [Boolean]
+    //     },
+    // },

@@ -36,13 +36,13 @@ router.get('/users', async (req, res) => {
     try {
         const page = parseInt(req.query.page);
         const page_length = parseInt(req.query.page_length);
-        const { brandId, vehicleModel, year, price_min, price_max, mileage_min, mileage_max } = req.query;
+        const { make, vehicleModel, year, price_min, price_max, mileage_min, mileage_max } = req.query;
         let webVisible = true;
         let query = {};
         if (webVisible)
             query.webVisible = { "$eq": webVisible }
-        if (brandId)
-            query.brandId = { "$eq": brandId };
+        if (make)
+            query.make = { "$eq": make };
         if (vehicleModel)
             query.vehicleModel = { "$eq": vehicleModel };
         if (year)
@@ -87,12 +87,12 @@ router.get('/users', async (req, res) => {
 router.get('/user_filters', async (req, res) => {
     try {
         let query = {};
-        const { brandId, vehicleModel, year, price_min, price_max, mileage_min, mileage_max } = req.query;
+        const { make, vehicleModel, year, price_min, price_max, mileage_min, mileage_max } = req.query;
         let webVisible = true;
         if (webVisible)
             query.webVisible = { "$eq": webVisible }
-        if (brandId)
-            query.brandId = { "$eq": brandId };
+        if (make)
+            query.make = { "$eq": make };
         if (vehicleModel)
             query.vehicleModel = { "$eq": vehicleModel };
         if (year)
@@ -111,16 +111,16 @@ router.get('/user_filters', async (req, res) => {
             mileage_subquery = { ...mileage_subquery, $lt: parseInt(mileage_max) };
         if (Object.keys(mileage_subquery).length !== 0)
             query.mileage = mileage_subquery;
-        const brandIdAggregatorOpts = [
+        const makeAggregatorOpts = [
             { $match: query },
             {
                 $group: {
-                    _id: "$brandId",
+                    _id: "$make",
                     count: { $sum: 1 }
                 }
             }
         ];
-        const brandIdList = await Vehicle.aggregate(brandIdAggregatorOpts).exec();
+        const makeList = await Vehicle.aggregate(makeAggregatorOpts).exec();
         const modelAggregatorOpts = [
             { $match: query },
             {
@@ -182,7 +182,7 @@ router.get('/user_filters', async (req, res) => {
                 }
             }
         ]).exec();
-        return res.json({ brandIdList: brandIdList, vehicleModelList: vehicleModelList, yearList: yearList, priceList: priceList, mileageList: mileageList });
+        return res.json({ makeList: makeList, vehicleModelList: vehicleModelList, yearList: yearList, priceList: priceList, mileageList: mileageList });
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server Error')
@@ -206,19 +206,18 @@ router.post('/add', [auth, check('vinNumber', 'Vin Number Is Required').not().is
     }
 
     const user = req.user.id;
-    const categoryId = req.body.categoryId;
+    const category = req.body.category;
     const stockNumber = req.body.stockNumber;
     const vinNumber = req.body.vinNumber;
     const year = req.body.year;
-    const brandId = req.body.brandId;
-    const otherBrandId = req.body.otherBrandId;
+    const make = req.body.make;
+    const otherMake = req.body.otherMake;
     const vehicleModel = req.body.vehicleModel;
     const trimDetail = req.body.trimDetail;
     const mileage = req.body.mileage;
     const unitType = req.body.unitType;
-    const odomoeterAccurate = req.body.odomoeterAccurate;
+    const odometerAccurate = req.body.odometerAccurate;
     const price = req.body.price;
-    const bodyStyle = req.body.bodyStyle;
     const doors = req.body.doors;
     const engine = req.body.engine;
     const engineSize = req.body.engineSize;
@@ -249,24 +248,26 @@ router.post('/add', [auth, check('vinNumber', 'Vin Number Is Required').not().is
     const datePurchased = req.body.datePurchased;
     const purchasedBy = req.body.purchasedBy;
     const soldBy = req.body.soldBy;
-    const bidClosing = req.body.bidClosing;
+    const boughtPrice = req.body.boughtPrice;
+    const soldPrice = req.body.soldPrice;
+    const billOfSaleId = req.body.billOfSaleId;
+    const profit = req.body.profit;
 
 
     const newVehicle = new Vehicle({
         user,
-        categoryId,
+        category,
         stockNumber,
         vinNumber,
         year,
-        brandId,
-        otherBrandId,
+        make,
+        otherMake,
         vehicleModel,
         trimDetail,
         mileage,
         unitType,
-        odomoeterAccurate,
+        odometerAccurate,
         price,
-        bodyStyle,
         doors,
         engine,
         engineSize,
@@ -296,7 +297,10 @@ router.post('/add', [auth, check('vinNumber', 'Vin Number Is Required').not().is
         datePurchased,
         purchasedBy,
         soldBy,
-        bidClosing
+        boughtPrice,
+        soldPrice,
+        billOfSaleId,
+        profit
     });
 
 
@@ -309,19 +313,18 @@ router.post('/add', [auth, check('vinNumber', 'Vin Number Is Required').not().is
             const updatedVehicle = {
 
                 user: req.user.id,
-                categoryId: req.body.categoryId,
+                category: req.body.category,
                 stockNumber: req.body.stockNumber,
                 vinNumber: req.body.vinNumber,
                 year: req.body.year,
-                brandId: req.body.brandId,
-                otherBrandId: req.body.otherBrandId,
+                make: req.body.make,
+                otherMake: req.body.otherMake,
                 vehicleModel: req.body.vehicleModel,
                 trimDetail: req.body.trimDetail,
                 mileage: req.body.mileage,
                 unitType: req.body.unitType,
-                odomoeterAccurate: req.body.odomoeterAccurate,
+                odometerAccurate: req.body.odometerAccurate,
                 price: req.body.price,
-                bodyStyle: req.body.bodyStyle,
                 doors: req.body.doors,
                 engine: req.body.engine,
                 engineSize: req.body.engineSize,
@@ -352,8 +355,10 @@ router.post('/add', [auth, check('vinNumber', 'Vin Number Is Required').not().is
                 datePurchased: req.body.datePurchased,
                 purchasedBy: req.body.purchasedBy,
                 soldBy: req.body.soldBy,
-                bidClosing: req.body.bidClosing,
-
+                boughtPrice: req.body.boughtPrice,
+                soldPrice: req.body.soldPrice,
+                billOfSaleId: req.body.billOfSaleId,
+                profit: req.body.profit,
             }
 
             if (req.body.year != null) { updatedVehicle.year = req.body.year };

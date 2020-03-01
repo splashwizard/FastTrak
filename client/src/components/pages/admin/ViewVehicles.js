@@ -27,7 +27,7 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
     const getvehicleList = vehicles.map((vehicle) => {
         return {
             key: vehicle.vinNumber,
-            brandId: vehicle.brandId,
+            make: vehicle.make,
             vinNumber: vehicle.vinNumber,
             price: vehicle.price,
             year: vehicle.year,
@@ -52,8 +52,8 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
         },
         {
             title: 'Make',
-            dataIndex: 'brandId',
-            key: 'brandId',
+            dataIndex: 'make',
+            key: 'make',
             render: text => <span>{text}</span>,
 
         },

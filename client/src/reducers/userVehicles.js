@@ -3,11 +3,11 @@ import {
     RECEIVE_USER_VEHICLES,
     RECEIVE_USER_FILTERS,
     SET_CURRENT_PAGE, SET_POST_PER_PAGE,
-    SELECT_BRAND_ID,
+    SELECT_MAKE,
     SELECT_VEHICLE_MODEL,
     SELECT_YEAR,
     SELECT_PRICE,
-    REMOVE_BRAND_ID,
+    REMOVE_MAKE,
     REMOVE_VEHICLE_MODEL,
     REMOVE_YEAR,
     REMOVE_PRICE_MIN,
@@ -24,8 +24,8 @@ const initialState = {
     loading: false,
     currentPage: 1,
     postPerPage: 5,
-    brandId: '',
-    brandIdList: [],
+    Make: '',
+    MakeList: [],
     vehicleModel: '',
     vehicleModelList: [],
     year: '',
@@ -57,7 +57,7 @@ export default function (state = initialState, action) {
         case RECEIVE_USER_FILTERS:
             return {
                 ...state,
-                brandIdList: payload.brandIdList,
+                MakeList: payload.MakeList,
                 vehicleModelList: payload.vehicleModelList,
                 yearList: payload.yearList,
                 priceList: payload.priceList,
@@ -73,10 +73,10 @@ export default function (state = initialState, action) {
                 ...state,
                 postPerPage: payload
             };
-        case SELECT_BRAND_ID:
+        case SELECT_MAKE:
             return {
                 ...state,
-                brandId: payload
+                Make: payload
             };
         case SELECT_VEHICLE_MODEL:
             return {
@@ -100,10 +100,10 @@ export default function (state = initialState, action) {
                 mileage_min: payload.min,
                 mileage_max: payload.max
             };
-        case REMOVE_BRAND_ID:
+        case REMOVE_MAKE:
             return {
                 ...state,
-                brandId: ''
+                Make: ''
             };
         case REMOVE_VEHICLE_MODEL:
             return {

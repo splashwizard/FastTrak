@@ -4,8 +4,8 @@ import { Menu, Icon } from 'antd'
 import Page from '../../ui/Pagination'
 import { connect } from "react-redux";
 import {
-    getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
-    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax
+    getUserVehicles, selectMake, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
+    removeMake, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax
 } from "../../../../actions/userVehicles";
 
 
@@ -19,9 +19,9 @@ const { SubMenu } = Menu;
 
 
 //declare component
-const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
-    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax,
-    userVehicles: { vehicles, totalPosts, brandIdList, brandId, vehicleModelList, vehicleModel, postPerPage,
+const Inventory = ({ getUserVehicles, selectMake, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
+    removeMake, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax,
+    userVehicles: { vehicles, totalPosts, MakeList, make, vehicleModelList, vehicleModel, postPerPage,
         year, yearList, price_min, price_max, priceList, mileage_min, mileage_max, mileageList } }) => {
     //set some intials hooks for our state
     // const [vehicles, setVehicles] = useState([]);
@@ -34,7 +34,7 @@ const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectY
             <h2 >This is our inventory in Kelowna, British Colubmia</h2>
             <div className="filter-stock-active-wrap">
                 <div className="filter-stock-active">
-                    {brandId ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeBrandId}>{brandId}</a> : null}
+                    {make ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeMake}>{make}</a> : null}
                     {vehicleModel ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeVehicleModel}>{vehicleModel}</a> : null}
                     {year ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeYear}>{year}</a> : null}
                     {price_min !== Number.NEGATIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removePriceMin}>{'From: $' + price_min}</a> : null}
@@ -44,7 +44,7 @@ const Inventory = ({ getUserVehicles, selectBrandId, selectVehicleModel, selectY
                 </div>
             </div>
             <div className={'inventory'}>
-                <Sidebar brandIdList={brandIdList} selectBrandId={selectBrandId} brandId={brandId}
+                <Sidebar MakeList={MakeList} selectMake={selectMake} make={make}
                     vehicleModelList={vehicleModelList} vehicleModel={vehicleModel} selectVehicleModel={selectVehicleModel}
                     yearList={yearList} year={year} selectYear={selectYear} priceList={priceList} selectPrice={selectPrice} mileageList={mileageList} selectMileage={selectMileage} />
                 <section style={{ width: '100%', marginLeft: '10px' }}>
@@ -86,12 +86,12 @@ const mapStateToProps = state => ({
     userVehicles: state.userVehicles
 });
 export default connect(mapStateToProps, {
-    getUserVehicles, selectBrandId, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
-    removeBrandId, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax
+    getUserVehicles, selectMake, selectVehicleModel, selectYear, selectPrice, selectMileage, setPostPerPage,
+    removeMake, removeVehicleModel, removeYear, removePriceMin, removePriceMax, removeMileageMin, removeMileageMax
 })(Inventory)
 
-const Sidebar = ({ brandIdList, brandId, selectBrandId, vehicleModelList, vehicleModel, selectVehicleModel, yearList, year, selectYear, priceList, selectPrice, mileageList, selectMileage }) => {
-    const [openKeys, setOpenKeys] = useState(['brandId', 'vehicleModel', 'year', 'price', 'mileage']);
+const Sidebar = ({ MakeList, make, selectMake, vehicleModelList, vehicleModel, selectVehicleModel, yearList, year, selectYear, priceList, selectPrice, mileageList, selectMileage }) => {
+    const [openKeys, setOpenKeys] = useState(['make', 'vehicleModel', 'year', 'price', 'mileage']);
     const [rootSubmenuKeys] = useState(['sub1', 'sub2', 'sub4']);
 
     const onOpenChange = openKeys => {
@@ -112,10 +112,10 @@ const Sidebar = ({ brandIdList, brandId, selectBrandId, vehicleModelList, vehicl
                 selectable={false}
             >
                 {
-                    brandId === '' ?
-                        <SubMenu key="brandId" title={<span>Make</span>}>{
-                            brandIdList.map((item, index) => (
-                                item._id ? <Menu.Item key={index} style={{ fontWeight: 'normal', backgroundColor: '#f5f5f5', margin: 0 }} onClick={() => selectBrandId(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
+                    make === '' ?
+                        <SubMenu key="make" title={<span>Make</span>}>{
+                            MakeList.map((item, index) => (
+                                item._id ? <Menu.Item key={index} style={{ fontWeight: 'normal', backgroundColor: '#f5f5f5', margin: 0 }} onClick={() => selectMake(item._id)}>{item._id + ' (' + item.count + ')'}</Menu.Item> : null
                             ))
                         }</SubMenu> : null
                 }
@@ -159,16 +159,16 @@ const VehicleCards = ({ vehicles }) => {
         <div>
             {vehicles.map((vehicle, index) => {
                 console.log(vehicle, 'dfsfsfdsdfsd')
-                const { year, brandId, mileage, vehicleModel, price, unitType, exteriorColor, driveTrain, stockNumber, engine, engineSize, vinNumber } = vehicle;
+                const { year, make, mileage, vehicleModel, price, unitType, exteriorColor, driveTrain, stockNumber, engine, engineSize, vinNumber } = vehicle;
                 return (
                     <div key={index}>
-                        {/*<VehicleCard title={vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel}>*/}
+                        {/*<VehicleCard title={vehicle.year + ' ' + vehicle.make + ' ' + vehicle.vehicleModel}>*/}
                         <VehicleCard>
                             <div className="product-thumbnail">
                                 <img src='https://via.placeholder.com/150' />
                             </div>
                             <div className='product-description'>
-                                <h4>{vehicle.year + ' ' + vehicle.brandId + ' ' + vehicle.vehicleModel}</h4>
+                                <h4>{vehicle.year + ' ' + vehicle.make + ' ' + vehicle.vehicleModel}</h4>
                                 <p><span>Odometer:</span> <b>{mileage + ' ' + unitType}</b></p>
                                 <p><span>Color:</span> <b>{exteriorColor}</b></p>
                                 <p><span>Engine:</span> <b>{engineSize + ' ' + engine}</b></p>

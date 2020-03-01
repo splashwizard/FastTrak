@@ -120,12 +120,12 @@ const DeleteButton = styled.button`
 const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
     const [formData, setFormData] = useState({
         user: '',
-        categoryId: '',
+        category: '',
         stockNumber: '',
         vinNumber: '',
         year: null,
-        brandId: '',
-        otherBrandId: '',
+        make: '',
+        otherMake: '',
         vehicleModel: '',
         trimDetail: '',
         mileage: null,
@@ -193,12 +193,12 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
             setFormData({
                 ...formData,
                 user: '',
-                categoryId: res.data[0].categoryId,
+                category: res.data[0].category,
                 stockNumber: res.data[0].stockNumber,
                 vinNumber: res.data[0].vinNumber,
                 year: res.data[0].year,
-                brandId: res.data[0].brandId,
-                otherBrandId: res.data[0].otherBrandId,
+                make: res.data[0].make,
+                otherMake: res.data[0].otherMake,
                 vehicleModel: res.data[0].vehicleModel,
                 trimDetail: res.data[0].trimDetail,
                 mileage: res.data[0].mileage,
@@ -244,12 +244,12 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
     }, [setFormData])
 
     const {
-        categoryId,
+        category,
         stockNumber,
         vinNumber,
         year,
-        brandId,
-        otherBrandId,
+        make,
+        otherMake,
         vehicleModel,
         trimDetail,
         mileage,
@@ -301,19 +301,9 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
 
 
                 <a href="/dashboard/getvehicles"> <Icon type="arrow-left" /> Back To Inventory</a>
-                <Row >
-                    <Col span={24} style={{ textAlign: 'center' }}>
 
-                        {!ShowDelete ?
-                            (<DeleteButton onClick={onDeleteConfirm}>Delete Vehicle?</DeleteButton>) :
-                            (<div>
-                                <DeleteButton onClick={onDelete}>DELETE</DeleteButton>
-                                <DeleteButton onClick={onDeleteConfirm}>CANCEL</DeleteButton>
-                            </div>)}
-                    </Col>
-                </Row>
                 <VehicleHeader>
-                    {loading ? <Icon type="loading" /> : <h1>{year + ' ' + brandId + ' ' + vehicleModel}</h1>}
+                    {loading ? <Icon type="loading" /> : <h1>{year + ' ' + make + ' ' + vehicleModel}</h1>}
                 </VehicleHeader>
                 <Row>
                     <Col span={24}>
@@ -390,6 +380,17 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
 
 
                         </DetailsContainer>
+                    </Col>
+                </Row>
+                <Row >
+                    <Col span={24} style={{ textAlign: 'center' }}>
+
+                        {!ShowDelete ?
+                            (<DeleteButton onClick={onDeleteConfirm}>Delete Vehicle?</DeleteButton>) :
+                            (<div>
+                                <DeleteButton onClick={onDelete}>DELETE</DeleteButton>
+                                <DeleteButton onClick={onDeleteConfirm}>CANCEL</DeleteButton>
+                            </div>)}
                     </Col>
                 </Row>
             </VehicleContainer>

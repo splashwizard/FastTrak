@@ -7,11 +7,11 @@ import {
     RECEIVE_USER_VEHICLES,
     RECEIVE_USER_FILTERS,
     SET_CURRENT_PAGE,
-    SELECT_BRAND_ID,
+    SELECT_MAKE,
     SELECT_VEHICLE_MODEL,
     SELECT_YEAR,
     SELECT_PRICE,
-    REMOVE_BRAND_ID,
+    REMOVE_MAKE,
     REMOVE_VEHICLE_MODEL,
     REMOVE_YEAR,
     REMOVE_PRICE_MIN,
@@ -27,14 +27,14 @@ export const getUserVehicles = () => async dispatch => {
             type: REQUEST_USER_VEHICLES
         });
         const userVehicles = store.getState().userVehicles;
-        const res_filters = await axios.get(`/api/vehicles/user_filters?brandId=${userVehicles.brandId}&vehicleModel=${userVehicles.vehicleModel}&year=${userVehicles.year}` +
+        const res_filters = await axios.get(`/api/vehicles/user_filters?Make=${userVehicles.Make}&vehicleModel=${userVehicles.vehicleModel}&year=${userVehicles.year}` +
             `&price_min=${userVehicles.price_min}&price_max=${userVehicles.price_max}&mileage_min=${userVehicles.mileage_min}&mileage_max=${userVehicles.mileage_max}`);
         dispatch({
             type: RECEIVE_USER_FILTERS,
             payload: res_filters.data
         });
 
-        const res_vehicles = await axios.get(`/api/vehicles/users?brandId=${userVehicles.brandId}&vehicleModel=${userVehicles.vehicleModel}&year=${userVehicles.year}` +
+        const res_vehicles = await axios.get(`/api/vehicles/users?Make=${userVehicles.Make}&vehicleModel=${userVehicles.vehicleModel}&year=${userVehicles.year}` +
             `&price_min=${userVehicles.price_min}&price_max=${userVehicles.price_max}&mileage_min=${userVehicles.mileage_min}&mileage_max=${userVehicles.mileage_max}&page=${userVehicles.currentPage}&page_length=${userVehicles.postPerPage}`);
         dispatch({
             type: RECEIVE_USER_VEHICLES,
@@ -44,11 +44,11 @@ export const getUserVehicles = () => async dispatch => {
     }
 };
 
-export const selectBrandId = (brandId) => async dispatch => {
+export const selectMake = (Make) => async dispatch => {
     try {
         dispatch({
-            type: SELECT_BRAND_ID,
-            payload: brandId
+            type: SELECT_MAKE,
+            payload: Make
         });
 
         dispatch({
@@ -129,10 +129,10 @@ export const selectMileage = (min, max) => async dispatch => {
     }
 };
 
-export const removeBrandId = () => async dispatch => {
+export const removeMake = () => async dispatch => {
     try {
         dispatch({
-            type: REMOVE_BRAND_ID,
+            type: REMOVE_MAKE,
         });
 
         dispatch({
