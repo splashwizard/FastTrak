@@ -10,7 +10,8 @@ import {
     InputNumber,
     DatePicker,
     Select,
-    Card
+    Card,
+    Icon
 } from 'antd';
 import Alert from "../../ui/Alert";
 import moment from 'moment';
@@ -30,25 +31,54 @@ const AddVehicleCard = styled(Card)`
     width: 90%;
     background: #000000c7;
     color: white;
-    padding: 1%;
     border: 1px solid white;
-    border-radius: 25px;
     margin: auto;
     box-shadow: 5px 10px 5px 10px rgba(0, 0, 0, 0.15);
     margin-bottom:10%;
+    .ant-card-body{
+        padding:10px;
+    }
     form{
         background: #848484;
         padding: 5%;
-        h1{
+        p{
             text-transform: uppercase;
-            font-size: 24px;
+            font-size: 12px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: white;
+            
+        }
+        h2{
+            text-transform: uppercase;
+            font-size: 18px;
             font-weight: bold;
             letter-spacing: 2px;
             color: white;
-            border: 5px solid white;
-            padding: 10px;
-            text-align: center;
+            border-bottom: 5px solid white;
+            margin-bottom:5%;
+            text-align: center;     
         }
+        h3{
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: white;
+            padding: 10px;
+            text-align: center;  
+        }
+        h4{
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: white;
+            span{
+                font-weight: 700;
+                
+            } 
+        }    
         label{
             text-transform: uppercase;
             color: white;
@@ -163,7 +193,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                 trimDetail: res.data[0].trimDetail,
                 mileage: res.data[0].mileage,
                 unitType: res.data[0].unitType,
-                odomoeterAccurate: res.data[0].odomoeterAccurate,
+                odometerAccurate: res.data[0].odometerAccurate,
                 price: res.data[0].price,
                 doors: res.data[0].doors,
                 engine: res.data[0].engine,
@@ -261,7 +291,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
     } = formData
     //BELOW ARE ALL THE METHODS FOR THE SWITCHES
     const onWebVisible = e => setFormData({ ...formData, webVisible: !webVisible })
-    const onodometerAccurate = e => setFormData({ ...formData, odometerAccurate: !odometerAccurate })
+    const onOdometerAccurate = e => setFormData({ ...formData, odometerAccurate: !odometerAccurate })
     const onReconditioningNeeded = e => setFormData({ ...formData, reconditioniongNeeded: !reconditioniongNeeded })
     const onDamage = e => setFormData({ ...formData, damage: !damage })
     //BELOW ARE ALL METHODS FOR DATE PICKERS
@@ -377,54 +407,14 @@ const EditVehicleForm = ({ addVehicle, history }) => {
         <Fragment>
             <AddVehicleCard >
                 <Form onSubmit={onSubmit} >
-                    <h2>Lets Start With The Basics</h2>
-                    <Form.Item label="VIN Number">
-                        <Input
-                            value={vinNumber}
-                            name='vinNumber'
-                            onChange={e => onChange(e)}
-                            placeholder='Please enter a unique vin number'
-
-                        />
-                    </Form.Item>
-                    <Form.Item label="Stock Number">
-                        <InputNumber
-                            value={stockNumber}
-                            name='stockNumber'
-                            onChange={e => OnStockNumber(e)}
-                            placeholder='Please enter a unique stock number in format XXXXXX'
-                        />
-                    </Form.Item>
-                    <Form.Item label="Category">
-                        <Select
-                            defaultValue={category}
-                            onChange={onCategory}
-                            showSearch
-                            placeholder="Select A Category"
-                            optionFilterProp="category"
-                            filterOption={(input, option) =>
-                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            <Option value="AWD/4WD">AWD/4WD</Option>
-                            <Option value="Boat/Power-Sport">Boat/Power-Sport</Option>
-                            <Option value="Convertible">Convertible</Option>
-                            <Option value="Coupe">Coupe</Option>
-                            <Option value="Hatchback">Hatchback</Option>
-                            <Option value="Heavy Equipment">Heavy Equipment</Option>
-                            <Option value="Hybrid/Electric">Hybrid/Electric</Option>
-                            <Option value="Luxury">Luxury</Option>
-                            <Option value="Motorcycle">Motorcycle</Option>
-                            <Option value="RVs/Camper">RVs/Camper</Option>
-                            <Option value="Sedan">Sedan</Option>
-                            <Option value="SUV/Crossover">SUV/Crossover</Option>
-                            <Option value="Trailer">Trailer</Option>
-                            <Option value="Chevrolet">Truck</Option>
-                            <Option value="Van/Minivan">Vans/Minivan</Option>
-                            <Option value="Wagon">Wagon</Option>
-                            <Option value="Work Truck">Work Truck</Option>
-                        </Select>
-                    </Form.Item>
+                    <h2>Edit Front End Details</h2>
+                    <h4>Current Make:
+                        {loading ? <Icon type="loading" /> : <span>{make !== null ? make : otherMake} <Icon type="check-circle" /></span>}
+                    </h4>
+                    <h4>Current Category:
+                        {loading ? <Icon type="loading" /> : <span>{category}<Icon type="check-circle" /></span>}
+                    </h4>
+                    <p>**To change the make please select a new make below or enter other make**</p>
                     <Form.Item label="Make">
                         <Select
                             defaultValue={make}
@@ -498,15 +488,41 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             placeholder='If none of the above makes mathced , please enter a custom one here'
                         />
                     </Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        Add With Basics
-                    </Button>
-                </Form>
-            </AddVehicleCard >
-            <AddVehicleCard >
-                <Form onSubmit={onSubmit} >
-                    <h2>Lets Add A Few Details</h2>
-                    <h3>Car Details</h3>
+                    <Form.Item label="Category">
+                        <Select
+                            defaultValue={category}
+                            onChange={onCategory}
+                            showSearch
+                            placeholder="Select A Category"
+                            optionFilterProp="category"
+                            filterOption={(input, option) =>
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            <Option value="AWD/4WD">AWD/4WD</Option>
+                            <Option value="Boat/Power-Sport">Boat/Power-Sport</Option>
+                            <Option value="Convertible">Convertible</Option>
+                            <Option value="Coupe">Coupe</Option>
+                            <Option value="Hatchback">Hatchback</Option>
+                            <Option value="Heavy Equipment">Heavy Equipment</Option>
+                            <Option value="Hybrid/Electric">Hybrid/Electric</Option>
+                            <Option value="Luxury">Luxury</Option>
+                            <Option value="Motorcycle">Motorcycle</Option>
+                            <Option value="RVs/Camper">RVs/Camper</Option>
+                            <Option value="Sedan">Sedan</Option>
+                            <Option value="SUV/Crossover">SUV/Crossover</Option>
+                            <Option value="Trailer">Trailer</Option>
+                            <Option value="Chevrolet">Truck</Option>
+                            <Option value="Van/Minivan">Vans/Minivan</Option>
+                            <Option value="Wagon">Wagon</Option>
+                            <Option value="Work Truck">Work Truck</Option>
+                        </Select>
+                    </Form.Item>
+
+
+
+                    <p>**Please Update The Front End Details Below**</p>
+
                     <Form.Item label="Year">
                         <InputNumber
                             value={year}
@@ -522,6 +538,14 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => onChange(e)}
                             placeholder='Please enter vehicle model'
 
+                        />
+                    </Form.Item>
+                    <Form.Item label="Price">
+                        <InputNumber
+                            value={price}
+                            name='price'
+                            onChange={e => OnPrice(e)}
+                            placeholder='Please enter vehicle price'
                         />
                     </Form.Item>
                     <Form.Item label="Exterior Color">
@@ -558,7 +582,6 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
-
                     <Form.Item label="Doors">
                         <InputNumber
                             value={doors}
@@ -566,28 +589,6 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => OnDoors(e)}
                         />
                     </Form.Item>
-                    <Form.Item label="Mileage">
-                        <InputNumber
-                            value={mileage}
-                            name='mileage'
-                            onChange={e => OnMileage(e)}
-                            placeholder='Please enter vehicle mileage'
-
-                        />
-                    </Form.Item>
-                    <Form.Item label="Unit Type">
-                        <Select
-                            onChange={onUnitType}
-                            placeholder="Select a unit"
-                        >
-                            <Option value="kms">KMS</Option>
-                            <Option value="miles">MILES</Option>
-                        </Select>
-                    </Form.Item>
-                    <Form.Item label="Odometer Accurate">
-                        <Switch onChange={onodometerAccurate} />
-                    </Form.Item>
-
                     <Form.Item label="Description">
                         <Input
                             value={description}
@@ -595,15 +596,6 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
-                    <Form.Item label="Price">
-                        <InputNumber
-                            value={price}
-                            name='price'
-                            onChange={e => OnPrice(e)}
-                            placeholder='Please enter vehicle price'
-                        />
-                    </Form.Item>
-                    <h3>Engine Details</h3>
                     <Form.Item label="Engine">
                         <Input
                             value={engine}
@@ -642,22 +634,71 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
+                    <h4>Current Mileage:
+                        {loading ? <Icon type="loading" /> : <span>{mileage !== null ? (" " + mileage + " " + unitType) : "Add Mileage"} <Icon type="check-circle" /></span>}
+                    </h4>
+                    <h4>Odometer Accurate:
+                        {loading ? <Icon type="loading" /> : <span>{odometerAccurate === true ? <Icon type="check" /> : <Icon type="close" />} </span>}
+                    </h4>
+                    <Form.Item label="Mileage">
+                        <InputNumber
+                            value={mileage}
+                            name='mileage'
+                            onChange={e => OnMileage(e)}
+                            placeholder='Please enter vehicle mileage'
 
+                        />
+                    </Form.Item>
+                    <Form.Item label="Unit Type">
+                        <Select
+                            onChange={onUnitType}
+                            placeholder="Select a unit"
+                        >
+                            <Option value="kms">KMS</Option>
+                            <Option value="miles">MILES</Option>
+                        </Select>
+                    </Form.Item>
+                    <Form.Item label="Odometer Accurate">
+                        <Switch
+                            onChange={onOdometerAccurate}
+                            checked={odometerAccurate ? true : false} />
 
-                    <Form.Item label="Web Visible">
-                        <Switch onChange={onWebVisible} />
                     </Form.Item>
 
-
+                    <Form.Item label="Web Visible">
+                        <Switch
+                            onChange={onWebVisible}
+                            checked={webVisible ? true : false} />
+                    </Form.Item>
                     <Button type="primary" htmlType="submit">
-                        Add Full Vehicle
+                        Update Front End Details
                     </Button>
 
                 </Form>
             </AddVehicleCard >
             <AddVehicleCard >
-                <Form onSubmit={onSubmit}>
-                    <h2>Inventory Details</h2>
+                <Form onSubmit={onSubmit} >
+                    <h2>Back End Details</h2>
+
+                    <Form.Item label="VIN Number">
+                        <Input
+                            value={vinNumber}
+                            name='vinNumber'
+                            onChange={e => onChange(e)}
+                            placeholder='Please enter a unique vin number'
+                            disabled
+                        />
+                    </Form.Item>
+                    <p>** Vin Number Cannot Be Changed, Please Delete Vehicle And Start Again **</p>
+
+                    <Form.Item label="Stock Number">
+                        <InputNumber
+                            value={stockNumber}
+                            name='stockNumber'
+                            onChange={e => OnStockNumber(e)}
+                            placeholder='Please enter a unique stock number in format XXXXXX'
+                        />
+                    </Form.Item>
                     <Form.Item label="Purchased From">
                         <Input
                             value={purchasedFrom}
@@ -676,7 +717,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                     <Form.Item label="Date Purchased">
                         <DatePicker
                             format={'DD/MM/YYYY'}
-                            defaultValue={moment()}
+                            defaultValue={datePurchased}
                             onChange={onDatePurchased}
                         />
                     </Form.Item>
@@ -689,6 +730,20 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={onDateListed}
                         />
                     </Form.Item>
+                    <Form.Item label="Location">
+                        <Input
+                            value={location}
+                            name='location'
+                            onChange={e => onChange(e)}
+                        />
+                    </Form.Item>
+                </Form>
+            </AddVehicleCard >
+            <AddVehicleCard >
+                <Form onSubmit={onSubmit}>
+                    <h2>Inventory Details</h2>
+
+
                     <Form.Item label="Status">
                         <Select
 
@@ -719,16 +774,6 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                         </Fragment>) :
                         null
                     }
-
-
-
-                    <Form.Item label="Location">
-                        <Input
-                            value={location}
-                            name='location'
-                            onChange={e => onChange(e)}
-                        />
-                    </Form.Item>
 
                     <Form.Item label="Sale Type">
                         <Select
