@@ -110,6 +110,19 @@ const AddVehicleCard = styled(Card)`
     }
 
 `
+const DamageDetails = styled.div`
+width:20%;
+display:inline-flex;
+    li{
+        color:white;
+        font-size:14px;
+        font-weight:500;
+        list-style:none;
+        list-style-type: none;
+    }
+`
+
+
 
 
 const EditVehicleForm = ({ addVehicle, history }) => {
@@ -209,7 +222,17 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                 reconditioniongNeeded: res.data[0].reconditioniongNeeded,
                 damage: res.data[0].damage,
                 damageAmount: res.data[0].damageAmount,
+                damage1: res.data[0].damageAmount[0],
+                damage2: res.data[0].damageAmount[1],
+                damage3: res.data[0].damageAmount[2],
+                damage4: res.data[0].damageAmount[3],
+                damage5: res.data[0].damageAmount[4],
                 damageType: res.data[0].damageType,
+                damageT1: res.data[0].damageType[0],
+                damageT2: res.data[0].damageType[1],
+                damageT3: res.data[0].damageType[2],
+                damageT4: res.data[0].damageType[3],
+                damageT5: res.data[0].damageType[4],
                 damageNote: res.data[0].damageNote,
                 status: res.data[0].status,
                 location: res.data[0].location,
@@ -234,7 +257,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
         fetchVehicle();
 
     }, [setFormData])
-    console.log("IM LOOOKING FOR DAMAGES", formData)
+
     const {
         category,
         stockNumber,
@@ -298,21 +321,24 @@ const EditVehicleForm = ({ addVehicle, history }) => {
     const today = moment().format("MMM Do YY");
 
     const onDatePurchased = e => {
+
         if (e !== null) {
-            let selectedDate = moment(e._d).format('MMM DD YYYY')
+            let selectedDate = e.toString()
             setFormData({
                 ...formData,
                 datePurchased: selectedDate
             })
         }
     }
+
     const onDateListed = e => {
         if (e !== null) {
-            let selectedDate = moment(e._d).format('MMM DD YYYY')
+            let selectedDate = e.toString()
             setFormData({
                 ...formData,
                 dateListed: selectedDate
             })
+
         }
     }
 
@@ -371,6 +397,12 @@ const EditVehicleForm = ({ addVehicle, history }) => {
     // okayso things got messy here but prerty much created a varivle for every array and then had an onchange method for ever input which was very messy
     //i know there is an easier way to do this and i wanna know what
     //also created a button to add the damage to form data and a state to flip the button
+    let amountKey = 0;
+    let typekey = 0;
+    let damageTotal = damageAmount.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+    )
     const onDamage1 = e => setFormData({ ...formData, damage1: e })
     const onDamage2 = e => setFormData({ ...formData, damage2: e })
     const onDamage3 = e => setFormData({ ...formData, damage3: e })
@@ -401,7 +433,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
     const onSubmit = async e => {
         e.preventDefault();
         await onDamageAdded()
-        addVehicle(formData, history)
+        addVehicle(formData, history, true)
     }
     return (
         <Fragment>
@@ -409,10 +441,10 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                 <Form onSubmit={onSubmit} >
                     <h2>Edit Front End Details</h2>
                     <h4>Current Make:
-                        {loading ? <Icon type="loading" /> : <span>{make !== null ? make : otherMake} <Icon type="check-circle" /></span>}
+                        {loading ? <Icon type="loading" /> : <span>{make !== null ? make : otherMake}{make === '' ? <p>Please Select A Make</p> : <Icon type="check-circle" />}</span>}
                     </h4>
                     <h4>Current Category:
-                        {loading ? <Icon type="loading" /> : <span>{category}<Icon type="check-circle" /></span>}
+                        {loading ? <Icon type="loading" /> : <span>{category !== "" ? category : null}{category === '' ? <p>Please Select A Category</p> : <Icon type="check-circle" />}</span>}
                     </h4>
                     <p>**To change the make please select a new make below or enter other make**</p>
                     <Form.Item label="Make">
@@ -635,7 +667,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                         />
                     </Form.Item>
                     <h4>Current Mileage:
-                        {loading ? <Icon type="loading" /> : <span>{mileage !== null ? (" " + mileage + " " + unitType) : "Add Mileage"} <Icon type="check-circle" /></span>}
+                        {loading ? <Icon type="loading" /> : <span>{mileage === null ? <p>Please Enter Mileage</p> : mileage + unitType}</span>}
                     </h4>
                     <h4>Odometer Accurate:
                         {loading ? <Icon type="loading" /> : <span>{odometerAccurate === true ? <Icon type="check" /> : <Icon type="close" />} </span>}
@@ -690,7 +722,18 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                         />
                     </Form.Item>
                     <p>** Vin Number Cannot Be Changed, Please Delete Vehicle And Start Again **</p>
-
+                    <h4> Current Stock # :
+                        {loading ? <Icon type="loading" /> : <span>{stockNumber === '' ? <p>Please Enter A Stock #</p> : stockNumber} </span>}
+                    </h4>
+                    <h4> Current Sale Type :
+                        {loading ? <Icon type="loading" /> : <span>{saleType === '' ? <p>Please Enter A Sale Type </p> : saleType} </span>}
+                    </h4>
+                    <h4> Current Purchased By :
+                        {loading ? <Icon type="loading" /> : <span>{purchasedBy === '' ? <p>Please Who Purchased Vehicle</p> : purchasedBy} </span>}
+                    </h4>
+                    <h4> Current Purchase Price :
+                        {loading ? <Icon type="loading" /> : <span>{boughtPrice === null ? <p>Please Enter A Purchase Price</p> : ' $' + boughtPrice} </span>}
+                    </h4>
                     <Form.Item label="Stock Number">
                         <InputNumber
                             value={stockNumber}
@@ -714,10 +757,28 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
+
+                    <Form.Item label="Purchase Price">
+                        <InputNumber
+                            value={boughtPrice}
+                            name='boughtPrice'
+                            onChange={e => onBoughtPrice(e)}
+                            placeholder='Please enter how much we bought the vehicle for...'
+
+                        />
+                    </Form.Item>
+                    <h4> Current Date Purchased :
+                        {loading ? <Icon type="loading" /> : <span>{datePurchased !== null ? " " + datePurchased : null} </span>}
+                    </h4>
+                    <h4> Current Date Listed :
+                        {loading ? <Icon type="loading" /> : <span>{dateListed !== null ? " " + dateListed : null} </span>}
+                    </h4>
+                    <p>** Please Update Dates Below **</p>
+
                     <Form.Item label="Date Purchased">
                         <DatePicker
                             format={'DD/MM/YYYY'}
-                            defaultValue={datePurchased}
+                            defaultValue={moment()}
                             onChange={onDatePurchased}
                         />
                     </Form.Item>
@@ -730,6 +791,30 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={onDateListed}
                         />
                     </Form.Item>
+                    <h4> Current Location :
+                        {loading ? <Icon type="loading" /> : <span>{location !== null ? " " + location : null} </span>}
+                    </h4>
+                    <h4> Current Sale Type :
+                        {loading ? <Icon type="loading" /> : <span>{saleType !== null ? " " + saleType : null} </span>}
+                    </h4>
+                    <h4> Current Current Status :
+                        {loading ? <Icon type="loading" /> : <span>{status !== null ? " " + status : null} </span>}
+                    </h4>
+                    {status === "Sold" ? (
+                        <Fragment>
+                            <h4> Sold :
+                       {loading ? <Icon type="loading" /> : <Icon type="check" />}
+                            </h4>
+                            <h4> Sale Price :
+                       {loading ? <Icon type="loading" /> : <span>$ +{soldPrice}</span>}
+                            </h4>
+                            <h4> Bought For :
+                        {loading ? <Icon type="loading" /> : <span>$ + {boughtPrice}</span>}
+                            </h4>
+                        </Fragment>
+                    ) : null}
+                    <p>** Plesae Update These Inventory Details Below **</p>
+
                     <Form.Item label="Location">
                         <Input
                             value={location}
@@ -737,13 +822,22 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                             onChange={e => onChange(e)}
                         />
                     </Form.Item>
-                </Form>
-            </AddVehicleCard >
-            <AddVehicleCard >
-                <Form onSubmit={onSubmit}>
-                    <h2>Inventory Details</h2>
+                    <Form.Item label="Sale Type">
+                        <Select
 
-
+                            defaultValue={saleType}
+                            onChange={onSaleType}
+                            showSearch
+                            placeholder="Select A Sale Type"
+                            optionFilterProp="saleType"
+                            filterOption={(input, option) =>
+                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                        >
+                            <Option value="Retail">Retail</Option>
+                            <Option value="Wholesale">Wholesale</Option>
+                        </Select>
+                    </Form.Item>
                     <Form.Item label="Status">
                         <Select
 
@@ -771,58 +865,79 @@ const EditVehicleForm = ({ addVehicle, history }) => {
                                     onChange={e => onChange(e)}
                                 />
                             </Form.Item>
-                        </Fragment>) :
+                            <Form.Item label="Sale Price">
+                                <InputNumber
+                                    value={soldPrice}
+                                    name='soldPrice'
+                                    onChange={e => onSalePrice(e)}
+                                    placeholder='Please enter how much we sold the vehicle for..'
+                                />
+                            </Form.Item>
+                        </Fragment>
+                    ) :
                         null
                     }
+                    <Button type="primary" htmlType="submit">
+                        Update Back End Details
+                    </Button>
 
-                    <Form.Item label="Sale Type">
-                        <Select
-
-                            defaultValue={saleType}
-                            onChange={onSaleType}
-                            showSearch
-                            placeholder="Select A Sale Type"
-                            optionFilterProp="saleType"
-                            filterOption={(input, option) =>
-                                option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            <Option value="Retail">Retail</Option>
-                            <Option value="Wholesale">Wholesale</Option>
-                        </Select>
-                    </Form.Item>
-
-
-                    <h3>Lets Talk Numbers</h3>
-
-                    <Form.Item label="Purchase Price">
-                        <InputNumber
-                            value={boughtPrice}
-                            name='boughtPrice'
-                            onChange={e => onBoughtPrice(e)}
-                            placeholder='Please enter how much we bought the vehicle for...'
-
-                        />
-                    </Form.Item>
-
-                    <Form.Item label="Sale Price">
-                        <InputNumber
-                            value={soldPrice}
-                            name='soldPrice'
-                            onChange={e => onSalePrice(e)}
-                            placeholder='Please enter how much we sold the vehicle for..'
-
-                        />
-                    </Form.Item>
+                </Form>
+            </AddVehicleCard >
+            <AddVehicleCard >
+                <Form onSubmit={onSubmit}>
+                    <h2>Damage Details</h2>
                     <Form.Item label="Reconditioning Needed">
-                        <Switch onChange={onReconditioningNeeded} />
+                        <Switch
+                            onChange={onReconditioningNeeded}
+                            checked={reconditioniongNeeded ? true : false} />
                     </Form.Item>
                     <Form.Item label="Damage">
-                        <Switch onChange={onDamage} />
+                        <Switch onChange={onDamage}
+                            checked={damage ? true : false} />
                     </Form.Item>
 
                     {!damage ? null : (
                         <Fragment>
+                            <h4> Damage Amount :
+                        {loading ? <Icon type="loading" /> : <span>{damageAmount[0] !== null ? " " + damageAmount : null} </span>}
+                            </h4>
+                            <h4> Current Sale Type :
+                        {loading ? <Icon type="loading" /> : <span>{saleType !== null ? " " + saleType : null} </span>}
+                            </h4>
+                            <h4> Current Current Status :
+                        {loading ? <Icon type="loading" /> : <span>{status !== null ? " " + status : null} </span>}
+                            </h4>
+
+
+
+                            {loading ? <Icon type="loading" /> : (<Fragment>
+                                <DamageDetails>
+                                    <ul>
+                                        <li key={amountKey++} >$ {damage1}</li>
+                                        <li key={amountKey++} >$ {damage2}</li>
+                                        <li key={amountKey++} >$ {damage3}</li>
+                                        <li key={amountKey++} >$ {damage4}</li>
+                                        <li key={amountKey++} >$ {damage5}</li>
+                                    </ul>
+                                </DamageDetails>
+                                <DamageDetails>
+                                    <ul>
+                                        <li key={typekey++} >{damageT1}</li>
+                                        <li key={typekey++} >{damageT2}</li>
+                                        <li key={typekey++} >{damageT3}</li>
+                                        <li key={typekey++} >{damageT4}</li>
+                                        <li key={typekey++} >{damageT5}</li>
+
+                                    </ul>
+                                </DamageDetails>
+                                <h4> Damage Total :
+                                {loading ? <Icon type="loading" /> : <span>{damageAmount !== null ? " $" + damageTotal : null} </span>}
+                                </h4>
+
+                            </Fragment>)}
+
+                            <p>** Plesae Update Damages Below **</p>
+
                             <Form.Item label="Damage Type 1">
                                 <Select
 
@@ -992,7 +1107,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
 
                     <Form.Item >
                         <Button type="primary" htmlType="submit">
-                            Add Inventory Details
+                            Update Damage Details
                     </Button>
                     </Form.Item>
                 </Form>
