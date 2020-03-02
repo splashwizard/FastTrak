@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 import { getVehicles } from '../../../actions/vehicles'
 import Alert from '../../layout/ui/Alert'
 import VehicleAdmin from '../../layout/admin/content/VehicleAdmin';
+import { AdminFooter } from '../../layout/admin/AdminFooter'
 
-const { Content, Footer, } = Layout;
+const { Content } = Layout;
 
 const ViewVehicleAdmin = ({ auth: { user } }) => {
 
@@ -34,7 +35,7 @@ const ViewVehicleAdmin = ({ auth: { user } }) => {
 
                     </div>
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                <AdminFooter />
             </Layout>
         </Layout>
 

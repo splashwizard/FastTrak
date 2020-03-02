@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components';
 import { deleteVehicle } from '../../../../actions/vehicles'
 import PropTypes from 'prop-types'
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -39,6 +40,7 @@ const VehicleContainer = styled.div`
         color: rgba(0, 0, 0, 0.85);
         font-size: 1.75em;
         font-weight: 400;
+
     }
     .ant-carousel .slick-slide {
         text-align: center;
@@ -55,21 +57,21 @@ const VehicleContainer = styled.div`
 
 const DetailsContainer = styled.div`
 background:transparent;
-padding: 3rem;
 h2{
     color: black;
-    font-size: 2.75em;
-    font-weight: 300;
+    font-size: 24px;
+    font-weight: 600;
     text-align: center;
     text-transform: uppercase;
 }
 .mainDetails{
+    tect-align:center;
     span{
         padding:1rem;
         display:block;
         font-size: 18px;
-        font-weight: 300;
-        color: #666666;
+        font-weight: 400;
+        color: black;
         display:inline:
     }
 padding-bottom:1rem;
@@ -116,6 +118,26 @@ const DeleteButton = styled.button`
         cursor: pointer;
     }
 `
+const EditButton = styled.a`
+    margin:auto;
+    padding: 2rem 4rem;
+    background: black;
+    color: white !important;
+    margin: 1rem;
+    font-size: 24px;
+    border: 1px solid black;
+    text-transform: uppercase;
+    border-radius: 10px;
+    &:hover{
+        background:transparent;
+        color:black !important;
+        cursor: pointer;
+    }
+`
+
+const DetailRow = styled(Row)`
+margin:5%;
+`
 
 const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
     const [formData, setFormData] = useState({
@@ -130,12 +152,10 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
         trimDetail: '',
         mileage: null,
         unitType: '',
-        odomoeterAccurate: false,
+        odometerAccurate: false,
         price: null,
-        bodyStyle: '',
         doors: null,
         engine: '',
-        engineSize: '',
         transmission: '',
         driveTrain: '',
         exteriorColor: '',
@@ -144,26 +164,35 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
         fuelType: '',
         origin: '',
         purchasedFrom: '',
-        importedFrom: '',
-        importedYear: null,
-        importedForResale: false,
-        exteriorOptions: {},
-        transportation: false,
         description: '',
         reconditioniongNeeded: false,
         damage: false,
         damageAmount: [],
+        damage1: null,
+        damage2: null,
+        damage3: null,
+        damage4: null,
+        damage5: null,
         damageType: [],
+        damageT1: null,
+        damageT2: null,
+        damageT3: null,
+        damageT4: null,
+        damageT5: null,
         damageNote: '',
         status: '',
         location: '',
         saleType: '',
         webVisible: false,
-        dateListed: null,
-        datePurchased: null,
+        dateListed: moment().format('MMM DD YYYY'),
+        datePurchased: moment().format('MMM DD YYYY'),
         purchasedBy: '',
         soldBy: '',
-        bidClosing: null
+        soldPrice: null,
+        boughtPrice: null,
+        profit: null,
+        billOfSaleId: null
+
     })
 
     //create two state one for loading and one for the Are you Sure buttons on the the delete button
@@ -203,12 +232,10 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
                 trimDetail: res.data[0].trimDetail,
                 mileage: res.data[0].mileage,
                 unitType: res.data[0].unitType,
-                odomoeterAccurate: res.data[0].odomoeterAccurate,
+                odometerAccurate: res.data[0].odometerAccurate,
                 price: res.data[0].price,
-                bodyStyle: res.data[0].bodyStyle,
                 doors: res.data[0].doors,
                 engine: res.data[0].engine,
-                engineSize: res.data[0].engineSize,
                 transmission: res.data[0].transmission,
                 driveTrain: res.data[0].driveTrain,
                 exteriorColor: res.data[0].exteriorColor,
@@ -217,16 +244,21 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
                 fuelType: res.data[0].fuelType,
                 origin: res.data[0].origin,
                 purchasedFrom: res.data[0].purchasedFrom,
-                importedFrom: res.data[0].importedFrom,
-                importedYear: res.data[0].importedYear,
-                importedForResale: res.data[0].importedForResale,
-                exteriorOptions: res.data[0].exteriorColor,
-                transportation: res.data[0].transportation,
                 description: res.data[0].description,
                 reconditioniongNeeded: res.data[0].reconditioniongNeeded,
                 damage: res.data[0].damage,
                 damageAmount: res.data[0].damageAmount,
+                damage1: res.data[0].damageAmount[0],
+                damage2: res.data[0].damageAmount[1],
+                damage3: res.data[0].damageAmount[2],
+                damage4: res.data[0].damageAmount[3],
+                damage5: res.data[0].damageAmount[4],
                 damageType: res.data[0].damageType,
+                damageT1: res.data[0].damageType[0],
+                damageT2: res.data[0].damageType[1],
+                damageT3: res.data[0].damageType[2],
+                damageT4: res.data[0].damageType[3],
+                damageT5: res.data[0].damageType[4],
                 damageNote: res.data[0].damageNote,
                 status: res.data[0].status,
                 location: res.data[0].location,
@@ -236,7 +268,10 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
                 datePurchased: res.data[0].datePurchased,
                 purchasedBy: res.data[0].purchasedBy,
                 soldBy: res.data[0].soldBy,
-                bidClosing: res.data[0].bidClosing
+                soldPrice: res.data[0].soldPrice,
+                boughtPrice: res.data[0].boughtPrice,
+                profit: res.data[0].profit,
+                billOfSaleId: res.data[0].billOfSaleId
             })
             setLoading(false)
         }
@@ -254,12 +289,10 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
         trimDetail,
         mileage,
         unitType,
-        odomoeterAccurate,
+        odometerAccurate,
         price,
-        bodyStyle,
         doors,
         engine,
-        engineSize,
         transmission,
         driveTrain,
         exteriorColor,
@@ -268,15 +301,20 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
         fuelType,
         origin,
         purchasedFrom,
-        importedFrom,
-        importedYear,
-        importedForResale,
-        exteriorOptions,
-        transportation,
         description,
         reconditioniongNeeded,
         damage,
         damageAmount,
+        damage1,
+        damage2,
+        damage3,
+        damage4,
+        damage5,
+        damageT1,
+        damageT2,
+        damageT3,
+        damageT4,
+        damageT5,
         damageType,
         damageNote,
         status,
@@ -287,10 +325,16 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
         datePurchased,
         purchasedBy,
         soldBy,
-        bidClosing
+        soldPrice,
+        boughtPrice,
+        profit,
+        billOfSaleId,
     } = formData
 
-
+    let damageTotal = damageAmount.reduce(
+        (accumulator, currentValue) => accumulator + currentValue,
+        0
+    )
 
 
 
@@ -302,10 +346,8 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
 
                 <a href="/dashboard/getvehicles"> <Icon type="arrow-left" /> Back To Inventory</a>
 
-                <VehicleHeader>
-                    {loading ? <Icon type="loading" /> : <h1>{year + ' ' + make + ' ' + vehicleModel}</h1>}
-                </VehicleHeader>
-                <Row>
+
+                <DetailRow>
                     <Col span={24}>
                         <Carousel autoplay style={{ width: '62%', margin: 'auto' }}>
 
@@ -325,64 +367,137 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
 
                         </Carousel>
                     </Col>
-                </Row>
-                <Row>
+                </DetailRow>
+                <DetailRow>
+                    <Col span={24}>
+
+                        <VehicleHeader>
+                            {loading ? <Icon type="loading" /> : <h1>{year + ' ' + make + ' ' + vehicleModel + " " + trimDetail}</h1>}
+                        </VehicleHeader>
+                    </Col>
+                </DetailRow>
+                <DetailRow>
                     <Col span={24}>
                         <DetailsContainer>
-                            <h2>Description</h2>
+                            <h2>Vehicle Details</h2>
                             <div className="mainDetails">
                                 <Row>
-                                    <Col span={24}>
+                                    <Col span={12}>
+                                        {loading ? <Icon type="loading" /> : <span>Vin Number # : <strong style={{ background: 'red' }}>{vinNumber}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Stock # : <strong>{stockNumber}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Mileage : <strong>{mileage + " " + unitType}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Price : <strong>${price}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Transmission : <strong>{transmission}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Drive Train : <strong>{driveTrain}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Odometer Accurate : {odometerAccurate ? <Icon type="check" /> : <Icon type="close" />}</span>}
+                                        {loading ? <Icon type="loading" /> : <span>Origin : <strong>{origin}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Exterior Color : <strong>{exteriorColor}</strong></span>}
+
+
+
+                                    </Col>
+                                    <Col span={12}>
+
+                                        {loading ? <Icon type="loading" /> : <span>Make : <strong>{make}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Model : <strong>{vehicleModel}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Trim Detail : <strong>{trimDetail}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Category : <strong>{category}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Engine : <strong>{engine}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Fuel Type : <strong>{fuelType}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Doors : <strong>{doors}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Interior Color : <strong>{interiorColor}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Interior Materials : <strong>{interiorMaterials}</strong></span>}
+
+
+
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col span={24} style={{ textAlign: 'center' }}>
+                                        <span>Description</span>
+
                                         <p>{description}</p>
 
                                     </Col>
 
                                 </Row>
+
                             </div>
+
                         </DetailsContainer>
                     </Col>
-                </Row>
-
-                <Row>
+                </DetailRow>
+                <DetailRow>
                     <Col span={24}>
-
                         <DetailsContainer>
-                            <h2>Details</h2>
+                            <h2>Inventory Details</h2>
                             <div className="mainDetails">
                                 <Row>
                                     <Col span={12}>
-                                        <span>Price: <strong>${price}</strong></span>
-                                        <span>Stock: <strong>#{stockNumber}</strong></span>
-                                        <span>Mileage: <strong>{mileage + unitType}</strong></span>
-                                        <span>Transmission: <strong>{transmission}</strong></span>
-                                        <span>Exterior Color: <strong>{exteriorColor}</strong></span>
-                                        <span>Drive Train: <strong>{driveTrain}</strong></span>
+                                        {loading ? <Icon type="loading" /> : <span>Purchased From: <strong >{purchasedFrom}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Purchased By  : <strong>{purchasedBy}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Date Purchased : <strong>{datePurchased}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Date Listed : <strong>{dateListed}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Status  : <strong>{status}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Sold By  : <strong>{soldBy}</strong></span>}
+
+
                                     </Col>
                                     <Col span={12}>
-                                        <span>Body Style: <strong>${price}</strong></span>
-                                        <span>Engine: <strong>#{stockNumber}</strong></span>
-                                        <span>Fuel Type: <strong>{fuelType}</strong></span>
-                                        <span>Interior Color: <strong>{interiorColor}</strong></span>
-                                        <span>Interior Materials: <strong>{interiorMaterials}</strong></span>
-                                        <span>Vin: <strong>#{vinNumber}</strong></span>
+
+                                        {loading ? <Icon type="loading" /> : <span>Sold: {status === 'Sold' ? <Icon type="check" /> : <Icon type="close" />}</span>}
+                                        {loading ? <Icon type="loading" /> : <span>Sold Price  : <strong>${soldPrice}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Purchase Price :  <strong>${boughtPrice}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Profit :  {profit > 0 ? <strong style={{ color: 'green' }}>${profit}</strong> : <strong style={{ color: 'red' }}>${profit}</strong>}</span>}
+                                        {loading ? <Icon type="loading" /> : <span>Damage Total : <strong>${damageTotal}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Bill Of Sale ID : <strong>{billOfSaleId}</strong></span>}
+
 
                                     </Col>
                                 </Row>
-                            </div>
-                            <h2>Certified</h2>
-                            <div className="mainDetails">
-                                <Row style={{ textAlign: 'center' }}>
-                                    <span><Icon type="like" /> GOOD NEWS YOU CAN GET REPORTS ON THIS VEHICLE FROM:</span>
-                                    <a href="http://www.carfax.com" target="_blank" style={{ margin: '2rem' }}><img src="http://www.empiremotors.ca/images/carfax_logo.gif" /></a>
-                                    <a href="http://www.carproof.com" target="_blank" style={{ margin: '2rem' }}><img src="http://www.empiremotors.ca/images/carproof_logo.gif" /></a>
-                                </Row>
-                            </div>
 
+                            </div>
 
                         </DetailsContainer>
                     </Col>
-                </Row>
-                <Row >
+                </DetailRow>
+                <DetailRow>
+                    <Col span={24}>
+                        <DetailsContainer>
+                            <h2>Damage Details</h2>
+                            <div className="mainDetails">
+                                <Row>
+                                    <Col span={12}>
+                                        {loading ? <Icon type="loading" /> : <span>Damage Type 1: <strong >{damageT1}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Damage Type 2: <strong >{damageT2}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Damage Type 3: <strong >{damageT3}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Damage Type 4: <strong >{damageT4}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Damage Type 5: <strong >{damageT5}</strong></span>}
+
+
+                                    </Col>
+                                    <Col span={12}>
+
+                                        {loading ? <Icon type="loading" /> : <span>Damage Amount 1: <strong >${damage1}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Damage Amount 2: <strong >${damage2}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Damage Amount 3: <strong >${damage3}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Damage Amount 4: <strong >${damage4}</strong></span>}
+                                        {loading ? <Icon type="loading" /> : <span>Damage Amount 5: <strong >${damage5}</strong></span>}
+                                    </Col>
+                                </Row>
+
+                            </div>
+
+                        </DetailsContainer>
+                    </Col>
+                </DetailRow>
+                <DetailRow >
+                    <Col span={24} style={{ textAlign: 'center' }}>
+
+                        <EditButton href={"/dashboard/getvehicles/edit/" + vinNumber}>Edit Vehicle</EditButton>
+                    </Col>
+                </DetailRow>
+                <DetailRow >
                     <Col span={24} style={{ textAlign: 'center' }}>
 
                         {!ShowDelete ?
@@ -392,7 +507,10 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
                                 <DeleteButton onClick={onDeleteConfirm}>CANCEL</DeleteButton>
                             </div>)}
                     </Col>
-                </Row>
+                </DetailRow>
+
+
+
             </VehicleContainer>
         </Fragment >
     )

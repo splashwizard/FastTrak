@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 import { getVehicles } from '../../../actions/vehicles'
 import Alert from '../../layout/ui/Alert'
-import { Table, Divider, Tag } from 'antd';
+import { Table, Divider, Tag, Row, Col } from 'antd';
 const { Content, Footer, } = Layout;
 
 
@@ -42,6 +42,8 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
             dataIndex: 'vinNumber',
             key: 'vinNumber',
             render: text => <a href={'/dashboard/getvehicles/edit/' + text}>{text}</a>,
+            sortDirections: ['descend', 'ascend'],
+            sorter: (a, b) => a.vinNumber.localeCompare(b.vinNumber),
         },
         {
             title: 'Year',
@@ -55,6 +57,8 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
             dataIndex: 'make',
             key: 'make',
             render: text => <span>{text}</span>,
+            sortDirections: ['descend', 'ascend'],
+            sorter: (a, b) => a.make.localeCompare(b.make),
 
         },
         {
@@ -62,7 +66,8 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
             dataIndex: 'vehicleModel',
             key: 'vehicleModel',
             render: text => <span>{text}</span>,
-
+            sortDirections: ['descend', 'ascend'],
+            sorter: (a, b) => a.vehicleModel.localeCompare(b.vehicleModel),
         },
         {
             title: 'Price',
@@ -113,7 +118,7 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
 
 
     //pass the prop to sidebar
-    const activeLink = '2';
+    const activeLink = '3';
 
     return (
 
@@ -125,15 +130,24 @@ const ViewVehicles = ({ getVehicles, auth: { user }, vehicles: { vehicles, loadi
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                         <Alert />
                         <Fragment>
-                            <div>
-                                <PageHeader
-                                    ghost={false}
-                                    onBack={() => window.history.back()}
-                                    title="View Inventory"
-                                />
-                                <p>Welcome {user ? user.name : <Icon type="loading" />}</p>
-                                <Table columns={columns} dataSource={getvehicleList} />
-                            </div>
+                            <Row>
+                                <Col>
+                                    <PageHeader
+                                        ghost={false}
+                                        onBack={() => window.history.back()}
+                                        title="View Inventory"
+                                    />
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p>Welcome {user ? user.name : <Icon type="loading" />}</p>
+                                    <Table columns={columns} dataSource={getvehicleList} />
+
+                                </Col>
+                            </Row>
+
+
                         </Fragment>
 
 

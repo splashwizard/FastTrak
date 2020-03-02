@@ -15,14 +15,18 @@ const columns = [
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
+        sortDirections: ['descend', 'ascend'],
+        sorter: (a, b) => a.name.localeCompare(b.name)
     },
     {
         title: 'Email',
         dataIndex: 'email',
         key: 'email',
+        sortDirections: ['descend', 'ascend'],
+        sorter: (a, b) => a.email.localeCompare(b.email),
     },
     {
-        title: 'Roles',
+        title: 'Role',
         key: 'tags',
         dataIndex: 'tags',
         render: tags => (
@@ -40,16 +44,7 @@ const columns = [
                 })}
             </span>
         ),
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-            <span>
-                <a href='/'>Delete</a>
-            </span>
-        ),
-    },
+    }
 ];
 
 
@@ -83,8 +78,6 @@ const ViewTeam = ({ getUsers, auth: { user }, users: { loading, users } }) => {
                     onBack={() => window.history.back()}
                     title="View Team"
                     subTitle="View All The Members Of Your Team" />
-                <p>Welcome {user ? user.name : <Icon type="loading" />}</p>
-                <p>Here is a list of your team members</p>
                 <Table columns={columns} dataSource={activeusers} />
             </div>
         </Fragment>

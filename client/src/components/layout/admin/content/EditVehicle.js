@@ -35,6 +35,8 @@ const AddVehicleCard = styled(Card)`
     margin: auto;
     box-shadow: 5px 10px 5px 10px rgba(0, 0, 0, 0.15);
     margin-bottom:10%;
+    margin-top:5%;
+
     .ant-card-body{
         padding:10px;
     }
@@ -121,7 +123,11 @@ display:inline-flex;
         list-style-type: none;
     }
 `
-
+const BackToInventory = styled.a`
+color: black;
+font-size: 1.75em;
+font-weight: 400;
+`
 
 
 
@@ -415,28 +421,29 @@ const EditVehicleForm = ({ addVehicle, history }) => {
     const onDamageT5 = e => setFormData({ ...formData, damageT5: e })
 
     const onDamageAdded = e => {
-
-        if (damage1 !== null) { damageAmount.push(damage1) }
-        if (damage2 !== null) { damageAmount.push(damage2) }
-        if (damage3 !== null) { damageAmount.push(damage3) }
-        if (damage4 !== null) { damageAmount.push(damage4) }
-        if (damage5 !== null) { damageAmount.push(damage5) }
-        if (damageT1 !== null) { damageType.push(damageT1) }
-        if (damageT2 !== null) { damageType.push(damageT2) }
-        if (damageT3 !== null) { damageType.push(damageT3) }
-        if (damageT4 !== null) { damageType.push(damageT4) }
-        if (damageT5 !== null) { damageType.push(damageT5) }
+        if (damage1 !== null) { damageAmount[0] = damage1 }
+        if (damage2 !== null) { damageAmount[1] = damage2 }
+        if (damage3 !== null) { damageAmount[2] = damage3 }
+        if (damage4 !== null) { damageAmount[3] = damage4 }
+        if (damage5 !== null) { damageAmount[4] = damage5 }
+        if (damageT1 !== null) { damageType[0] = damageT1 }
+        if (damageT2 !== null) { damageType[0] = damageT2 }
+        if (damageT3 !== null) { damageType[0] = damageT3 }
+        if (damageT4 !== null) { damageType[0] = damageT4 }
+        if (damageT5 !== null) { damageType[0] = damageT5 }
         setFormData({ ...formData, damageAmount: damageAmount });
-        setFormData({ ...formData, damageType: damageType });
+        addVehicle(formData, history, true)
+
     }
 
     const onSubmit = async e => {
         e.preventDefault();
         await onDamageAdded()
-        addVehicle(formData, history, true)
+
     }
     return (
         <Fragment>
+            <BackToInventory href="/dashboard/getvehicles"> <Icon type="arrow-left" /> Back To Inventory</BackToInventory>
             <AddVehicleCard >
                 <Form onSubmit={onSubmit} >
                     <h2>Edit Front End Details</h2>

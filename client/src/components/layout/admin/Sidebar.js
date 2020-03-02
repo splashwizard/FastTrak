@@ -82,21 +82,89 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout, activeLink }) => 
                             </span>
                         }
                     >
-                        <Menu.Item key="2" >
-                            <Link to='/dashboard/getvehicles' >
-                                <Icon type="database" />
-                                <span >View Inventory</span>
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key="3">
+                        <Menu.Item key="2">
                             <Link to="/dashboard/addvehicle">
                                 <Icon type="plus" />
-                                <span >Add New</span>
+                                <span >Add Vehicle</span>
                             </Link>
                         </Menu.Item>
+                        <Menu.Item key="3" >
+                            <Link to='/dashboard/getvehicles' >
+                                <Icon type="bulb" />
+                                <span >Current</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="4" >
+                            <Link to='/dashboard/getvehicles' >
+                                <Icon type="fire" />
+                                <span >Sold</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="5" >
+                            <Link to='/dashboard/getvehicles' >
+                                <Icon type="alert" />
+                                <span >Incoming</span>
+                            </Link>
+                        </Menu.Item>
+
+
                     </SubMenu>
+
+
+
+
+
                     <SubMenu
                         key="sub2"
+                        title={
+                            <span>
+                                <Icon type="dollar" />
+                                <span>Finances</span>
+                            </span>
+                        }
+                    >
+                        <Menu.Item key="6">
+                            <Link to="/dashboard/addvehicle">
+                                <Icon type="plus" />
+                                <span >Add Finance</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="7" >
+                            <Link to='/dashboard/getvehicles' >
+                                <Icon type="file-add" />
+                                <span >Bill Of Sales</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="8" >
+                            <Link to='/dashboard/getvehicles' >
+                                <Icon type="environment" />
+                                <span >Office</span>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item key="9" >
+                            <Link to='/dashboard/getvehicles' >
+                                <Icon type="tool" />
+                                <span >Repair</span>
+                            </Link>
+                        </Menu.Item>
+
+
+                    </SubMenu>
+
+                    <Menu.Item key="10">
+                        <Icon type="inbox" />
+                        <span>Applicants</span>
+                    </Menu.Item>
+                    <Menu.Item key="11">
+                        <Link to="/dashboard/addvehicle">
+                            <Icon type="stock" />
+                            <span >Metrics</span>
+                        </Link>
+                    </Menu.Item>
+
+
+                    <SubMenu
+                        key="sub3"
                         title={
                             <span>
                                 <Icon type="team" />
@@ -104,37 +172,25 @@ const Sidebar = ({ auth: { isAuthenticated, loading }, logout, activeLink }) => 
                             </span>
                         }
                     >
-                        <Menu.Item key="4">
+                        <Menu.Item key="12">
                             <Link to="/dashboard/viewusers">
                                 <Icon type="user" />
                                 <span >View Team</span>
                             </Link>
                         </Menu.Item>
 
-                        <Menu.Item key="5">
+                        <Menu.Item key="13">
                             <Link to="/dashboard/addusers">
                                 <Icon type="plus" /><span>Add Members</span>
                             </Link>
                         </Menu.Item>
                     </SubMenu>
-                    <Menu.Item key="6">
-                        <Icon type="inbox" />
-                        <span>Applicants</span>
-                    </Menu.Item>
-                    <Menu.Item key="7">
-                        <Icon type="global" />
-                        <span>Web Traffic</span>
-                    </Menu.Item>
-                    <Menu.Item key="8">
-                        <Icon type="appstore" />
-                        <span>Dealership Info</span>
-                    </Menu.Item>
-                    <Menu.Item key="9">
+                    <Menu.Item key="14">
                         <Icon type="setting" />
                         <span>Site Settings</span>
                     </Menu.Item>
                     <Menu.Item
-                        key="10"
+                        key="15"
                         onClick={logoutAdmin}
                     >
                         <Link to="/login">
