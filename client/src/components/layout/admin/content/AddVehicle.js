@@ -13,7 +13,6 @@ import {
     Select
 } from 'antd';
 import 'antd/dist/antd.css';
-import Alert from "../../ui/Alert";
 import moment from 'moment';
 import { addVehicle } from '../../../../actions/vehicles';
 import { withRouter } from 'react-router-dom';
@@ -186,14 +185,11 @@ export const AddVehicle = ({ addVehicle, history }) => {
         location,
         saleType,
         webVisible,
-        dateListed,
-        datePurchased,
         purchasedBy,
         soldBy,
         soldPrice,
         boughtPrice,
-        profit,
-        billOfSaleId,
+
 
 
     } = formData
@@ -203,7 +199,6 @@ export const AddVehicle = ({ addVehicle, history }) => {
     const onReconditioningNeeded = e => setFormData({ ...formData, reconditioniongNeeded: !reconditioniongNeeded })
     const onDamage = e => setFormData({ ...formData, damage: !damage })
     //BELOW ARE ALL METHODS FOR DATE PICKERS
-    const today = moment().format("MMM Do YY");
 
     const onDatePurchased = e => {
         if (e !== null) {
@@ -274,7 +269,6 @@ export const AddVehicle = ({ addVehicle, history }) => {
         setFormData({ ...formData, boughtPrice: e })
     }
     const OnDoors = e => setFormData({ ...formData, doors: e })
-    const OnImportedYear = e => setFormData({ ...formData, importedYear: e })
     // CODE FOR THE DAMAGE ARRAY
     // okayso things got messy here but prerty much created a varivle for every array and then had an onchange method for ever input which was very messy
     //i know there is an easier way to do this and i wanna know what
@@ -516,6 +510,7 @@ export const AddVehicle = ({ addVehicle, history }) => {
                     </Form.Item>
                     <Form.Item label="Unit Type">
                         <Select
+                            defaultValue={unitType}
                             onChange={onUnitType}
                             placeholder="Select a unit"
                         >

@@ -9,6 +9,8 @@ import {
     Tag
 } from 'antd';
 import 'antd/dist/antd.css';
+import Alert from '../../ui/Alert'
+
 
 const columns = [
     {
@@ -78,6 +80,8 @@ const ViewTeam = ({ getUsers, auth: { user }, users: { loading, users } }) => {
                     onBack={() => window.history.back()}
                     title="View Team"
                     subTitle="View All The Members Of Your Team" />
+                <Alert />
+
                 <Table columns={columns} dataSource={activeusers} />
             </div>
         </Fragment>

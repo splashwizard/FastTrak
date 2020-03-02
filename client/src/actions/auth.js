@@ -34,25 +34,30 @@ export const loadUser = () => async dispatch => {
 
 // ADD A USER   
 
-export const adduser = ({ name, email, password }) => async dispatch => {
+export const adduser = (formData, history) => async dispatch => {
 
 
 
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
 
-
-    const body = JSON.stringify({ name, email, password });
     try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        const { name, email, password } = formData;
+        const body = JSON.stringify({ name, email, password });
         const res = await axios.post('/api/users', body, config);
 
         dispatch({
             type: ADDUSER_SUCCESS,
             payload: res.data
         });
+        dispatch(setAlert('User Created'));
+
+        history.push('/dashboard/viewusers')
+
     } catch (error) {
         const errors = error.response.data.errors;
 
@@ -70,27 +75,29 @@ export const adduser = ({ name, email, password }) => async dispatch => {
 
 // Login A USer   
 
-export const login = (email, password) => async dispatch => {
+export const login = (email, password, history) => async dispatch => {
 
 
 
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-
-
-    const body = JSON.stringify({ email, password });
     try {
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+
+        const body = JSON.stringify({ email, password });
         const res = await axios.post('/api/auth', body, config);
 
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data
         });
-
         dispatch(loadUser);
+        history.push('/dashboard')
+
     } catch (error) {
         const errors = error.response.data.errors;
 
@@ -102,6 +109,7 @@ export const login = (email, password) => async dispatch => {
         dispatch({
             type: LOGIN_FAIL
         })
+
     }
 }
 

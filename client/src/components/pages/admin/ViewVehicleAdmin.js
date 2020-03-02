@@ -1,12 +1,10 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import 'antd/dist/antd.css';
 import { Layout } from 'antd';
 import SideBar from "../../layout/admin/Sidebar"
 import AdminNavbar from '../../layout/admin/AdminNavbar'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { getVehicles } from '../../../actions/vehicles'
-import Alert from '../../layout/ui/Alert'
 import VehicleAdmin from '../../layout/admin/content/VehicleAdmin';
 import { AdminFooter } from '../../layout/admin/AdminFooter'
 

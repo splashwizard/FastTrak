@@ -1,9 +1,31 @@
 import React from 'react'
-import { Pagination } from 'antd';
 import '../../../App.css';
 import { connect } from "react-redux";
 import { paginate } from "../../../actions/userVehicles";
+import styled from 'styled-components'
 
+const PageDiv = styled.div`
+    margin-top: 25px;
+    span{
+        display: inline-block;
+        float: left;
+        font-size: 20px;
+        padding: 0px 10px;
+        background: white;
+        color:#AA1826;
+        border:1px solid #AA1826;
+
+    }
+    .active{
+        display: inline-block;
+        float: left;
+        font-size: 20px;
+        padding: 0px 10px;
+        background: #AA1826;
+        color: white;
+    }
+
+`
 const Page = ({ paginate, userVehicles: { currentPage, totalPosts, postPerPage } }) => {
 
     const pageNumbers = [];
@@ -44,11 +66,11 @@ const Page = ({ paginate, userVehicles: { currentPage, totalPosts, postPerPage }
         });
     }
     return (
-        <div className="pagination">
+        <PageDiv className="pagination">
             {isFirst ? <span onClick={() => paginate(1)}>First</span> : null}
             {renderPageNumbers}
             {isLast ? <span onClick={() => paginate(lastPage)}>Last</span> : null}
-        </div>
+        </PageDiv>
     )
 };
 

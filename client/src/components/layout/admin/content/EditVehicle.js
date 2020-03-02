@@ -13,12 +13,11 @@ import {
     Card,
     Icon
 } from 'antd';
-import Alert from "../../ui/Alert";
 import moment from 'moment';
 import { addVehicle } from '../../../../actions/vehicles';
-import { getVehicles } from '../../../../actions/vehicles'
+
 import { withRouter } from 'react-router-dom';
-import { model } from 'mongoose';
+
 import { useParams } from "react-router-dom";
 import axios from 'axios'
 import styled from 'styled-components';
@@ -261,7 +260,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
 
         }
         fetchVehicle();
-
+        // eslint-disable-next-line
     }, [setFormData])
 
     const {
@@ -313,8 +312,7 @@ const EditVehicleForm = ({ addVehicle, history }) => {
         soldBy,
         soldPrice,
         boughtPrice,
-        profit,
-        billOfSaleId,
+
 
 
     } = formData
@@ -324,8 +322,6 @@ const EditVehicleForm = ({ addVehicle, history }) => {
     const onReconditioningNeeded = e => setFormData({ ...formData, reconditioniongNeeded: !reconditioniongNeeded })
     const onDamage = e => setFormData({ ...formData, damage: !damage })
     //BELOW ARE ALL METHODS FOR DATE PICKERS
-    const today = moment().format("MMM Do YY");
-
     const onDatePurchased = e => {
 
         if (e !== null) {
@@ -398,7 +394,6 @@ const EditVehicleForm = ({ addVehicle, history }) => {
         setFormData({ ...formData, boughtPrice: e })
     }
     const OnDoors = e => setFormData({ ...formData, doors: e })
-    const OnImportedYear = e => setFormData({ ...formData, importedYear: e })
     // CODE FOR THE DAMAGE ARRAY
     // okayso things got messy here but prerty much created a varivle for every array and then had an onchange method for ever input which was very messy
     //i know there is an easier way to do this and i wanna know what

@@ -80,28 +80,7 @@ margin-bottom:10%;
 }
 `
 
-const ContactButtons = styled.div`
-display:inline-flex;
-vertical-align: text-bottom;
-margin-left: 15%;
-a{
-    background:#AA1826;
-    margin: 1rem;
-    padding: 2rem;
-    color: white;
-    font-size: 16px;
-    font-family: inherit;
-    text-transform:uppercase;  
-    i{
-        padding: 0 1rem;
-    }
-    &:hover{
-        border: 1px solid #AA1826;
-        background:transparent;
-        color:#AA1826;
-    }
-}
-`
+
 const DeleteButton = styled.button`
     margin:auto;
     padding: 2rem 4rem;
@@ -276,7 +255,7 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
             setLoading(false)
         }
         fetchVehicle();
-    }, [setFormData])
+    })
 
     const {
         category,
@@ -284,7 +263,6 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
         vinNumber,
         year,
         make,
-        otherMake,
         vehicleModel,
         trimDetail,
         mileage,
@@ -302,8 +280,6 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
         origin,
         purchasedFrom,
         description,
-        reconditioniongNeeded,
-        damage,
         damageAmount,
         damage1,
         damage2,
@@ -315,12 +291,7 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
         damageT3,
         damageT4,
         damageT5,
-        damageType,
-        damageNote,
         status,
-        location,
-        saleType,
-        webVisible,
         dateListed,
         datePurchased,
         purchasedBy,
@@ -352,7 +323,7 @@ const VehicleAdmin = ({ deleteVehicle, history, auth: { user } }) => {
                         <Carousel autoplay style={{ width: '62%', margin: 'auto' }}>
 
                             <div>
-                                <img style={{ width: "682px" }} src="/images/test.jpg" />
+                                <img alt="car" style={{ width: "682px" }} src="/images/test.jpg" />
                             </div>
                             <div>
                                 <h3>2</h3>

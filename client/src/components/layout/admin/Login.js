@@ -11,6 +11,8 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { login } from '../../../actions/auth'
 import styled from "styled-components";
+import Alert from '../ui/Alert'
+import { withRouter } from 'react-router-dom';
 
 
 const LoginContainer = styled.div`
@@ -25,24 +27,26 @@ section{
     margin-left: 25%;
     background: black;
     padding: 10%;
-    button{
-        padding:  2rem 3rem;
-        -webkit-text-decoration: none;
-        text-decoration: none;
-        background: black;
-        color: white;
-        border: 1px white solid;
-        border-radius: 5px;
-        font-size: 2rem;
-        cursor: pointer;
-        vertical-align: baseline;
-        line-height: 0;
-        &:hover{
-            background:white;
-            color:black;  
-            border: 1px black solid;
-
-        }  
+    form{
+        button{
+            padding:  2rem 3rem;
+            -webkit-text-decoration: none;
+            text-decoration: none;
+            background: black;
+            color: white;
+            border: 1px white solid;
+            border-radius: 5px;
+            font-size: 2rem;
+            cursor: pointer;
+            vertical-align: baseline;
+            line-height: 0;
+            &:hover{
+                background:white;
+                color:black;  
+                border: 1px black solid;
+    
+            }  
+        }
     }
     h1{
         color:white;
@@ -71,7 +75,7 @@ section{
 
 
 
-export const Login = ({ login, isAuthenticated }) => {
+export const Login = ({ login, isAuthenticated, history }) => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -86,7 +90,7 @@ export const Login = ({ login, isAuthenticated }) => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        login(email, password)
+        login(email, password, history)
     }
     //Redirect if logged in 
     if (isAuthenticated) {
@@ -123,8 +127,12 @@ export const Login = ({ login, isAuthenticated }) => {
                             Login
                     </Button>
                     </Form.Item>
+
                 </Form>
+                <Alert />
+
             </section>
+
         </LoginContainer>
     )
 }
@@ -139,6 +147,6 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated
 })
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login })(withRouter(Login));
 
 

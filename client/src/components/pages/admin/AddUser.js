@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import { Layout } from 'antd';
 import SideBar from "../../layout/admin/Sidebar"
 import AdminNavbar from '../../layout/admin/AdminNavbar'
-import Adduser from '../../layout/admin/Register'
+import Adduser from '../../layout/admin/AddUser'
 
 
 

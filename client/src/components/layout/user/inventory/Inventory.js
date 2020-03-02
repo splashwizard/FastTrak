@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { InventoryContainer, VehicleCardContainer, VehicleCard, ViewDetails, UserSideBar } from './components'
-import { Menu, Icon } from 'antd'
+import { InventoryContainer, VehicleCard, ViewDetails, UserSideBar } from './components'
+import { Menu, Icon, Row } from 'antd'
 import Page from '../../ui/Pagination'
 import { connect } from "react-redux";
 import {
@@ -27,20 +27,20 @@ const Inventory = ({ getUserVehicles, selectMake, selectVehicleModel, selectYear
     // const [vehicles, setVehicles] = useState([]);
     useEffect(() => {
         getUserVehicles();
-    }, []);
+    }, [getUserVehicles]);
 
     return (
         <InventoryContainer >
             <h2 >This is our inventory in Kelowna, British Colubmia</h2>
             <div className="filter-stock-active-wrap">
                 <div className="filter-stock-active">
-                    {make ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeMake}>{make}</a> : null}
-                    {vehicleModel ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeVehicleModel}>{vehicleModel}</a> : null}
-                    {year ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeYear}>{year}</a> : null}
-                    {price_min !== Number.NEGATIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removePriceMin}>{'From: $' + price_min}</a> : null}
-                    {price_max !== Number.POSITIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removePriceMax}>{'To: $' + price_max}</a> : null}
-                    {mileage_min !== Number.NEGATIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeMileageMin}>{'From: ' + mileage_min + ' km'}</a> : null}
-                    {mileage_max !== Number.POSITIVE_INFINITY ? <a href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeMileageMax}>{'To: ' + mileage_max + ' km'}</a> : null}
+                    {make ? <button href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeMake}>{make}</button> : null}
+                    {vehicleModel ? <button href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeVehicleModel}>{vehicleModel}</button> : null}
+                    {year ? <button href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeYear}>{year}</button> : null}
+                    {price_min !== Number.NEGATIVE_INFINITY ? <button href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removePriceMin}>{'From: $' + price_min}</button> : null}
+                    {price_max !== Number.POSITIVE_INFINITY ? <button href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removePriceMax}>{'To: $' + price_max}</button> : null}
+                    {mileage_min !== Number.NEGATIVE_INFINITY ? <button href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeMileageMin}>{'From: ' + mileage_min + ' km'}</button> : null}
+                    {mileage_max !== Number.POSITIVE_INFINITY ? <button href="#" title="Click to remove filter" data-filter="stock_type" data-separator="slash" onClick={removeMileageMax}>{'To: ' + mileage_max + ' km'}</button> : null}
                 </div>
             </div>
             <div className={'inventory'}>
@@ -54,19 +54,19 @@ const Inventory = ({ getUserVehicles, selectMake, selectVehicleModel, selectYear
                         </div>
                         <ul className="page-length-control">
                             <li>
-                                <a href="#" onClick={() => setPostPerPage(5)} className={postPerPage === 5 ? "_bpbackinv active" : "_bpbackinv"}>5</a>
+                                <button href="#" onClick={() => setPostPerPage(5)} className={postPerPage === 5 ? "_bpbackinv active" : "_bpbackinv"}>5</button>
                             </li>
                             <li>
-                                <a href="#" onClick={() => setPostPerPage(10)} className={postPerPage === 10 ? "_bpbackinv active" : "_bpbackinv"}>10</a>
+                                <button href="#" onClick={() => setPostPerPage(10)} className={postPerPage === 10 ? "_bpbackinv active" : "_bpbackinv"}>10</button>
                             </li>
                             <li>
-                                <a href="#" onClick={() => setPostPerPage(20)} className={postPerPage === 20 ? "_bpbackinv active" : "_bpbackinv"}>20</a>
+                                <button href="#" onClick={() => setPostPerPage(20)} className={postPerPage === 20 ? "_bpbackinv active" : "_bpbackinv"}>20</button>
                             </li>
                             <li>
-                                <a href="#" onClick={() => setPostPerPage(50)} className={postPerPage === 50 ? "_bpbackinv active" : "_bpbackinv"}>50</a>
+                                <button href="#" onClick={() => setPostPerPage(50)} className={postPerPage === 50 ? "_bpbackinv active" : "_bpbackinv"}>50</button>
                             </li>
                             <li>
-                                <a href="#" onClick={() => setPostPerPage(100)} className={postPerPage === 100 ? "_bpbackinv active" : "_bpbackinv"}>100</a>
+                                <button href="#" onClick={() => setPostPerPage(100)} className={postPerPage === 100 ? "_bpbackinv active" : "_bpbackinv"}>100</button>
                             </li>
                         </ul>
                     </header>
@@ -138,13 +138,15 @@ const Sidebar = ({ MakeList, make, selectMake, vehicleModelList, vehicleModel, s
                 {
                     mileageList.length !== 0 ? <SubMenu key="mileage" title={<span>Mileage</span>}>{
                         mileageList.map((item, index) => (
-                            item._id !== null ? <Menu.Item key={index} style={{ fontWeight: 'normal', backgroundColor: '#f5f5f5', margin: 0 }} onClick={() => selectMileage(item._id, item._id + 25000)}>{'$' + item._id + ' - ' + '$' + (item._id + 25000) + ' (' + item.count + ')'}</Menu.Item> : null
+                            // eslint-disable-next-line
+                            item._id !== null ? <Menu.Item key={index} style={{ fontWeight: 'normal', backgroundColor: '#f5f5f5', margin: 0 }} onClick={() => selectMileage(item._id, item._id + 25000)}>{item._id + '-' + '$' + (item._id + 25000) + ' (' + item.count + ')'}</Menu.Item> : null
                         ))
                     } </SubMenu> : null
                 }
                 {
                     priceList.length !== 0 ? <SubMenu key="price" title={<span>Price</span>}>{
                         priceList.map((item, index) => (
+                            // eslint-disable-next-line
                             item._id !== null ? <Menu.Item key={index} style={{ fontWeight: 'normal', backgroundColor: '#f5f5f5', margin: 0 }} onClick={() => selectPrice(item._id, item._id + 10000)}>{'$' + item._id + ' - ' + '$' + (item._id + 10000) + ' (' + item.count + ')'}</Menu.Item> : null
                         ))
                     } </SubMenu> : null
@@ -158,27 +160,27 @@ const VehicleCards = ({ vehicles }) => {
     return (
         <div>
             {vehicles.map((vehicle, index) => {
-                console.log(vehicle, 'dfsfsfdsdfsd')
-                const { year, make, mileage, vehicleModel, price, unitType, exteriorColor, driveTrain, stockNumber, engine, engineSize, vinNumber } = vehicle;
+                const { year, make, mileage, vehicleModel, price, unitType, exteriorColor, driveTrain, stockNumber, engine, vinNumber, trimDetail } = vehicle;
                 return (
                     <div key={index}>
-                        {/*<VehicleCard title={vehicle.year + ' ' + vehicle.make + ' ' + vehicle.vehicleModel}>*/}
-                        <VehicleCard>
-                            <div className="product-thumbnail">
-                                <img src='https://via.placeholder.com/150' />
-                            </div>
-                            <div className='product-description'>
-                                <h4>{vehicle.year + ' ' + vehicle.make + ' ' + vehicle.vehicleModel}</h4>
-                                <p><span>Odometer:</span> <b>{mileage + ' ' + unitType}</b></p>
-                                <p><span>Color:</span> <b>{exteriorColor}</b></p>
-                                <p><span>Engine:</span> <b>{engineSize + ' ' + engine}</b></p>
-                                <p><span>Drivetrain:</span> <b>{driveTrain}</b></p>
-                                <p><span>Stock #:</span> <b>{stockNumber}</b></p>
-                            </div>
-                            <div className="product-price"><p className="price">{'$' + price}</p></div>
+                        <Row>
+                            <VehicleCard>
+                                <div className="product-thumbnail">
+                                    <img alt='car' src='https://via.placeholder.com/150' />
+                                </div>
+                                <div className='product-description'>
+                                    <h4>{year + ' ' + make + ' ' + vehicleModel + ' ' + trimDetail}</h4>
+                                    <p><span>Odometer:</span> <b>{mileage + ' ' + unitType}</b></p>
+                                    <p><span>Color:</span> <b>{exteriorColor}</b></p>
+                                    <p><span>Engine:</span> <b>{' ' + engine}</b></p>
+                                    <p><span>Drivetrain:</span> <b>{driveTrain}</b></p>
+                                    <p><span>Stock #:</span> <b>{stockNumber}</b></p>
+                                </div>
+                                <div className="product-price"><p className="price">{'$' + price}</p></div>
 
-                            <ViewDetails href={'/inventory/' + vinNumber}><Icon type="car" />Learn More</ViewDetails>
-                        </VehicleCard>
+                                <ViewDetails href={'/inventory/' + vinNumber}><Icon type="car" />Learn More</ViewDetails>
+                            </VehicleCard>
+                        </Row>
                     </div>
                 );
             })}

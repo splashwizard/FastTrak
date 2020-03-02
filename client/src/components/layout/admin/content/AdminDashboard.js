@@ -45,7 +45,7 @@ var yyyy = today.getFullYear();
 
 today = mm + '/' + dd + '/' + yyyy;
 
-const AdminDashboard = ({ getUsers, getVehicles, auth: { user }, users: { loading, users }, currentUser, vehicles: { vehicles } }) => {
+const AdminDashboard = ({ getUsers, getVehicles, auth: { user }, users: { loading, users }, vehicles: { vehicles } }) => {
 
     //Call effect to get all users for card 
     useEffect(() => {
@@ -66,7 +66,7 @@ const AdminDashboard = ({ getUsers, getVehicles, auth: { user }, users: { loadin
                 subTitle="Welcome to the Empire Motors Dashboard" />
             <DashboardContainer>
 
-                <p>Welcome {user ? currentUser.name : <Icon type="loading" />} </p>
+                <p>Welcome {user ? user.name : <Icon type="loading" />} </p>
                 <p>Today's Date {today} </p>
 
                 <div>
@@ -93,7 +93,6 @@ AdminDashboard.propTypes = {
     auth: PropTypes.object.isRequired,
     getVehicles: PropTypes.func.isRequired,
     users: PropTypes.object.isRequired,
-    currentUser: PropTypes.object.isRequired
 }
 
 

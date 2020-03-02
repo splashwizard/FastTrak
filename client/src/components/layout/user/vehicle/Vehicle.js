@@ -18,10 +18,10 @@ const VehicleHeader = styled.div`
             content: '';
             display: block;
             width: 10rem;
-            border-top: .75rem solid #AA1826;
+            border-top: .75rem solid black;
             margin: 0 auto 2.5rem;
         }
-        color: #AA1826;
+        color: black;
         font-size: 2.75em;
         font-weight: 300;
     }
@@ -33,12 +33,13 @@ const VehicleContainer = styled.div`
         color: rgba(0, 0, 0, 0.85);
         font-size: 1.75em;
         font-weight: 400;
+
     }
     .ant-carousel .slick-slide {
         text-align: center;
         height: 380px;
         line-height: 250px;
-        background: #AA1826;
+        background: black;
         overflow: hidden;
     }
     
@@ -46,31 +47,31 @@ const VehicleContainer = styled.div`
         color: #fff;
     }
     `
-
 const DetailsContainer = styled.div`
-background:transparent;
-padding: 3rem;
-h2{
-    color: #AA1826;
-    font-size: 2.75em;
-    font-weight: 300;
-    text-align: center;
-    text-transform: uppercase;
-}
-.mainDetails{
-    span{
-        padding:1rem;
-        display:block;
-        font-size: 18px;
-        font-weight: 300;
-        color: #666666;
-        display:inline:
+    background:transparent;
+    padding:3rem;
+    h2{
+        color: #AA1826;
+        font-size: 24px;
+        font-weight: 600;
+        text-align: center;
+        text-transform: uppercase;
     }
-padding-bottom:1rem;
-border-bottom: 2px solid #AA1826;
-margin-bottom:10%;  
-}
-`
+    .mainDetails{
+        tect-align:center;
+        span{
+            padding:1rem;
+            display:block;
+            font-size: 18px;
+            font-weight: 400;
+            color: black;
+            display:inline:
+        }
+    padding-bottom:1rem;
+    border-bottom: 2px solid black;
+    margin-bottom:10%;  
+    }
+    `
 
 const ContactButtons = styled.div`
 display:inline-flex;
@@ -95,25 +96,24 @@ a{
 }
 `
 
+
 export const Vehicle = () => {
     const [formData, setFormData] = useState({
         user: '',
-        categoryId: '',
+        category: '',
         stockNumber: '',
         vinNumber: '',
         year: null,
-        brandId: '',
-        otherBrandId: '',
+        make: '',
+        otherMake: '',
         vehicleModel: '',
         trimDetail: '',
         mileage: null,
         unitType: '',
-        odomoeterAccurate: false,
+        odometerAccurate: false,
         price: null,
-        bodyStyle: '',
         doors: null,
         engine: '',
-        engineSize: '',
         transmission: '',
         driveTrain: '',
         exteriorColor: '',
@@ -122,26 +122,7 @@ export const Vehicle = () => {
         fuelType: '',
         origin: '',
         purchasedFrom: '',
-        importedFrom: '',
-        importedYear: null,
-        importedForResale: false,
-        exteriorOptions: {},
-        transportation: false,
         description: '',
-        reconditioniongNeeded: false,
-        damage: false,
-        damageAmount: [],
-        damageType: [],
-        damageNote: '',
-        status: '',
-        location: '',
-        saleType: '',
-        webVisible: false,
-        dateListed: null,
-        datePurchased: null,
-        purchasedBy: '',
-        soldBy: '',
-        bidClosing: null
     })
 
 
@@ -160,22 +141,20 @@ export const Vehicle = () => {
             setFormData({
                 ...formData,
                 user: '',
-                categoryId: res.data[0].categoryId,
+                category: res.data[0].category,
                 stockNumber: res.data[0].stockNumber,
                 vinNumber: res.data[0].vinNumber,
                 year: res.data[0].year,
-                brandId: res.data[0].brandId,
-                otherBrandId: res.data[0].otherBrandId,
+                make: res.data[0].make,
+                otherMake: res.data[0].otherMake,
                 vehicleModel: res.data[0].vehicleModel,
                 trimDetail: res.data[0].trimDetail,
                 mileage: res.data[0].mileage,
                 unitType: res.data[0].unitType,
-                odomoeterAccurate: res.data[0].odomoeterAccurate,
+                odometerAccurate: res.data[0].odometerAccurate,
                 price: res.data[0].price,
-                bodyStyle: res.data[0].bodyStyle,
                 doors: res.data[0].doors,
                 engine: res.data[0].engine,
-                engineSize: res.data[0].engineSize,
                 transmission: res.data[0].transmission,
                 driveTrain: res.data[0].driveTrain,
                 exteriorColor: res.data[0].exteriorColor,
@@ -184,49 +163,25 @@ export const Vehicle = () => {
                 fuelType: res.data[0].fuelType,
                 origin: res.data[0].origin,
                 purchasedFrom: res.data[0].purchasedFrom,
-                importedFrom: res.data[0].importedFrom,
-                importedYear: res.data[0].importedYear,
-                importedForResale: res.data[0].importedForResale,
-                exteriorOptions: res.data[0].exteriorColor,
-                transportation: res.data[0].transportation,
                 description: res.data[0].description,
-                reconditioniongNeeded: res.data[0].reconditioniongNeeded,
-                damage: res.data[0].damage,
-                damageAmount: res.data[0].damageAmount,
-                damageType: res.data[0].damageType,
-                damageNote: res.data[0].damageNote,
-                status: res.data[0].status,
-                location: res.data[0].location,
-                saleType: res.data[0].saleType,
-                webVisible: res.data[0].webVisible,
-                dateListed: res.data[0].dateListed,
-                datePurchased: res.data[0].datePurchased,
-                purchasedBy: res.data[0].purchasedBy,
-                soldBy: res.data[0].soldBy,
-                bidClosing: res.data[0].bidClosing
             })
             setLoading(false)
         }
         fetchVehicle();
+        // eslint-disable-next-line
     }, [setFormData])
 
     const {
-        categoryId,
+        category,
         stockNumber,
-        vinNumber,
         year,
-        brandId,
-        otherBrandId,
+        make,
         vehicleModel,
         trimDetail,
         mileage,
         unitType,
-        odomoeterAccurate,
         price,
-        bodyStyle,
-        doors,
         engine,
-        engineSize,
         transmission,
         driveTrain,
         exteriorColor,
@@ -234,27 +189,7 @@ export const Vehicle = () => {
         interiorMaterials,
         fuelType,
         origin,
-        purchasedFrom,
-        importedFrom,
-        importedYear,
-        importedForResale,
-        exteriorOptions,
-        transportation,
         description,
-        reconditioniongNeeded,
-        damage,
-        damageAmount,
-        damageType,
-        damageNote,
-        status,
-        location,
-        saleType,
-        webVisible,
-        dateListed,
-        datePurchased,
-        purchasedBy,
-        soldBy,
-        bidClosing
     } = formData
 
 
@@ -265,14 +200,15 @@ export const Vehicle = () => {
         <Fragment>
             <VehicleContainer>
                 <a href="/inventory"> <Icon type="arrow-left" /> Back To Inventory</a>
+
                 <VehicleHeader>
-                    {loading ? <Icon type="loading" /> : <h1>{year + ' ' + brandId + ' ' + vehicleModel}</h1>}
+                    {loading ? <Icon type="loading" /> : <h1>{year + ' ' + make + ' ' + vehicleModel + ' ' + trimDetail}</h1>}
                 </VehicleHeader>
                 <Row>
                     <Col span={12}>
                         <Carousel >
                             <div>
-                                <img style={{ width: "682px" }} src="/images/test.jpg" />
+                                <img alt='car' style={{ width: "682px" }} src="/images/test.jpg" />
                             </div>
                             <div>
                                 <h3>2</h3>
@@ -315,18 +251,18 @@ export const Vehicle = () => {
                                     <Col span={12}>
                                         <span>Price: <strong>${price}</strong></span>
                                         <span>Stock: <strong>#{stockNumber}</strong></span>
-                                        <span>Mileage: <strong>{mileage + unitType}</strong></span>
+                                        <span>Mileage: <strong>{mileage + " " + unitType.toUpperCase()}</strong></span>
                                         <span>Transmission: <strong>{transmission}</strong></span>
                                         <span>Exterior Color: <strong>{exteriorColor}</strong></span>
                                         <span>Drive Train: <strong>{driveTrain}</strong></span>
                                     </Col>
                                     <Col span={12}>
-                                        <span>Body Style: <strong>${price}</strong></span>
-                                        <span>Engine: <strong>#{stockNumber}</strong></span>
+                                        <span>Origin: <strong>{origin}</strong></span>
+                                        <span>Engine: <strong>{engine}</strong></span>
                                         <span>Fuel Type: <strong>{fuelType}</strong></span>
                                         <span>Interior Color: <strong>{interiorColor}</strong></span>
                                         <span>Interior Materials: <strong>{interiorMaterials}</strong></span>
-                                        <span>Vin: <strong>#{vinNumber}</strong></span>
+                                        <span>Category: <strong>{category}</strong></span>
 
                                     </Col>
                                 </Row>
@@ -335,8 +271,8 @@ export const Vehicle = () => {
                             <div className="mainDetails">
                                 <Row style={{ textAlign: 'center' }}>
                                     <span><Icon type="like" /> GOOD NEWS YOU CAN GET REPORTS ON THIS VEHICLE FROM:</span>
-                                    <a href="http://www.carfax.com" target="_blank" style={{ margin: '2rem' }}><img src="http://www.empiremotors.ca/images/carfax_logo.gif" /></a>
-                                    <a href="http://www.carproof.com" target="_blank" style={{ margin: '2rem' }}><img src="http://www.empiremotors.ca/images/carproof_logo.gif" /></a>
+                                    <a href="http://www.carfax.com" target="_blank" rel="noopener noreferrer" style={{ margin: '2rem' }}><img alt='carfax' src="http://www.empiremotors.ca/images/carfax_logo.gif" /></a>
+                                    <a href="http://www.carproof.com" target="_blank" rel="noopener noreferrer" style={{ margin: '2rem' }}><img alt="carproof" src="http://www.empiremotors.ca/images/carproof_logo.gif" /></a>
                                 </Row>
                             </div>
 

@@ -8,7 +8,7 @@ import { AdminFooter } from '../../layout/admin/AdminFooter'
 
 
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 
 

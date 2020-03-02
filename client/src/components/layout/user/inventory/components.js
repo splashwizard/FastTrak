@@ -78,7 +78,18 @@ ul{
     margin-top: 10% !important;;
     color: #AA1826;
     background: black;
-    min-height: 400px;
+    padding-bottom: 10%;
+}
+ li > div{
+   &:hover{
+     color:white !important;
+   }
+ }
+ li > div > i{
+   color:black !important;
+  &:hover{
+    color:white !important;
+  }
 }
 `
 
@@ -117,25 +128,28 @@ h2 {
         }
       }
       
-      .filter-stock-active a {
+      .filter-stock-active button {
         display: inline-block;
-        padding-right: .5em;
-        text-decoration: none;
-        transition: color 240ms cubic-bezier(.19, 1, .22, 1)
+        float: left;
+        font-size: 1rem;
+        padding: 0 5px;
+        background: #AA1826;
+        margin: 3px;
+        color: white;
       }
       
-      .filter-stock-active a:not(:last-child)[data-separator=slash]:after {
+      .filter-stock-active button:not(:last-child)[data-separator=slash]:after {
         content: "/";
         color: #464a4c;
         margin-left: .75em
       }
       
-      .filter-stock-active a[data-separator=comma]:after {
+      .filter-stock-active button[data-separator=comma]:after {
         content: ",";
         color: #464a4c
       }
       
-      .filter-stock-active a:before {
+      .filter-stock-active button:before {
         display: inline-block;
         font: normal normal normal 14px/1 FontAwesome;
         font-size: inherit;
@@ -149,11 +163,11 @@ h2 {
         content: "";
       }
       
-      .filter-stock-active a:hover {
-        color: #464a4c
+      .filter-stock-active button:hover {
+        color: white;
       }
       
-      .filter-stock-active a:hover:before {
+      .filter-stock-active button:hover:before {
         opacity: 1;
         width: 1em
       }
@@ -238,16 +252,16 @@ h2 {
         }
       }
       
-      .results-meta .page-length-control a {
+      .results-meta .page-length-control button {
         display: inline-block;
         float: left;
-        font-size: 2rem;
+        font-size: 1rem;
         padding: 0 5px;
         background: #AA1826;
         margin: 3px;
       }
       
-      .results-meta .page-length-control a:hover {
+      .results-meta .page-length-control button:hover {
         text-decoration: none
       }
       

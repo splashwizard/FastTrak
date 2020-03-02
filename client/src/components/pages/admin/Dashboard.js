@@ -8,7 +8,7 @@ import AdminDashboard from '../../layout/admin/content/AdminDashboard'
 import { AdminFooter } from '../../layout/admin/AdminFooter'
 import { loadUser } from '../../../actions/auth'
 import PropTypes from 'prop-types'
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 
 

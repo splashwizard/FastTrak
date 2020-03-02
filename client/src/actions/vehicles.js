@@ -80,7 +80,7 @@ export const deleteVehicle = (vinNumber, history) => async dispatch => {
         });
 
         history.push('/dashboard/getvehicles');
-        dispatch(setAlert('Vehicle Deleted'));
+        dispatch(setAlert(res.msg));
 
 
 
