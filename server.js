@@ -15,7 +15,7 @@ app.get('/', (req, res) => res.send('API is running'));
 
 app.use('/api/users', require('./routes/api/users')); // Users
 app.use('/api/auth', require('./routes/api/auth')); // Auth
-app.use('/api/vehicles', require('./routes/api/vehicles'));
+app.use('/api/vehicles', require('./routes/api/vehicles')); //
 app.use('/api/applicants', require('./routes/api/applicants'));
 
 
